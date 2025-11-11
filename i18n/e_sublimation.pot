@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-26 15:21+0000\n"
-"PO-Revision-Date: 2025-09-26 15:21+0000\n"
+"POT-Creation-Date: 2025-09-26 20:25+0000\n"
+"PO-Revision-Date: 2025-09-26 20:25+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #. module: e_sublimation
 #: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
-#: model_terms:ir.ui.view,arch_db:e_sublimation.product_product_view_kanban_sublimation
+#: model_terms:ir.ui.view,arch_db:e_sublimation.product_childs_view_kanban_sublimation
 #: model_terms:ir.ui.view,arch_db:e_sublimation.product_template_view_kanban_sublimation
 msgid "<i class=\"fa fa-tag me-1\" title=\"price\"/>"
 msgstr ""
@@ -38,20 +38,22 @@ msgid "<small>Open Product</small>"
 msgstr ""
 
 #. module: e_sublimation
-#: model_terms:ir.ui.view,arch_db:e_sublimation.sublimations_inherit_product_product
-msgid "<span>All general settings about this product are managed on</span>"
+#: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
+msgid "<span>This product are sublimation of </span>"
 msgstr ""
 
 #. module: e_sublimation
+#: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
 #: model_terms:ir.ui.view,arch_db:e_sublimation.sublimation_wizard_view_form
-#: model_terms:ir.ui.view,arch_db:e_sublimation.sublimations_inherit_product_product
 msgid "Add Attachments"
 msgstr ""
 
 #. module: e_sublimation
 #: model:ir.model.fields,field_description:e_sublimation.field_product_product__attachment_ids
+#: model:ir.model.fields,field_description:e_sublimation.field_product_template__attachment_ids
 #: model:ir.model.fields,field_description:e_sublimation.field_sublimation_attachment_wizard__attachment_ids
 #: model:ir.model.fields,field_description:e_sublimation.field_sublimation_wizard__attachment_ids
+#: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
 #: model_terms:ir.ui.view,arch_db:e_sublimation.sublimation_attachment_wizard_view_form
 #: model_terms:ir.ui.view,arch_db:e_sublimation.sublimation_wizard_view_form
 msgid "Attachments"
@@ -132,11 +134,17 @@ msgid "Name..."
 msgstr ""
 
 #. module: e_sublimation
+#: model:ir.model.fields,help:e_sublimation.field_product_product__list_price
+#: model:ir.model.fields,help:e_sublimation.field_product_template__list_price
+msgid "Price at which the product is sold to customers."
+msgstr ""
+
+#. module: e_sublimation
 #: model:ir.model,name:e_sublimation.model_product_template
 #: model:ir.model.fields,field_description:e_sublimation.field_sublimation_attachment_wizard__product_tmpl_sublimation_id
 #: model:ir.model.fields,field_description:e_sublimation.field_sublimation_wizard__product_tmpl_sublimation_id
 #: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
-#: model_terms:ir.ui.view,arch_db:e_sublimation.product_product_view_kanban_sublimation
+#: model_terms:ir.ui.view,arch_db:e_sublimation.product_childs_view_kanban_sublimation
 #: model_terms:ir.ui.view,arch_db:e_sublimation.product_template_view_kanban_sublimation
 msgid "Product"
 msgstr ""
@@ -148,8 +156,8 @@ msgid "Product Product Wizard"
 msgstr ""
 
 #. module: e_sublimation
-#: model:ir.model.fields,field_description:e_sublimation.field_product_product__product_prod_sublimation_ids
-#: model:ir.model.fields,field_description:e_sublimation.field_product_template__product_prod_sublimation_ids
+#: model:ir.model.fields,field_description:e_sublimation.field_product_product__product_childs_sublimation_ids
+#: model:ir.model.fields,field_description:e_sublimation.field_product_template__product_childs_sublimation_ids
 msgid "Product Products Sublimation"
 msgstr ""
 
@@ -157,11 +165,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:e_sublimation.field_product_product__product_tmpl_sublimation_id
 #: model:ir.model.fields,field_description:e_sublimation.field_product_template__product_tmpl_sublimation_id
 msgid "Product Template Sublimation"
-msgstr ""
-
-#. module: e_sublimation
-#: model:ir.model,name:e_sublimation.model_product_product
-msgid "Product Variant"
 msgstr ""
 
 #. module: e_sublimation
@@ -175,13 +178,19 @@ msgid "Productos"
 msgstr ""
 
 #. module: e_sublimation
-#: model:ir.actions.act_window,name:e_sublimation.action_product_template_sublimation
-msgid "Sublimated Products"
+#: model:ir.ui.menu,name:e_sublimation.menu_sublimation_products
+msgid "Products"
 msgstr ""
 
 #. module: e_sublimation
-#: model:ir.ui.menu,name:e_sublimation.menu_sublimation_products
-msgid "Products"
+#: model:ir.model.fields,field_description:e_sublimation.field_product_product__list_price
+#: model:ir.model.fields,field_description:e_sublimation.field_product_template__list_price
+msgid "Sales Price"
+msgstr ""
+
+#. module: e_sublimation
+#: model:ir.actions.act_window,name:e_sublimation.action_product_template_sublimation
+msgid "Sublimated Products"
 msgstr ""
 
 #. module: e_sublimation
@@ -194,8 +203,13 @@ msgstr ""
 
 #. module: e_sublimation
 #: model_terms:ir.ui.view,arch_db:e_sublimation.sublimation_attachment_wizard_view_form
-#: model_terms:ir.ui.view,arch_db:e_sublimation.sublimations_inherit_product_product
 msgid "Sublimation Attachments"
+msgstr ""
+
+#. module: e_sublimation
+#: model:ir.model.fields,field_description:e_sublimation.field_product_product__sublimation_price_extra
+#: model:ir.model.fields,field_description:e_sublimation.field_product_template__sublimation_price_extra
+msgid "Sublimation Extra Price"
 msgstr ""
 
 #. module: e_sublimation
@@ -216,6 +230,6 @@ msgid "Variants"
 msgstr ""
 
 #. module: e_sublimation
-#: model_terms:ir.ui.view,arch_db:e_sublimation.sublimations_inherit_product_product
+#: model_terms:ir.ui.view,arch_db:e_sublimation.e_sublimation_inherit_product_template
 msgid "the product sublimation."
 msgstr ""

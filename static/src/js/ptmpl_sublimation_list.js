@@ -15,7 +15,7 @@ export class PtmplSublimationListController extends ListController {
     openRecord(record){
         this.action.doAction(this.orm.call(
             "product.template",
-            "action_open_product_product_sublimation_kanban",
+            "action_open_product_childs_sublimation",
             [record.resId],
         ));
     }

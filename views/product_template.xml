@@ -6,17 +6,23 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//label[@for='sale_ok']" position="after">
-                <field name="sublimation_ok" />
-                <label for="sublimation_ok"/>
+                <field name="sublimation_ok" invisible="product_tmpl_sublimation_id"/>
+                <label for="sublimation_ok" invisible="product_tmpl_sublimation_id"/>
+            </xpath>
+            <xpath expr="//field[@name='list_price']" position="attributes">
+                <attribute name="readonly">sublimation_ok and product_tmpl_sublimation_id</attribute>
+            </xpath>
+            <xpath expr="//label[@for='standard_price']" position="before">
+                <field name="sublimation_price_extra" invisible="not product_tmpl_sublimation_id"/>
             </xpath>
             <xpath expr="//page[@name='general_information']" position="after">
-                <page string="Sublimations" name="sublimations" invisible="not sublimation_ok or not id">
+                <page string="Sublimations" name="sublimations" invisible="not sublimation_ok or not id or product_tmpl_sublimation_id">
                     <div class="oe_button_box mb-2" name="button_box">
                         <button name="action_open_sublimation_wizard" type="object" class="btn btn-primary">
                             Create Sublimation
                         </button>
                     </div>
-                    <field name="product_prod_sublimation_ids" mode="kanban" context="{'product_tmpl_sublimation_id': id,'default_sublimation_ok': sublimation_ok}">
+                    <field name="product_childs_sublimation_ids" mode="kanban" context="{'product_tmpl_sublimation_id': id,'default_sublimation_ok': sublimation_ok}">
                         <kanban quick_create="true" create="true" edit="true" limit="20">
                             <field name="currency_id"/>
                             <templates>
@@ -63,10 +69,25 @@
                         
                     </field>
                 </page>
+                <page string="Attachments" name="sublimation_attachments" invisible="not sublimation_ok or not id or not product_tmpl_sublimation_id">
+                    <div class="oe_button_box mb-2" name="button_box">
+                        <button name="action_open_sublimation_attachment_wizard" type="object" class="btn btn-primary">
+                            Add Attachments
+                        </button>
+                    </div>
+                    <group>
+                        <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                    </group>
+                </page>
             </xpath>
-
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <p invisible="not product_tmpl_sublimation_id">
+                    <span>This product are sublimation of </span>
+                    <button name="action_open_product_tmpl_sublimation_id" type="object" string="the product sublimation." class="oe_link oe_link_product ps-0 ms-1 mb-1"/>
+                </p>
+            </xpath>
             <button name="action_open_documents" position="before">
-                <button name="action_open_product_product_sublimation" type="object"
+                <button name="action_open_product_childs_sublimation" type="object"
                     icon="fa-sitemap" class="oe_stat_button"
                     invisible="not product_sublimation_count">
                     <field string="Sublimation" name="product_sublimation_count" widget="statinfo" />
@@ -98,7 +119,7 @@
                         </div>
                     </t>
                     <t t-name="card" >
-                        <a class="text-decoration-none text-reset h-100" name="action_open_product_product_sublimation_kanban" type="object">
+                        <a class="text-decoration-none text-reset h-100" name="action_open_product_childs_sublimation" type="object">
                             <div class="card h-100 border-0 shadow-0">
                                 <div class="card-img-top text-center p-2">
                                     <field
@@ -180,5 +201,66 @@
         <field name="act_window_id" ref="action_product_template_sublimation"/>
     </record>
     
-    
+    <record id="product_childs_view_list_sublimation" model="ir.ui.view">
+        <field name="name">product.template.list.sublimation</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <list js_class="prod_sublimation_list">
+                <field name="name" />
+                <field name="default_code" />
+                <field name="list_price" />
+            </list>
+        </field>
+    </record>
+
+
+    <record id="product_childs_view_kanban_sublimation" model="ir.ui.view">
+        <field name="name">product.template.kanban.sublimation</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <kanban js_class="prod_sublimation_kanban">
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="kanban-box" >
+                        <div class="card h-100 border-0 shadow-0">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card-img-left text-end p-1">
+                                        <field
+                                            name="image_1920"
+                                            widget="image"
+                                            alt="Product"
+                                            options="{'img_class': 'img-fluid rounded', 'width': 50, 'height': 50}"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card-body d-flex flex-column justify-content-between ps-0 p-3">
+                                        <div class="mb-2">
+                                            <h4 class="mb-1 text-start">
+                                                <span t-if="record.default_code.value" class="text-muted fw-normal">
+                                                    [<field name="default_code"/>]
+                                                </span>
+                                                <br/>
+                                                <field name="name"/>
+                                            </h4>
+                                        </div>
+
+                                        <div class="row g-2 text-muted small pt-3">
+                                            <div class="col-12 text-end">
+                                                <i class="fa fa-tag me-1" title="price"></i>
+                                                <field name="list_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 </odoo>

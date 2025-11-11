@@ -11,24 +11,22 @@ class SublimationWizard(models.TransientModel):
     attachment_ids = fields.Many2many('ir.attachment', string='Attachments')
 
     def action_create_sublimation(self):
-        new_product = self.env['product.product'].create({
+        new_product = self.env['product.template'].create({
             'name': self.product_tmpl_sublimation_id.name + " " + self.name,
             'sublimation_ok':True,
             'product_tmpl_sublimation_id': self.product_tmpl_sublimation_id.id,
             'default_code': f'SUB-{self.id}',
             'list_price': self.product_tmpl_sublimation_id.list_price + self.price_extra,
-            'price_extra': self.price_extra,
+            'sublimation_price_extra':self.price_extra,
             'image_1920': self.image_1920,
-            'file': self.file,
         })
 
         for att in self.attachment_ids:
             att.write({
-                'res_model': 'product.product',
+                'res_model': 'product.template',
                 'res_id': new_product.id,
             })
 
-        
 
         return {
             'type': 'ir.actions.act_window_close',
