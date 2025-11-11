@@ -9,13 +9,11 @@
     'depends': ['base', 'product','stock'],
     "data": [
         "security/ir.model.access.csv",
-        
-        "views/product_template.xml",
-
-        "wizard/sublimation_wizard.xml",
-        "wizard/sublimation_attachment_wizard.xml",
-        
+        "views/e_sublimation_category_views.xml",
         "views/menu.xml",
+        "views/product_template.xml",
+        "wizard/sublimation_attachment_wizard.xml",
+        "wizard/sublimation_wizard.xml"
     ],
     "assets": {
         "web.assets_backend": [

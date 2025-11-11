@@ -5,9 +5,12 @@
             action="action_product_template_sublimation"
             web_icon="e_sublimation,static/description/icon.png"
             sequence="10">
-
+        <!-- <menuitem id="menu_category_sublimation"
+                name="By Categories"
+                action="action_by_category"
+                sequence="8"/> -->
         <menuitem id="menu_sublimation_products_root"
-            name="Productos"
+            name="Options"
             sequence="10">
             <menuitem id="menu_sublimation_products"
                 name="Products"
@@ -18,6 +21,19 @@
                 action="stock.stock_product_normal_action"
                 groups="product.group_product_variant"
                 sequence="20"/>
+            <menuitem id="menu_category_sublimation"
+                name="Categories"
+                action="action_e_sublimation_category"
+                sequence="30"/>
         </menuitem>
+        
+        
+        <menuitem
+            id="menu_settings_root"
+            name="Settings"
+            sequence="30">
+            
+        </menuitem>
+        
     </menuitem>
 </odoo>

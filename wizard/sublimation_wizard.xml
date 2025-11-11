@@ -24,6 +24,7 @@
                             <page string="General Information" name="general_information">
                                 <group>
                                     <field name="product_tmpl_sublimation_id" readonly="context.get('default_product_tmpl_sublimation_id')" />
+                                    <field name="category_sublimation_id"></field>
                                 </group>
                                 <group>
                                     <field name="price_extra" />

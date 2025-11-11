@@ -12,6 +12,8 @@ class ProductProduct(models.Model):
     product_tmpl_sublimation_id = fields.Many2one('product.template', 'Product Template Sublimation')
     product_childs_sublimation_ids = fields.One2many('product.template', 'product_tmpl_sublimation_id', string='Product Products Sublimation', readonly=True)
     
+    category_sublimation_id = fields.Many2one('e_sublimation.category','Category')
+    
     attachment_ids = fields.Many2many(
         'ir.attachment',
         string="Attachments",

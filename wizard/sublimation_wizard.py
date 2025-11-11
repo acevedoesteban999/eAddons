@@ -9,7 +9,7 @@ class SublimationWizard(models.TransientModel):
     image_1920 = fields.Image("Image", max_width=1920, max_height=1920)
     price_extra = fields.Float(string='Extra Price', default=0.0)
     attachment_ids = fields.Many2many('ir.attachment', string='Attachments')
-
+    category_sublimation_id = fields.Many2one('e_sublimation.category')
     def action_create_sublimation(self):
         new_product = self.env['product.template'].create({
             'name': self.product_tmpl_sublimation_id.name + " " + self.name,
@@ -18,6 +18,7 @@ class SublimationWizard(models.TransientModel):
             'default_code': f'SUB-{self.id}',
             'list_price': self.product_tmpl_sublimation_id.list_price + self.price_extra,
             'sublimation_price_extra':self.price_extra,
+            'category_sublimation_id':self.category_sublimation_id.id,
             'image_1920': self.image_1920,
         })
 
