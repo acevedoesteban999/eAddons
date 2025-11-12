@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_sublimation.CatalogComponent" owl="1">
+        <section class="splide" aria-label="Basic Structure Example">
+            <div class="splide__track">
+                <ul class="splide__list">
+                <li class="splide__slide">Slide 01</li>
+                <li class="splide__slide">Slide 02</li>
+                <li class="splide__slide">Slide 03</li>
+                </ul>
+            </div>
+        </section>
+    </t>
+</templates>

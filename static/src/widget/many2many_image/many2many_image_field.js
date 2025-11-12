@@ -30,10 +30,9 @@ export class E_Sublimation_Many2ManyImage extends Component {
         this.notification = useService("notification");
         this.operations = useX2ManyCrud(() => this.props.record.data[this.props.name], true);
         onWillStart(async () => {
-            await loadCSS('https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.css');
-            
-            await loadJS('https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js')
-          });
+            await loadCSS('/e_sublimation/static/src/widget/many2many_image/fancybox/fancybox.css');
+            await loadJS('/e_sublimation/static/src/widget/many2many_image/fancybox/fancybox.js')
+        });
         onMounted(() => {
             Fancybox.bind("[data-fancybox]", {
                 placeFocusBack: false,

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    <template id="e_sublimation.catalog">
+      <t t-call="website.layout">
+        <owl-component name="e_sublimation.catalogComponent"/>
+      </t>
+    </template>
+  </data>
+</odoo>

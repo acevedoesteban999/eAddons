@@ -6,20 +6,24 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': '',
     'category': '',
-    'depends': ['base', 'product','stock'],
+    'depends': ['base', 'product','stock','website'],
     "data": [
         "security/ir.model.access.csv",
+        "views/category_views.xml",
         "views/product_template.xml",
+        "views/catalog.xml",
         "wizard/sublimation_attachment_wizard.xml",
         "wizard/sublimation_wizard.xml",
-        "views/e_sublimation_category_views.xml",
         
         "views/menu.xml",
     ],
     "assets": {
         "web.assets_backend": [
-            "e_sublimation/static/src/js/*.js",
-            "e_sublimation/static/src/widget/many2many_image/*",
+            "e_sublimation/static/src/js/*",
+            "e_sublimation/static/src/widget/**/*",
+        ],
+        "web.assets_frontend": [
+            "e_sublimation/static/src/components/**/*",
         ],
     },
     
