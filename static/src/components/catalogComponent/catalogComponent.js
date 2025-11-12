@@ -20,12 +20,16 @@ export class CatalogComponent extends Component {
         await loadCSS('https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css');
         await loadJS('https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js')
       });
-      
+
       onMounted(() => {
         this.swiper = new Swiper('.swiper', {
           loop: this.state.catalogs.length > 1,
           speed: 400,
-          spaceBetween: 100,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false, 
+            pauseOnMouseEnter: true, 
+          },
           pagination: { el: '.swiper-pagination' },
           navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
           scrollbar: { el: '.swiper-scrollbar' },

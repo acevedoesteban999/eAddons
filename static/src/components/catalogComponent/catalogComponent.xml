@@ -12,6 +12,7 @@
                             </div>
                             <div class="slide-content">
                                 <h2 class="catalog-title" t-esc="catalog.name"/>
+                                <div class="btn btn-light">Ver Catalogo</div>
                             </div>
                         </div>
                     </t>
