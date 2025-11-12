@@ -18,7 +18,8 @@ class ProductProduct(models.Model):
         'ir.attachment',
         string="Attachments",
         compute='_compute_attachment_ids',
-        store=False
+        store=True,
+        readonly=False,
     )
     sublimation_price_extra = fields.Float(string='Sublimation Extra Price', default=0.0)
     

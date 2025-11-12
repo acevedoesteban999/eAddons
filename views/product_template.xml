@@ -73,13 +73,13 @@
                     </field>
                 </page>
                 <page string="Attachments" name="sublimation_attachments" invisible="not sublimation_ok or not id or not product_tmpl_sublimation_id">
-                    <div class="oe_button_box mb-2" name="button_box">
+                    <!-- <div class="oe_button_box mb-2" name="button_box">
                         <button name="action_open_sublimation_attachment_wizard" type="object" class="btn btn-primary">
                             Add Attachments
                         </button>
-                    </div>
+                    </div> -->
                     <group>
-                        <field name="attachment_ids" widget="many2many_binary" nolabel="1"/>
+                        <field name="attachment_ids" widget="many2many_image" nolabel="1"/>
                     </group>
                 </page>
             </xpath>

@@ -19,6 +19,7 @@
     "assets": {
         "web.assets_backend": [
             "e_sublimation/static/src/js/*.js",
+            "e_sublimation/static/src/widget/many2many_image/*",
         ],
     },
     
