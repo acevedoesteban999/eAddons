@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
     <t t-name="e_sublimation.CatalogComponent" owl="1">
         
-        <div class="category-swiper-main">
+        <div class="category-swiper-main mb-3">
             <div class="swiper">
                 <div class="swiper-wrapper">
                     <t t-foreach="this.state.categories" t-as="category" t-key="category.id">
@@ -24,7 +24,64 @@
                 <div class="swiper-scrollbar"></div>
             </div>
         </div>
-
-
+        
+        <div class="swiper swiper-products">
+            <div class="swiper-wrapper">
+                <t t-foreach="this.state.products" t-as="product" t-key="product.id">
+                    <div class="swiper-slide h-100">
+                        <div class="row h-100 g-0">
+                            <div class="col-md-6 h-100 position-relative">
+                                <div class="slide-background h-100 w-100" 
+                                    t-attf-style="background-image: url(/web/image/product.template/{{product.id}}/image_1920);">
+                                </div>
+                                <h5 t-esc="product.name" class="product-title text-white text-center p-3 position-absolute bottom-0 start-0 end-0 m-0 bg-gradient-dark"/>
+                            </div>
+                            
+                            <t t-set="subproducts" t-value="getRandomChildren(product.product_childs_sublimation_ids, 3)"/>
+                            <div class="col-md-6 h-100 d-flex flex-column">
+                                <div class="flex-grow-1 position-relative border-bottom border-white border-2">
+                                    <t t-if="subproducts[0]">
+                                        <div class="slide-background h-100 w-100"
+                                            t-attf-style="background-image: url(/web/image/product.template/{{subproducts[0]}}/image_1920);">
+                                        </div>
+                                    </t>
+                                    <div t-else="" class="h-100 w-100 bg-light placeholder-slot d-flex align-items-center justify-content-center">
+                                        <i class="fa fa-image text-muted fa-3x"/>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex flex-grow-1">
+                                    <div class="w-50 position-relative border-end border-white border-2">
+                                        <t t-if="subproducts[1]">
+                                            <div class="slide-background h-100 w-100"
+                                                t-attf-style="background-image: url(/web/image/product.template/{{subproducts[1]}}/image_1920);">
+                                            </div>
+                                        </t>
+                                        <div t-else="" class="h-100 w-100 bg-light placeholder-slot d-flex align-items-center justify-content-center">
+                                            <i class="fa fa-image text-muted fa-2x"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="w-50 position-relative">
+                                        <t t-if="subproducts[2]">
+                                            <div class="slide-background h-100 w-100"
+                                                t-attf-style="background-image: url(/web/image/product.template/{{subproducts[2]}}/image_1920);">
+                                            </div>
+                                        </t>
+                                        <div t-else="" class="h-100 w-100 bg-light placeholder-slot d-flex align-items-center justify-content-center">
+                                            <button class="btn btn-outline-primary btn-sm">Ver Más</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            
+            <div class="swiper-pagination-products"></div>
+            <div class="swiper-button-prev-products"></div>
+            <div class="swiper-button-next-products"></div>
+        </div>
     </t>
 </templates>

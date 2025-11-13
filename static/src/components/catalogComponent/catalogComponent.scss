@@ -64,6 +64,11 @@
         padding: 25px;
         border-radius: 50%;
         transition: background 0.3s;
+        
+        &::after {
+            font-size: 24px; 
+            font-weight: bold;
+        }
 
         &:hover {
             background: rgba(0, 0, 0, 0.8);
