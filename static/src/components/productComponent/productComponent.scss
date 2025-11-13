@@ -1,0 +1,83 @@
+// Variables de configuración
+$grid-gap: 15px;
+$max-grid-width: 1200px;
+$item-height: 250px;
+$border-radius: 8px;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$transition-speed: 0.3s;
+
+// Colores
+$btn-bg: rgba(0, 0, 0, 0.7);
+$btn-bg-hover: rgba(0, 0, 0, 0.9);
+$item-bg: #fff;
+
+// Breakpoints
+$tablet-breakpoint: 768px;
+$mobile-breakpoint: 480px;
+
+// Contenedor principal del grid
+#animated-thumbnails.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $grid-gap;
+  padding: $grid-gap;
+  max-width: $max-grid-width;
+  margin: 0 auto;
+
+  // Cada item del catálogo
+  .product-item {
+    position: relative;
+    background: $item-bg;
+    border-radius: $border-radius;
+    overflow: hidden;
+    box-shadow: $shadow;
+
+    // Imagen del producto
+    .product-image {
+      width: 100%;
+      height: $item-height;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform $transition-speed ease;
+
+      // Efecto hover en la imagen
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    // Botón de acción superior derecho
+    .product-action-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      background: $btn-bg;
+      color: white;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: background $transition-speed;
+
+      // Efecto hover del botón
+      &:hover {
+        background: $btn-bg-hover;
+      }
+    }
+  }
+
+  // Responsive: 2 columnas en tablets
+  @media (max-width: $tablet-breakpoint) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // Responsive: 1 columna en móviles
+  @media (max-width: $mobile-breakpoint) {
+    grid-template-columns: 1fr;
+  }
+}

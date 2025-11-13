@@ -6,5 +6,10 @@
         <owl-component name="e_sublimation.MainComponent"/>
       </t>
     </template>
+    <template id="e_sublimation.ProductComponent">
+      <t t-call="website.layout">
+        <owl-component name="e_sublimation.ProductComponent"/>
+      </t>
+    </template>
   </data>
 </odoo>

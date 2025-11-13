@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_sublimation.ProductComponent">
+        
+        <div id="animated-thumbnails" class="product-grid">
+            <t t-foreach="this.state.products" t-as="product" t-key="product.id">
+                <t t-foreach="product.attachment_ids" t-as="attachment" t-key="attachment">
+                    <div class="product-item">
+                        <a t-attf-href="/shop/product/{{product.id}}" class="product-action-btn">
+                            <i class="fa fa-external-link"></i>
+                        </a>
+                        
+                        <a class="lg-item" t-attf-href="/web/content/{{attachment}}" >
+                            <img class="product-image" t-attf-src="/web/content/{{attachment}}" 
+                                t-att-alt="product.name"/>
+                        </a>
+                    </div>
+                </t>
+            </t>
+        </div>
+
+    </t>
+</templates>
