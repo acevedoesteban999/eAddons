@@ -109,3 +109,24 @@
         }
     }
 }
+
+
+.swiper-products {
+    height: 500px;
+    
+    @media (max-width: 768px) {
+        height: 350px;
+    }
+}
+
+.swiper-products {
+    height: 500px; // Desktop
+    
+    @media (max-width: 768px) {
+        height: 70vh; // Mobile - usa viewport height
+    }
+}
+
+.slide-background {
+    background: no-repeat center/cover;
+}
