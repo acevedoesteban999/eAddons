@@ -20,8 +20,8 @@ import { useService } from "@web/core/utils/hooks";
   
         onWillStart(async () => {
           await this.getData();
-          await loadCSS('https://cdn.jsdelivr.net/npm/lightgallery@2.9.0/css/lightgallery-bundle.min.css');
-          await loadJS('https://cdn.jsdelivr.net/npm/lightgallery@2.9.0/lightgallery.umd.min.js')
+          await loadCSS('/e_sublimation/static/src/library/lightgallery/lightgallery.css');
+          await loadJS('/e_sublimation/static/src/library/lightgallery/lightgallery.js')
         });
   
         onMounted(() => {

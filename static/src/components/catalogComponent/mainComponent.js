@@ -21,8 +21,8 @@ export class MainComponent extends Component {
 
       onWillStart(async () => {
         await this.getData();
-        await loadCSS('https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css');
-        await loadJS('https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js')
+        await loadCSS('/e_sublimation/static/src/library/swiper/swiper.css');
+        await loadJS('/e_sublimation/static/src/library/swiper/swiper.js')
       });
 
       onMounted(() => {
