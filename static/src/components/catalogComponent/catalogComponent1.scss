@@ -1,38 +1,11 @@
 .swiper-products {
-    width: 100%;
-    height: 500px; // Ajusta según necesites
+    height: 500px;
     
     @media (max-width: 768px) {
         height: 350px;
     }
+}
 
-    .swiper-slide {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .slide-background {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-
-    .product-title {
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        z-index: 10;
-    }
-
-    .placeholder-slot {
-        background-color: #f8f9fa;
-        opacity: 0.5;
-    }
-
-    // Botones de navegación
-    .swiper-button-prev-products,
-    .swiper-button-next-products {
-        &::after {
-            font-size: 24px;
-            color: white;
-        }
-    }
+.slide-background {
+    background: no-repeat center/cover;
 }

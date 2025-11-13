@@ -80,7 +80,10 @@ export class CatalogComponent extends Component {
       )
       this.state.products = await this.orm.searchRead(
         'product.template',
-        [['product_tmpl_sublimation_id','=',false]],  
+        [
+          ['product_tmpl_sublimation_id','=',false],
+          ['sublimation_ok','=',true],
+        ],  
         ['name','id','product_childs_sublimation_ids']
       )
        
