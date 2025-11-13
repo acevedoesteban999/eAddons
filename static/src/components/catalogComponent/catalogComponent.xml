@@ -2,16 +2,16 @@
 <templates xml:space="preserve">
     <t t-name="e_sublimation.CatalogComponent" owl="1">
         
-        <div class="catalog-swiper-main">
+        <div class="category-swiper-main">
             <div class="swiper">
                 <div class="swiper-wrapper">
-                    <t t-foreach="this.state.catalogs" t-as="catalog" t-key="catalog.id">
+                    <t t-foreach="this.state.categories" t-as="category" t-key="category.id">
                         <div class="swiper-slide">
                             <div class="slide-background"
-                                 t-attf-style="background-image: url(/web/image/e_sublimation.category/{{catalog.id}}/image);">
+                                 t-attf-style="background-image: url(/web/image/e_sublimation.category/{{category.id}}/image);">
                             </div>
                             <div class="slide-content">
-                                <h2 class="catalog-title" t-esc="catalog.name"/>
+                                <h2 class="category-title" t-esc="category.name"/>
                                 <div class="btn btn-light">Ver Catalogo</div>
                             </div>
                         </div>

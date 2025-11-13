@@ -12,7 +12,11 @@ export class CatalogComponent extends Component {
     static props = {};
 
     setup() {
-      this.state = useState({'catalogs':[]});
+      this.state = useState({
+        'categories':[],
+        'products':[],
+      
+      });
       this.orm = useService('orm');
 
       onWillStart(async () => {
@@ -23,7 +27,7 @@ export class CatalogComponent extends Component {
 
       onMounted(() => {
         this.swiper = new Swiper('.swiper', {
-          loop: this.state.catalogs.length > 1,
+          loop: this.state.categories.length > 1,
           speed: 400,
           autoplay: {
             delay: 3000,
@@ -40,11 +44,16 @@ export class CatalogComponent extends Component {
     }
 
     async getData(){
-      this.state.catalogs = await this.orm.searchRead(
+      this.state.categories = await this.orm.searchRead(
         'e_sublimation.category',
         [],
         ['name','id']
       )
+      // this.state.products = await this.orm.searchRead(
+      //   'product.template',
+      //   [('product_tmpl_sublimation_id','!=',false)],
+      //   ['name','id','product_childs_sublimation_ids']
+      // )
        
     }
 }
