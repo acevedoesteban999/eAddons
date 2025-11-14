@@ -4,18 +4,35 @@
         
         <div id="animated-thumbnails" class="product-grid">
             <t t-foreach="this.state.products" t-as="product" t-key="product.id">
-                <t t-foreach="product.attachment_ids" t-as="attachment" t-key="attachment">
-                    <div class="product-item">
-                        <a t-attf-href="/shop/product/{{product.id}}" class="product-action-btn">
-                            <i class="fa fa-external-link"></i>
-                        </a>
-                        
-                        <a class="lg-item" t-attf-href="/web/content/{{attachment}}" >
-                            <img class="product-image" t-attf-src="/web/content/{{attachment}}" 
-                                t-att-alt="product.name"/>
-                        </a>
-                    </div>
-                </t>
+                <t t-set="attachments" t-value="getRandomChildren(product.attachment_ids, 3)"/>
+                <div class="product-item">
+                    <a t-attf-href="/shop/product/{{product.id}}" class="product-action-btn">
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                    
+                    <a class="lg-item" t-attf-href="/web/content/{{attachment}}">
+                        <div class="row justify-content-center">
+                            <t t-foreach="attachments" t-as="attachment" t-key="attachment">
+                                <t t-if="attachments.length != 3">
+                                    <t t-set="_class" t-value="'col-12'"/>
+                                </t>
+                                
+                                <t t-elif="attachments.length == 3 and attachment_first">
+                                    <t t-set="_class" t-value="'col-auto my-2'"/>
+                                </t>
+                                
+                                <t t-else="">
+                                    <t t-set="_class" t-value="'col-6'"/>
+                                </t>
+                                
+                                <div t-attf-class="{{_class}}">
+                                    <img class="product-image" t-attf-src="/web/content/{{attachment}}" 
+                                            t-att-alt="product.name"/>
+                                </div>
+                            </t>
+                        </div>
+                    </a>
+                </div>
             </t>
         </div>
 

@@ -46,6 +46,15 @@ import { useService } from "@web/core/utils/hooks";
           ['name','id','attachment_ids']
         )
       }
+
+      getRandomChildren(products, count = 3) {
+        if (!products || products.length === 0) {
+            return Array(null);
+        }
+        const shuffled = [...products].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, Math.min(count, products.length));
+        return selected;
+    }
   }
 
   registry.category("public_components").add("e_sublimation.ProductComponent", ProductComponent);
