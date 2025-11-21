@@ -13,23 +13,38 @@ export class Sublimation_attr_values extends Component {
     };
     setup() {
       this.state = useState({
-        'attr_values':[]
+        'designs_attr_values':[],
+        'ref':{},
       });
       this.orm = useService('orm');
-      // console.log(this.props.record.data.attribute_line_ids)
-      // console.log(toRaw(this.props.record.data.attribute_line_ids.currentIds))
+      this.action = useService("action");
       this.getData();
     }
 
     async getData(){
-      this.state.attr_values = await this.orm.call(
+      this.state.designs_attr_values = await this.orm.call(
         'product.design',
         'get_data_for_product_template_view',
         this.props.record.data.attribute_line_ids.currentIds,
         {},
       )
     }
+    
+
+    addDesign(){
+      return this.action.doAction(
+        this.orm.call(
+          'product.design','get_design_action',[],{})
+      )
+    }
 }
+
+
+
+
+
+
+
 
 const sublimationAttrValues = {
   displayName: 'Sublimation Attr Values',

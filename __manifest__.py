@@ -10,17 +10,13 @@
         'base', 
         'product',
         'stock',
-        'website',
     ],
     "data": [
-        "security/ir.model.access.csv",
-        
         "data/data.xml",
-        
+        "security/ir.model.access.csv",
+        "views/product_design_views.xml",
         "views/product_template.xml",
-
-        
-        #"views/menu.xml",
+        "views/menu.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -3,7 +3,7 @@
     <record id="default_attr_design" model="product.attribute">
         <field name="name">Sublimation Design</field>
         <field name="display_type">select</field>
-        <field name="create_variant">dynamic</field>
+        <field name="create_variant">no_variant</field>
         <field name="sublimation_ok">1</field>
     </record>
 

@@ -5,13 +5,12 @@ class ProductDesign(models.Model):
     
     name = fields.Char("Name")
     image = fields.Image("Image")
-    product_attribute_o2m = fields.One2many('product.attribute.value','product_design_id','Attr Value')
-    product_attr_value_id = fields.Many2one('product.attribute.value',compute="_compute_product_attr_value_id")
+    product_attr_value_id = fields.Many2one('product.attribute.value')
     
-    @api.depends('product_attribute_o2m')
-    def _compute_product_attr_value_id(self):
-        for rec in self:
-            rec.product_attr_value_id = rec.product_attribute_o2m and rec.product_attribute_o2m[0].id or rec.product_attribute_o2m
+    # @api.depends('product_attribute_o2m')
+    # def _compute_product_attr_value_id(self):
+    #     for rec in self:
+    #         rec.product_attr_value_id = rec.product_attribute_o2m and rec.product_attribute_o2m[0].id or rec.product_attribute_o2m
     
     
     @api.model
@@ -20,7 +19,30 @@ class ProductDesign(models.Model):
         line_id = line_id and line_id[0] or line_id
         value_ids = line_id.value_ids.filtered_domain([('without_design_ok','=',False)])
         return value_ids.read([
+            'id',
             'name',
             'default_extra_price',
             'product_design_id',
         ])
+    
+    @api.model
+    def get_design_action(self,*args,**kwargs):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Designs',   
+            'res_model': 'product.design',   
+            'view_type': 'form',    
+            'view_mode': 'form',   
+            'views':[(self.env.ref('e_sublimation.product_design_view_form').id,'form')],
+            'target': 'new',
+            'domain':[],
+            'context':{
+
+            } 
+        }
+    
+    def addDesign(self):
+        pass
+    
+    def create(self,vals):
+        pass

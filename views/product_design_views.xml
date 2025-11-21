@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_design_view_form" model="ir.ui.view">
+        <field name="name">product.design.view.form</field>
+        <field name="model">product.design</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name"></field>
+                        <field name="image" widget="image"></field>
+                        <field name="product_attr_value_id" invisible="1"></field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+
+</odoo>
