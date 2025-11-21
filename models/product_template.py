@@ -5,7 +5,6 @@ class ProductProduct(models.Model):
 
     sublimation_ok = fields.Boolean(string='Sublimation')
     
-    
     @api.constrains('sublimation_ok')
     def _check_sublimation_ok(self):
         for rec in self:

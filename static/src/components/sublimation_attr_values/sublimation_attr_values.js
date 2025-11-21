@@ -38,7 +38,8 @@ export class Sublimation_attr_values extends Component {
         ),
         {
           onClose: (infos) => {
-            this.getData()
+            this.getData();
+            this.model.load().then(() => this.render(true));
           },
         }
       )

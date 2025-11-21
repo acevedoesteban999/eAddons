@@ -8,11 +8,64 @@
                 <sheet>
                     <group>
                         <field name="name"></field>
+                        <field name="product_id" required="not context.get('product_id') and not id" invisible="context.get('product_id') or id"></field>
+                        <field name="default_code"></field>
                         <field name="image" widget="image"></field>
                         <field name="extra_price"></field>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="product_design_view_tree" model="ir.ui.view">
+        <field name="name">product.design.view.list</field>
+        <field name="model">product.design</field>
+        <field name="arch" type="xml">
+            <list string="">
+                <field name="name"></field>
+                <field name="default_code"></field>
+            </list>
+        </field>
+    </record>
+
+    <record id="product_design_view_kanban" model="ir.ui.view">
+        <field name="name">product.design.view.kanban</field>
+        <field name="model">product.design</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card" >
+                        <div class="flex-row">
+                            <main class="pe-2">
+                                <div class="mb-1">
+                                    <span t-if="record.default_code.value">
+                                        [<field name="default_code"/>]
+                                    </span>
+                                    <field name="name"></field>
+                                </div>
+                                <span>
+                                    Extra Price: <field name="extra_price"/>
+                                </span>
+                            </main>
+                            <aside>
+                                <field name="image" widget="image" alt="Image" options="{'img_class': 'w-100 object-fit-contain'}" invisible="not image"/>
+                            </aside>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="product_design_action" model="ir.actions.act_window">
+        <field name="name">Designs</field>
+        <field name="res_model">product.design</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p></p>
         </field>
     </record>
     
