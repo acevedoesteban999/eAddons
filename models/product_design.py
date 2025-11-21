@@ -5,8 +5,9 @@ class ProductDesign(models.Model):
     
     name = fields.Char("Name")
     image = fields.Image("Image")
-    product_attr_value_id = fields.Many2one('product.attribute.value')
+    extra_price = fields.Float("Extra Price",store=False)
     
+    #product_attr_value_id = fields.Many2one('product.attribute.value')
     # @api.depends('product_attribute_o2m')
     # def _compute_product_attr_value_id(self):
     #     for rec in self:
@@ -37,12 +38,31 @@ class ProductDesign(models.Model):
             'target': 'new',
             'domain':[],
             'context':{
-
+                **kwargs
             } 
         }
     
-    def addDesign(self):
-        pass
     
-    def create(self,vals):
-        pass
+    def create(self,vals_list:dict):
+        product_id = self.env.context.get('product_id')
+        if not product_id:
+            return
+        line_id =self.env['product.template'].browse(product_id).attribute_line_ids.filtered_domain([('attribute_id.sublimation_ok','=',True)])
+        
+        line_id = len(line_id) > 1 and line_id[0] or line_id
+        if not line_id:
+            return
+        
+        new_attr_value = self.env['product.attribute.value'].create({
+            'name': vals_list.get('name','Sublimation Design'),
+            'attribute_id': self.env.ref('e_sublimation.default_attr_design').id,
+            'default_extra_price':self.extra_price
+        })
+        
+        self.env['product.template.attribute.value'].create({
+            'attribute_line_id': line_id,
+            'product_attribute_value_id' : new_attr_value.id
+            
+        })
+        record =  super().create(vals_list)
+        new_attr_value.product_design_id = record.id

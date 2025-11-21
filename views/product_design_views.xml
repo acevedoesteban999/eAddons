@@ -9,7 +9,7 @@
                     <group>
                         <field name="name"></field>
                         <field name="image" widget="image"></field>
-                        <field name="product_attr_value_id" invisible="1"></field>
+                        <field name="extra_price"></field>
                     </group>
                 </sheet>
             </form>

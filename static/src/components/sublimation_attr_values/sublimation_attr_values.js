@@ -34,7 +34,7 @@ export class Sublimation_attr_values extends Component {
     addDesign(){
       return this.action.doAction(
         this.orm.call(
-          'product.design','get_design_action',[],{})
+          'product.design','get_design_action',[],{'product_id':this.props.record.data.id}),
       )
     }
 }
