@@ -2,7 +2,7 @@
 
 import { registry } from "@web/core/registry";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
-import { Component , useState , toRaw } from "@odoo/owl";
+import { Component , onWillStart , useState } from "@odoo/owl";
 import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 
@@ -16,9 +16,13 @@ export class Sublimation_attr_values extends Component {
         'designs_attr_values':[],
         'ref':{},
       });
+      
+
       this.orm = useService('orm');
       this.action = useService("action");
-      this.getData();
+      onWillStart(async () => {
+        await this.getData();
+      });
     }
 
     async getData(){
@@ -39,7 +43,20 @@ export class Sublimation_attr_values extends Component {
         {
           onClose: (infos) => {
             this.getData();
-            this.model.load().then(() => this.render(true));
+            this.render(true);
+          },
+        }
+      )
+    }
+
+    openDesign(record){
+      return this.action.doAction(
+        this.orm.call(
+          'product.design','get_design_action',[],{'product_design_id':record}
+        ),
+        {
+          onClose: (infos) => {
+            this.render(true);
           },
         }
       )

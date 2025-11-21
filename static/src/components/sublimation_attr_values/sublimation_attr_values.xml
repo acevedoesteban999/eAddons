@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
     <t t-name="e_sublimation.Sublimation_attr_values">
-        <button class="btn btn-secondary" t-on-click="this.addDesign">
+        <button class="m-2 btn btn-secondary" t-on-click="this.addDesign">
             Add Design
         </button>
-        <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">
-            
-            <div class="card" style="width: 18rem;">
-                <!-- <img t-attf-src="{{}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div> -->
-            </div>
+        <div class="row sublimation-style">
+            <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
+                <div t-on-click="()=> this.openDesign(design.id)" class="card col m-1" style="width: 10rem;">
+                    <img t-attf-src="http://localhost:8068/web/image/product.design/{{design.id}}/image" class="card-img-top" alt="..."/>
+                    <div class="card-body p-1">
+                        <h5 class="card-title">
+                            <t t-if="design.default_code">
+                                [<t t-esc="design.default_code"/>]
+                            </t>
+                            <t t-esc="design.name"/>
+                        </h5>
+                        Extra Price: <t t-esc="design.extra_price"/>
+                    </div>
+                </div>
 
 
-        </t>
+            </t>
+        </div>
     </t>
 </templates>

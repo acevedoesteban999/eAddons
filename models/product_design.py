@@ -17,11 +17,11 @@ class ProductDesign(models.Model):
         line_id = self.env['product.template.attribute.line'].browse(args).filtered_domain([('attribute_id.sublimation_ok','=',True)])
         line_id = line_id and line_id[0] or line_id
         value_ids = line_id.value_ids.filtered_domain([('without_design_ok','=',False)])
-        return value_ids.read([
+        return value_ids.product_design_id.read([
             'id',
             'name',
-            'default_extra_price',
-            'product_design_id',
+            'default_code',
+            'extra_price',
         ])
     
     @api.model
@@ -32,7 +32,8 @@ class ProductDesign(models.Model):
             'res_model': 'product.design',   
             'view_type': 'form',    
             'view_mode': 'form',   
-            'views':[(self.env.ref('e_sublimation.product_design_view_product_form').id,'form')],
+            'res_id': kwargs.get('product_design_id'),
+            'views':[(self.env.ref('e_sublimation.product_design_view_form').id,'form')],
             'target': 'new',
             'domain':[],
             'context':{
