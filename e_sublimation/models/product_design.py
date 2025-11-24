@@ -10,7 +10,7 @@ class ProductDesign(models.Model):
     
     extra_price = fields.Float("Extra Price",related='product_attr_value_id.default_extra_price',readonly=False)
     product_attr_value_id = fields.Many2one('product.attribute.value')
-    product_id = fields.Many2one('product.template',store=False,domain=[('sublimation_ok','=',True)])
+    product_id = fields.Many2one('product.template',domain=[('sublimation_ok','=',True)],required=True)
     
     @api.model
     def get_data_for_product_template_view(self,*args,**kwargs):
@@ -46,6 +46,7 @@ class ProductDesign(models.Model):
         product_id = self.env.context.get('product_id') or vals_list.get('product_id')
         if not product_id:
             raise ValidationError(f"No Product in Context: {product_id}")
+        vals_list['product_id'] = product_id
         line_id =self.env['product.template'].browse(product_id).attribute_line_ids.filtered_domain([('attribute_id.sublimation_ok','=',True)])
         
         line_id = len(line_id) > 1 and line_id[0] or line_id

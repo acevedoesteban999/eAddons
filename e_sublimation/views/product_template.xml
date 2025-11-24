@@ -24,7 +24,7 @@
         </field>
     </record>
 
-    <record id="inherit_view_id_inherit_module_name" model="ir.ui.view">
+    <record id="inherit_view_id_inherit_product_template" model="ir.ui.view">
         <field name="name">product.template.view.form.inherit</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
@@ -35,11 +35,8 @@
                     class="oe_stat_button"
                     icon="fa-fw fa-tint"
                     invisible="not sublimation_ok or design_counter == 0">
-                    <div class="o_field_widget o_stat_info">
-                        <span class="o_stat_value d-flex">
-                            <field name="design_counter" widget="statinfo" nolabel="1" class="mr4" /> Designs
-                        </span>
-                    </div>
+                    <field name="design_counter" string="Designs" widget="statinfo"/>
+                    
                 </button>
             </xpath>
         </field>

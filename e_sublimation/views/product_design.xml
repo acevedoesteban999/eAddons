@@ -8,7 +8,7 @@
                 <sheet>
                     <group>
                         <field name="name"></field>
-                        <field name="product_id" required="not context.get('product_id') and not id" invisible="context.get('product_id') or id"></field>
+                        <field name="product_id" required="not context.get('product_id') and not id" readonly="context.get('product_id') or id"></field>
                         <field name="default_code"></field>
                         <field name="image" widget="image"></field>
                         <field name="extra_price"></field>
@@ -37,7 +37,7 @@
                 <templates>
                     <t t-name="card">
                         <div class="sublimation-style h-100">
-                            <div class="card h-100 d-flex flex-column">
+                            <div class="card card-kanban h-100 d-flex flex-column">
                                 <field name="image" widget="image" alt="Image" 
                                     options="{'img_class': 'card-img-top'}" 
                                     invisible="not image"/>

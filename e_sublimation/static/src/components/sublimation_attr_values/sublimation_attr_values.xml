@@ -7,7 +7,7 @@
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 sublimation-style bg-sublimation">
             <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
                 <div class="col">
-                    <div t-on-click="()=> this.openDesign(design.id)" class="card h-100 d-flex flex-column">
+                    <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
                         <img class="card-img-top img-fluid" t-attf-src="http://localhost:8068/web/image/product.design/{{design.id}}/image"/>
                         <div class="card-body p-2 mt-auto">
                             <h5 class="card-title mb-1">
