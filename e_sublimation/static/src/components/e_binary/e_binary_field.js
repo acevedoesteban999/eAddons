@@ -65,7 +65,23 @@ export class EBinaryField extends Component {
                 : this.props.record.data[this.props.name],
         };
     }
-
+    formatFileSize(bytes) {
+        if (!bytes || bytes === 0) return '0 B';
+        
+        const k = 1024;
+        const sizes = ['B', 'K', 'M'];
+        
+        const i = Math.min(Math.floor(Math.log(bytes) / Math.log(k)), 2);
+        
+        const value = bytes / Math.pow(k, i);
+        
+        if (i === 0) {
+            return Math.round(value) + ' ' + sizes[i];
+        } else {
+            return value.toFixed(i === 1 ? 1 : 2) + sizes[i];
+        }
+    }
+    
     async GetAttachmentInfo(name) {
         const record = this.props.record;
         const resId = record.resId;
@@ -89,7 +105,7 @@ export class EBinaryField extends Component {
         if (attachment){
             this.state.fileInfo = {
                 'name':attachment.name,
-                'size':attachment.file_size,
+                'size':this.formatFileSize(attachment.file_size),
                 'format': attachment.mimetype?attachment.mimetype.split('/').pop().toLowerCase():'',
             }
         }
