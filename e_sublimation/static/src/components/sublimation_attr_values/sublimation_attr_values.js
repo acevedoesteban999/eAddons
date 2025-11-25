@@ -43,7 +43,7 @@ export class Sublimation_attr_values extends Component {
         {
           onClose: (infos) => {
             this.getData();
-            this.render(true);
+            this.props.record.model.load();
           },
         }
       )
@@ -56,7 +56,7 @@ export class Sublimation_attr_values extends Component {
         ),
         {
           onClose: (infos) => {
-            this.render(true);
+            this.props.record.model.load();
           },
         }
       )

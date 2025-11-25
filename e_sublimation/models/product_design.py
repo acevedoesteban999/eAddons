@@ -17,12 +17,12 @@ class ProductDesign(models.Model):
         line_id = self.env['product.template.attribute.line'].browse(args).filtered_domain([('attribute_id.sublimation_ok','=',True)])
         line_id = line_id and line_id[0] or line_id
         value_ids = line_id.value_ids.filtered_domain([('without_design_ok','=',False)])
-        return value_ids.product_design_id.read([
-            'id',
-            'name',
-            'default_code',
-            'extra_price',
-        ])
+        return self.search_read(
+            [('id','in',value_ids.product_design_id.ids)],
+            ['id','name','default_code','extra_price'],
+            limit=5,
+            order='id desc',
+        )
     
     @api.model
     def get_design_action(self,*args,**kwargs):
