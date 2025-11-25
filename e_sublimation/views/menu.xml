@@ -4,12 +4,7 @@
             name="Designs"
             action="product_design_action"
             web_icon="e_sublimation,static/description/icon.png"
-            sequence="80">
-
-            <menuitem id="menu_designs_root"
-                name="Designs"
-                action="product_design_action"
-                sequence="10"/>
+            sequence="50">
 
             
             <menuitem
