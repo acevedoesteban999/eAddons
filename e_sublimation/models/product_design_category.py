@@ -12,4 +12,5 @@ class ProductDesignCategory(models.Model):
     _description = 'ProductDesignCategory'
 
     name = fields.Char('Name')
+    image = fields.Image("Image")
     design_ids = fields.One2many('product.design','category_id',"Designs")

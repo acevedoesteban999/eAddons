@@ -112,16 +112,6 @@ $o-file-meta-size: 0.875rem;
     }
 }
 
-// Botón de subida inicial
-.o_select_file_button {
-    min-height: $o-binary-field-height;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-// Responsive
 @media (max-width: 768px) {
     .o_binary_field_container {
         flex-wrap: wrap;
