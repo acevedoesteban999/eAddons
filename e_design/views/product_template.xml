@@ -12,7 +12,7 @@
             </xpath>
             
             <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//field[@name='value_ids']" position="before">
-                <field name="design_ok" invisible="1"></field>
+                <field name="design_ok" column_invisible="1"></field>
             </xpath>
             <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//field[@name='value_ids']" position="attributes">
                 <attribute name="readonly">design_ok</attribute>
@@ -67,6 +67,7 @@
         <field name="search_view_id" ref="product.product_template_search_view"/>
         <field name="context">{
             'search_default_filter_to_design':1,
+            'default_design_ok':True,
         }</field>
         <field name="help" type="html">
             <p></p>

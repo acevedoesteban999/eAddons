@@ -12,9 +12,9 @@ class ProductDesign(models.Model):
     product_attr_value_id = fields.Many2one('product.attribute.value')
     
     attr_value_ids = fields.One2many('product.attribute.value','product_design_id',"Attr Value Lines")
-    product_ids = fields.Many2many('product.template',compute="_compute_product_ids",readonly=False,domain=[('design_ok','=',True)])
+    product_ids = fields.Many2many('product.template',compute="_compute_product_ids",readonly=False,domain=[('design_ok','=',True)],string="Products")
     products_counter = fields.Integer("In Porducts",compute="_compute_product_ids")
-    category_id = fields.Many2one('product.design.category',"Design")
+    category_id = fields.Many2one('product.design.category',"Category")
     
     attachment_ids = fields.Many2many(
         'ir.attachment',
