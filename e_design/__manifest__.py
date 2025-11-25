@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'E-Design',
+    'version': '1.1.0',
+    'summary': """ E-Design Summary """,
+    'author': 'acevedoesteban999@gmail.com',
+    'website': '',
+    'category': '',
+    'depends': [
+        'base', 
+        'product',
+        'stock',
+    ],
+    "data": [
+        "data/data.xml",
+        "security/ir.model.access.csv",
+        "views/product_design_category.xml",
+        "views/product_design.xml",
+        "views/product_template.xml",
+        
+        "views/menu.xml",
+    ],
+    "assets": {
+        "web.assets_backend": [
+            "e_design/static/src/components/**/*",
+        ],
+    },
+    'application': True,
+    'installable': True,
+    'auto_install': False,
+    'license': 'LGPL-3',
+}

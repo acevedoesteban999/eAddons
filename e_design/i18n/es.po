@@ -1,0 +1,239 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_design
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-26 20:25+0000\n"
+"PO-Revision-Date: 2025-09-26 16:27\n"
+"Last-Translator: PoTranslator <acevedoesteban999@gmail.com>\n"
+"Language-Team: PoTranslator <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: PoTranslator\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "<i class=\"fa fa-layer-group me-1\" title=\"var\"/>"
+msgstr "<i class=\"fa fa-layer-group me-1\" title = \"var\"/>"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "<i class=\"fa fa-sitemap me-1\" title=\"subl\"/>"
+msgstr "<i class=\"fa fa-sitemap me-1\" title = \"subl\"/>"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.product_childs_view_kanban_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "<i class=\"fa fa-tag me-1\" title=\"price\"/>"
+msgstr "<i class=\"fa fa-tag me-1\" title = \"precio\"/>"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "<small>Open Product</small>"
+msgstr "<Small> Abrir Producto </small>"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+msgid "<span>This product are design of </span>"
+msgstr "<span> Este producto es sublimación de </span>"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Add Attachments"
+msgstr "Agregar archivos adjuntos"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__attachment_ids
+#: model:ir.model.fields,field_description:e_design.field_product_template__attachment_ids
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__attachment_ids
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__attachment_ids
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.design_attachment_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.design_attachment_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.design_attachment_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Create Design"
+msgstr "Crear Sublimación"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__create_uid
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__create_date
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__create_date
+msgid "Created on"
+msgstr "Creado"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__display_name
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__price_extra
+msgid "Extra Price"
+msgstr "Precio adicional"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "General Information"
+msgstr "Información general"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__id
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__id
+msgid "ID"
+msgstr "ID"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__image_1920
+msgid "Image"
+msgstr "Imagen"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__write_uid
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__write_date
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Name..."
+msgstr "Nombre..."
+
+#. module: e_design
+#: model:ir.model.fields,help:e_design.field_product_product__list_price
+#: model:ir.model.fields,help:e_design.field_product_template__list_price
+msgid "Price at which the product is sold to customers."
+msgstr "Precio al que se vende el producto a los clientes."
+
+#. module: e_design
+#: model:ir.model,name:e_design.model_product_template
+#: model:ir.model.fields,field_description:e_design.field_design_attachment_wizard__product_tmpl_design_id
+#: model:ir.model.fields,field_description:e_design.field_design_wizard__product_tmpl_design_id
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.product_childs_view_kanban_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "Product"
+msgstr "Producto"
+
+#. module: e_design
+#: model:ir.model,name:e_design.model_design_attachment_wizard
+#: model:ir.model,name:e_design.model_design_wizard
+msgid "Product Product Wizard"
+msgstr "Wizard de productos sublimados"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__product_childs_design_ids
+#: model:ir.model.fields,field_description:e_design.field_product_template__product_childs_design_ids
+msgid "Product Products Design"
+msgstr "Productos Prod Sublimados"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__product_tmpl_design_id
+#: model:ir.model.fields,field_description:e_design.field_product_template__product_tmpl_design_id
+msgid "Product Template Design"
+msgstr "Sublimación de plantilla de producto"
+
+#. module: e_design
+#: model:ir.ui.menu,name:e_design.menu_design_products_variant
+msgid "Product's Variant"
+msgstr "Variante del producto"
+
+#. module: e_design
+#: model:ir.ui.menu,name:e_design.menu_design_products_root
+msgid "Productos"
+msgstr "Productos"
+
+#. module: e_design
+#: model:ir.ui.menu,name:e_design.menu_design_products
+msgid "Products"
+msgstr "Productos"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__list_price
+#: model:ir.model.fields,field_description:e_design.field_product_template__list_price
+msgid "Sales Price"
+msgstr "Precio de venta"
+
+#. module: e_design
+#: model:ir.actions.act_window,name:e_design.action_product_template_design
+msgid "Sublimated Products"
+msgstr "Productos Sublimados"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__design_ok
+#: model:ir.model.fields,field_description:e_design.field_product_template__design_ok
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+#: model_terms:ir.ui.view,arch_db:e_design.design_wizard_view_form
+msgid "Design"
+msgstr "Sublimación"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.design_attachment_wizard_view_form
+msgid "Design Attachments"
+msgstr "Adjuntos de sublimación"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__design_price_extra
+#: model:ir.model.fields,field_description:e_design.field_product_template__design_price_extra
+msgid "Design Extra Price"
+msgstr "Precio extra de sublimación"
+
+#. module: e_design
+#: model:ir.ui.menu,name:e_design.menu_design_root
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+msgid "Designs"
+msgstr "Sublimaciones"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_product__product_design_count
+#: model:ir.model.fields,field_description:e_design.field_product_template__product_design_count
+msgid "Designs (Total)"
+msgstr "Sublimaciones (total)"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.product_template_view_kanban_design
+msgid "Variants"
+msgstr "Variantes"
+
+#. module: e_design
+#: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
+msgid "the product design."
+msgstr "la sublimación del producto."
