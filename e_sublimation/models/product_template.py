@@ -1,5 +1,5 @@
 from odoo import fields,models,api , Command , _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError
 class ProductProduct(models.Model):
     _inherit = 'product.template'
 
@@ -51,4 +51,12 @@ class ProductProduct(models.Model):
                     
     
     
-    
+    def write(self,vals):
+        if (attr_lines := vals.get('attribute_line_ids')):
+            for attr_line in attr_lines:
+                command, attr_line_id = attr_line
+                if command == Command.DELETE:
+                    if (self.sublimation_ok or vals.get('sublimation_ok')) and self.env['product.template.attribute.line'].browse(attr_line_id).sublimation_ok:
+                        raise UserError("Can not delete Sublimation Line with Sublimation Product")
+        return super().write(vals)
+        
