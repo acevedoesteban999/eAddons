@@ -26,6 +26,11 @@
                         <field name="default_code"></field>
                         <field name="extra_price"></field>
                     </group>
+                    <notebook>
+                        <page name="images" string="Images">
+                            <field name="attachment_ids" widget="many2many_image"></field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

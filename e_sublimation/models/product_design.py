@@ -16,6 +16,21 @@ class ProductDesign(models.Model):
     products_counter = fields.Integer("In Porducts",compute="_compute_product_ids")
     category_id = fields.Many2one('product.design.category',"Design")
     
+    attachment_ids = fields.Many2many(
+        'ir.attachment',
+        string="Attachments",
+        compute='_compute_attachment_ids',
+        store=True,
+        readonly=False,
+    )
+    
+    def _compute_attachment_ids(self):
+        for rec in self:
+            rec.attachment_ids = self.env['ir.attachment'].search([
+                ('res_model', '=', 'product.design'),
+                ('res_id', '=', rec.id)
+            ])
+            
     def _compute_product_ids(self):
         for rec in self:
             products = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',rec.attr_value_ids.ids)]).attribute_line_id.product_tmpl_id
