@@ -11,7 +11,9 @@
                       invisible="not design_id"
                       context="{
                         'action_target':'new',
-                        'edit':False}"
+                        'edit': False,
+                        'create': False,
+                      }"
                       >
               </field>
             </xpath>
