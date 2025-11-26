@@ -87,10 +87,15 @@ class ProductDesign(models.Model):
             return line_id, value_id
         
         product_add, product_sub = self._process_m2m(vals.get('product_ids'))
+        
         for product_id in product_add:
             line_id , value_id = __get_value_id(product_id)
-            if line_id and value_id:
+            if line_id:
+                if not value_id:
+                    value_id = self._create_value(vals.get('name',self.name),vals.get('default_code',self.default_code),vals.get('extra_price',self.extra_price))
+                    value_id.product_design_id = self.id
                 line_id.value_ids = [Command.link(value_id.id)]
+        
         for product_id in product_sub:
             line_id , value_id = __get_value_id(product_id)
             if line_id and value_id:
@@ -99,15 +104,16 @@ class ProductDesign(models.Model):
         if 'name' in vals:
             self.attr_value_ids.name = f"[{self.default_code}] {self.name}"
         return res
-    
+    def _create_value(self,name,default_code,extra_price):
+        return self.env['product.attribute.value'].create({
+                'name': f"[{default_code}] {name}",
+                'attribute_id': self.env.ref('e_design.default_attr_design').id,
+                'default_extra_price':extra_price
+            })
     def create(self,vals_list:dict):
         products , _ = self._process_m2m(vals_list.get('product_ids'))
         if products:
-            attr_value = self.env['product.attribute.value'].create({
-                'name': f"[{vals_list.get('default_code')}] {vals_list.get('name')}",
-                'attribute_id': self.env.ref('e_design.default_attr_design').id,
-                'default_extra_price':vals_list.get('extra_price')
-            })
+            attr_value = self._create_value(vals_list.get('name'),vals_list.get('default_code'),vals_list.get('extra_price'))
             
             for product_id in products:
                 line_id =self.env['product.template'].browse(product_id).attribute_line_ids.filtered_domain([('attribute_id.design_ok','=',True)])
