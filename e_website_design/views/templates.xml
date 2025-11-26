@@ -2,6 +2,30 @@
 <odoo>
   <data>
 
+
+    <template id="e_website_design.CatalogBreadcrumbs">
+      <div class="d-flex align-items-center mb-4">
+        <a t-att-href="breadcrumbs['back_url']" class="me-3">
+          <i class="fa fa-arrow-circle-left back-arrow"></i>
+        </a>
+        <nav aria-label="breadcrumb" class="flex-grow-1">
+          <ol class="breadcrumb breadcrumb-custom">
+            <t t-foreach="breadcrumbs['breadcrumbs']" t-as="breadcrumb">
+              <t t-if="not breadcrumb_first" t-esc="' / '"></t>
+              <li class="breadcrumb-item" t-att-class="'active' if breadcrumb_last else ''">
+                <a t-if="breadcrumb['href']" t-att-href="breadcrumb['href']" t-esc="breadcrumb['name']"></a>
+                <t t-else="">
+                  <t t-esc="breadcrumb['name']"/>
+                </t>
+              </li>
+            </t>
+          </ol>
+        </nav>
+      </div>
+    </template>
+
+
+
     <template id="e_website_design.CatalogProducts">
       <t t-call="website.layout">
           <div class="container py-5">
@@ -36,10 +60,12 @@
           </div>
       </t>
     </template>
-
+    
+    
     <template id="e_website_design.CatalogDesigns">
       <t t-call="website.layout">
-          <div class="container py-5">
+          <div class="container py-3">
+              <t t-call="e_website_design.CatalogBreadcrumbs"/>
               <div class="row g-4 public-design-style">
                   <t t-foreach="designs" t-as="design">
                       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">

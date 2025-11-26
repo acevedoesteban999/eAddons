@@ -6,6 +6,20 @@ $transition-speed: 0.3s;
 $img-height: 200px;
 
 .public-design-style {
+    .back-arrow {
+        font-size: 2.5rem;
+        color: #6c757d;
+        transition: color 0.3s;
+    }
+        .back-arrow:hover {
+        color: #0d6efd;
+    }
+        .breadcrumb-custom {
+        background: transparent;
+        padding: 1rem 0;
+        margin-bottom: 0;
+    }
+
     .card {
         background: $card-bg;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

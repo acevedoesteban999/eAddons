@@ -19,10 +19,19 @@ class ProductDesign(http.Controller):
     ], type='http', auth='public',website=True)    
     def designs(self,product,**kw):
         product._compute_design_ids()
+        referer = http.request.httprequest.headers.get('Referer', '/')
+        breadcrumbs = {
+            'back_url': referer if referer != http.request.httprequest.url else '/catalog',
+            'breadcrumbs':[
+                {'name':'Catalog','href':'/catalog'},
+                {'name':product.name,'href':False}
+            ],
+        }
         return http.request.render(
             'e_website_design.CatalogDesigns',
             {
                 'designs': http.request.env['product.design'].search([('id','in',product.design_ids.ids)]),
+                'breadcrumbs': breadcrumbs, 
             },
         )
     
