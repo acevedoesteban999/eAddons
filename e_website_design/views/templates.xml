@@ -2,11 +2,46 @@
 <odoo>
   <data>
 
-    <template id="e_design.designs">
+    <template id="e_website_design.CatalogProducts">
       <t t-call="website.layout">
           <div class="container py-5">
               <div class="row g-4 public-design-style">
-                  <t t-foreach="objects" t-as="design">
+                  <t t-foreach="products" t-as="product">
+                      <a style="text-decoration: none;" t-attf-href="/catalog/product/#{product.id}">
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <img t-if="product.image_1920"
+                                    t-attf-src="/web/image/product.template/#{product.id}/image_1920"
+                                    class="card-img-top"
+                                    t-att-alt="product.name"/>
+                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                    <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                  <h5 class="card-title fw-bold text-truncate">
+                                      <t t-if="product.default_code">
+                                        [<t t-esc="product.default_code"/>]
+                                      </t>
+                                      <t t-esc="product.name"/>
+                                  </h5>
+                                  <div class="card-text flex-grow-1 text-muted">
+                                    <t t-esc="product.design_counter"/> Designs
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                      </a>
+                  </t>
+              </div>
+          </div>
+      </t>
+    </template>
+
+    <template id="e_website_design.CatalogDesigns">
+      <t t-call="website.layout">
+          <div class="container py-5">
+              <div class="row g-4 public-design-style">
+                  <t t-foreach="designs" t-as="design">
                       <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                           <div class="card h-100">
                               <img t-if="design.image"
@@ -32,8 +67,8 @@
       </t>
     </template>
     
-    <template id="e_design.design">
-        <owl-component name="e_design.CatalogDesignComponent"/>
+    <template id="e_website_design.CatalogDesign">
+        <owl-component name="e_website_design.CatalogDesignComponent"/>
     </template>
     
   </data>

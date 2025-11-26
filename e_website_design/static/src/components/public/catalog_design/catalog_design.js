@@ -6,7 +6,7 @@ import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 
   export class CatalogDesignComponent extends Component {
-      static template = "e_design.DesignComponent";
+      static template = "e_website_design.DesignComponent";
       static components = {};
       static props = {};
 
@@ -20,8 +20,8 @@ import { useService } from "@web/core/utils/hooks";
   
         // onWillStart(async () => {
         //   await this.getData();
-        //   await loadCSS('/e_design/static/src/library/lightgallery/lightgallery.css');
-        //   await loadJS('/e_design/static/src/library/lightgallery/lightgallery.js')
+        //   await loadCSS('/e_website_design/static/src/library/lightgallery/lightgallery.css');
+        //   await loadJS('/e_website_design/static/src/library/lightgallery/lightgallery.js')
         // });
   
         // onMounted(() => {
@@ -57,5 +57,5 @@ import { useService } from "@web/core/utils/hooks";
     // }
   }
 
-  registry.category("public_components").add("e_design.CatalogDesignComponent", CatalogDesignComponent);
+  registry.category("public_components").add("e_website_design.CatalogDesignComponent", CatalogDesignComponent);
   

@@ -12,10 +12,10 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "e_design/static/src/components/**/**/*",
+            "e_website_design/static/src/components/**/**/*",
         ],
         "web.assets_frontend": [
-            "e_design/static/src/scss/public_design.scss",
+            "e_website_design/static/src/scss/*.scss",
         ],
     },
     'application': False,
