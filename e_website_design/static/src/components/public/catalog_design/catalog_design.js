@@ -5,10 +5,11 @@ import { registry } from "@web/core/registry";
 import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
+import { SearchComponent } from "../search/search"
 
   export class CatalogDesignComponent extends Component {
       static template = "e_website_design.CatalogDesignComponent";
-      static components = {BreadcrumbComponent};
+      static components = {BreadcrumbComponent,SearchComponent};
       static props = ['back_url?','breadcrumbs?']
 
       setup() {
@@ -33,6 +34,12 @@ import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
           ['id','name','default_code']
         )
       }
+
+      onSelectCategory(category){
+        console.log(category)
+      }
+
+
 
   }
 
