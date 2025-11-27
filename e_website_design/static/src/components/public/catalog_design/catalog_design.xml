@@ -36,13 +36,12 @@
                     <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <div class="card h-100">
-                                <img t-if="design.image"
-                                    t-attf-src="/web/image/product.design/#{design.id}/image"
+                                <img t-attf-src="/web/image/product.design/#{design.id}/image"
                                     class="card-img-top"
                                     t-att-alt="design.name"/>
-                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                <!-- <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
                                     <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                                </div>
+                                </div> -->
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title fw-bold text-truncate">
                                         <t t-esc="design.name"/>
