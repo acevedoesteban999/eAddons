@@ -1,60 +1,39 @@
 /** @odoo-module **/
 
-import { Component , onWillStart , onMounted , useState } from "@odoo/owl";
+import { Component , onWillStart , useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
+import { Breadcrumb } from "../breadcrumb/breadcrumb"
 
   export class CatalogDesignComponent extends Component {
-      static template = "e_website_design.DesignComponent";
-      static components = {};
-      static props = {};
+      static template = "e_website_design.CatalogDesignComponent";
+      static components = {Breadcrumb};
+      static props = ['back_url?','breadcrumbs?']
 
       setup() {
-        // console.log("A")
-        // this.state = useState({
-        //   'products':[],
-        
-        // });
-        // this.orm = useService('orm');
-  
-        // onWillStart(async () => {
-        //   await this.getData();
-        //   await loadCSS('/e_website_design/static/src/library/lightgallery/lightgallery.css');
-        //   await loadJS('/e_website_design/static/src/library/lightgallery/lightgallery.js')
-        // });
-  
-        // onMounted(() => {
-        //   lightGallery(document.getElementById('animated-thumbnails'), {
-        //     selector: '.lg-item',
-        //     thumbnail: true,
-        //     animateThumb: true,
-        //     showThumbByDefault: false
-        //   });
-        
+          this.state = useState({
+            'designs': [],
+            'domain':[],
+          })
+          this.back_url = this.props.back_url || ''
+          this.breadcrumbs = this.props.breadcrumbs || []
+
+          this.orm = useService('orm')
           
-        // });
+          onWillStart(async ()=>{
+              await this.getData()
+          })
       }
 
-    //   async getData(){
-    //     this.state.products = await this.orm.searchRead(
-    //       'product.template',
-    //       [
-    //         ['sublimation_ok','=',true],
-    //         ['product_tmpl_sublimation_id','!=',false],
-    //       ],
-    //       ['name','id','attachment_ids']
-    //     )
-    //   }
+      async getData(){
+        this.state.designs = await this.orm.searchRead(
+          'product.design',
+          this.state.domain,
+          ['id','name','default_code']
+        )
+      }
 
-    //   getRandomChildren(products, count = 3) {
-    //     if (!products || products.length === 0) {
-    //         return Array(null);
-    //     }
-    //     const shuffled = [...products].sort(() => 0.5 - Math.random());
-    //     const selected = shuffled.slice(0, Math.min(count, products.length));
-    //     return selected;
-    // }
   }
 
   registry.category("public_components").add("e_website_design.CatalogDesignComponent", CatalogDesignComponent);

@@ -1,5 +1,5 @@
 from odoo import http , _
-
+import json
 
 class ProductDesign(http.Controller):
     
@@ -18,20 +18,25 @@ class ProductDesign(http.Controller):
         "/catalog/product/<model('product.template'):product>",
     ], type='http', auth='public',website=True)    
     def designs(self,product,**kw):
-        product._compute_design_ids()
+        #product._compute_design_ids()
         referer = http.request.httprequest.headers.get('Referer', '/')
-        breadcrumbs = {
+        breadcrumb_object = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {'name':'Catalog','href':'/catalog'},
-                {'name':product.name,'href':False}
+                {
+                    'name':'Catalog',
+                    'href':'/catalog'
+                },
+                {
+                    'name':product.name,
+                    'href':False
+                }
             ],
         }
         return http.request.render(
             'e_website_design.CatalogDesigns',
             {
-                'designs': http.request.env['product.design'].search([('id','in',product.design_ids.ids)]),
-                'breadcrumbs': breadcrumbs, 
+                'breadcrumb_object':  json.dumps(breadcrumb_object), 
             },
         )
     
