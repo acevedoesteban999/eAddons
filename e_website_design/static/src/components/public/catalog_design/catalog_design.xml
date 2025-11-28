@@ -5,11 +5,11 @@
             
             <button class="btn btn-primary filter-toggle-btn" 
                     data-bs-toggle="offcanvas" 
-                    data-bs-target="#filterSidebar">
+                    data-bs-target=".filterSidebar">
                 FILTER
             </button>
 
-            <div class="offcanvas offcanvas-end" id="filterSidebar" tabindex="-1">
+            <div class="offcanvas offcanvas-end filterSidebar"  tabindex="-1">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title">Filter</h5>
                     <button t-ref="buttonCloseFilter" type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
