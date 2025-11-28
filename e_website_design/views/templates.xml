@@ -15,7 +15,7 @@
     </template>
 
     <template id="breadcrumbComponent">
-        <div class="d-flex align-items-center mb-4" t-if="breadcrumbs_context">
+        <div class="d-flex align-items-center mb-2" t-if="breadcrumbs_context">
             <a t-att-href="breadcrumbs_context['back_url']" class="me-3">
                 <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
             </a>

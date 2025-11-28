@@ -47,6 +47,10 @@ import { removeLoader } from "../../../js/public_designs"
         })
       }
 
+      onSelectDesign(design){
+        
+      }
+
 
 
   }

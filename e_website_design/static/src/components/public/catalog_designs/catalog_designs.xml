@@ -30,8 +30,19 @@
             <div class="catalog-design-component ">
                 <t t-call="e_website_design.filterSidebar"/>
             
-                <div class="container">
-                    <div t-if="this.state.category" class="row text-muted">
+                <div class="container mt-4">
+                    <div class="row justify-content-end">
+                        <div class="col-12 col-sm-6 col-md-4">
+                            <SearchComponent 
+                                model="'product.design'"
+                                fields="['id', 'name']"
+                                onSelect="(record) => this.onSelectDesign(record)"
+                                placeholder="'Search Design...'"
+                                limit="5"/>
+                            
+                        </div>
+                    </div>
+                    <div t-if="this.state.category" class="text-muted">
                         Category: <t t-esc="this.state.category.name"/>
                     </div>
                     <div class="row g-4 public-design-style mt-3">
