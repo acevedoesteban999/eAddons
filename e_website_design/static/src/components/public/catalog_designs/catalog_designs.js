@@ -4,23 +4,19 @@ import { Component , onWillStart , useState , useRef } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 //import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
-import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
 import { SearchComponent } from "../search/search"
 import { removeLoader } from "../../../js/public_designs"
 
   export class CatalogDesignsComponent extends Component {
       static template = "e_website_design.CatalogDesignsComponent";
-      static components = {BreadcrumbComponent,SearchComponent};
-      static props = ['back_url?','breadcrumbs?','product_id?']
+      static components = {SearchComponent};
+      static props = ['product_id?']
 
       setup() {
           this.state = useState({
             'designs': [],
             'category': false,
-            'product_id': this.props.product_id
           })
-          this.back_url = this.props.back_url || ''
-          this.breadcrumbs = this.props.breadcrumbs || []
           this.buttonCloseFilter = useRef('buttonCloseFilter')
           this.orm = useService('orm')
           
@@ -32,8 +28,8 @@ import { removeLoader } from "../../../js/public_designs"
 
       async searchDesigns(){
         let domain = [];
-        if (this.state.product_id)
-          domain.push(['product_ids','=',this.state.product_id]);
+        if (this.props.product_id)
+          domain.push(['product_ids','=',this.props.product_id]);
         if (this.state.category)
           domain.push(['category_id','=',this.state.category.id]);
         

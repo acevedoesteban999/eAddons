@@ -14,6 +14,27 @@
       </div>
     </template>
 
+    <template id="breadcrumbComponent">
+        <div class="d-flex align-items-center mb-4" t-if="breadcrumbs_context">
+            <a t-att-href="breadcrumbs_context['back_url']" class="me-3">
+                <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
+            </a>
+            <nav aria-label="breadcrumb" class="flex-grow-1">
+            <ol class="breadcrumb breadcrumb-custom mb-0">
+                <t t-foreach="breadcrumbs_context['breadcrumbs']" t-as="breadcrumb">
+                    <t t-if="not breadcrumb_first">
+                        <span class="mx-2">/</span>
+                    </t>
+                    <li class="breadcrumb-item" t-att-class="{active:breadcrumb_last}">
+                        <a t-if="breadcrumb['href']" t-att-href="breadcrumb['href']" t-esc="breadcrumb['name']"></a>
+                        <t t-else="" t-esc="breadcrumb['name']"/>
+                    </li>
+                </t>
+            </ol>
+            </nav>
+        </div>
+    </template>
+
     <template id="e_website_design.CatalogProducts">
       <t t-call="website.layout">
           <div class="container py-5">
@@ -52,17 +73,25 @@
     
     <template id="e_website_design.CatalogDesigns">
       <t t-call="website.layout">
-          <t t-call="e_website_design.loaderComponent"/>
-          <owl-component 
-            name="e_website_design.CatalogDesignsComponent"
-            t-att-props='controller_context'
+          <div class="container py-3">
+            <t t-call="e_website_design.breadcrumbComponent"/>
+            <t t-call="e_website_design.loaderComponent"/>
+              <owl-component 
+                name="e_website_design.CatalogDesignsComponent"
+                t-att-props='controller_context'
             />
+          </div>
           
       </t>
     </template>
     
     <template id="e_website_design.CatalogDesign">
-        <owl-component name="e_website_design.CatalogDesignComponent"/>
+      <t t-call="website.layout">
+          <div class="container py-3">
+            <t t-call="e_website_design.breadcrumbComponent"/>
+            <t t-esc="object.name"/>
+          </div>
+      </t>
     </template>
     
   </data>
