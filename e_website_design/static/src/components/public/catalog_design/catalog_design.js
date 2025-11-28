@@ -1,11 +1,12 @@
 /** @odoo-module **/
 
-import { Component , onWillStart , useState , useRef , onRendered} from "@odoo/owl";
+import { Component , onWillStart , useState , useRef } from "@odoo/owl";
 import { registry } from "@web/core/registry";
-import { loadCSS , loadJS } from "@web/core/assets";
+//import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
 import { SearchComponent } from "../search/search"
+import { removeLoader } from "../../../js/public_designs"
 
   export class CatalogDesignComponent extends Component {
       static template = "e_website_design.CatalogDesignComponent";
@@ -23,7 +24,8 @@ import { SearchComponent } from "../search/search"
           this.orm = useService('orm')
           
           onWillStart(async ()=>{
-              await this.searchDesigns()
+              await this.searchDesigns();
+              removeLoader()
           })
       }
 

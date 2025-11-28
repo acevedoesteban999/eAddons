@@ -92,3 +92,10 @@ $img-height: 200px;
         }
     }
 }
+.loader-component {
+    min-height: 200px;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
