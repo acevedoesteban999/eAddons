@@ -4,7 +4,7 @@
         <div class="search-component position-relative">
             <label class="form-label" t-if="props.label" t-esc="props.label"/>
             <div class="dropdown-search">
-                <div class="row">
+                <div class="row px-2">
                     <div class="col px-0 position-relative">
                         <input type="text" 
                             class="form-control" 
@@ -13,9 +13,10 @@
                             t-ref="searchInput"
                             t-on-input="onSearchInput"
                             t-on-focus="onSearchInput"
-                            t-on-focusout="()=>this.state.showDropdown=false"/>
+                            t-on-focusout="onFocusOut"
+                            />
                         
-                        <div class="dropdown-menu show w-100 p-0" t-if="state.showDropdown">
+                        <div class="dropdown-menu show w-100 p-0" t-if="state.showDropdown" t-ref="dropdown">
                             <div class="text-center py-3" t-if="state.isSearching">
                                 <div class="spinner-border spinner-border-sm text-primary" role="status">
                                     <span class="visually-hidden">Search...</span>
@@ -40,7 +41,7 @@
                             </t>
                         </div>
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto px-0">
                         <div class="btn btn-link text-danger" t-on-click="this.clearSearch">
                             <i class="fa fa-trash"></i>
                         </div>

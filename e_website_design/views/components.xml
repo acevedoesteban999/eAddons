@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    <template id="layout" inherit_id="web.frontend_layout">
+        <!-- <xpath expr="//head/link[last()]" position="after">
+          <t t-call-assets="e_website_design.assets_frontend" t-js="false"/>
+        </xpath> -->
+        <!-- <xpath expr="//head/script[@id='web.layout.odooscript']" position="after">
+          <t t-call-assets="e_website_design.assets_frontend" t-css="false" defer_load="True"/>
+        </xpath> -->
+    </template>
+    
+    <template id="loaderComponent">
+      <div class="position-relative">
+        <div class="row align-items-center loader-component text-center">
+            <div class="col">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="breadcrumbComponent">
+        <div class="d-flex align-items-center mb-2" t-if="breadcrumbs_context">
+            <a t-att-href="breadcrumbs_context['back_url']" class="me-3">
+                <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
+            </a>
+            <nav aria-label="breadcrumb" class="flex-grow-1">
+            <ol class="breadcrumb breadcrumb-custom mb-0">
+                <t t-foreach="breadcrumbs_context['breadcrumbs']" t-as="breadcrumb">
+                  <t t-if="breadcrumb['name']">
+                      <t t-if="not breadcrumb_first">
+                          <span class="mx-2">/</span>
+                      </t>
+                      <li class="breadcrumb-item" t-att-class="{active:breadcrumb_last}">
+                          <a t-if="breadcrumb['href']" t-att-href="breadcrumb['href']" t-esc="breadcrumb['name']"></a>
+                          <t t-else="" t-esc="breadcrumb['name']"/>
+                      </li>
+                  </t>
+                </t>
+            </ol>
+            </nav>
+        </div>
+    </template>
+
+    
+  </data>
+</odoo>

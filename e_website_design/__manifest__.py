@@ -8,15 +8,15 @@
     'category': '',
     'depends': ['base','e_design','website'],
     'data': [
+        "views/components.xml",
         "views/templates.xml",
     ],
     "assets": {
-        "web.assets_backend": [
-        ],
         "web.assets_frontend": [
             "e_website_design/static/src/components/public/**/*",
             "e_website_design/static/src/scss/*.scss",
             "e_website_design/static/src/js/*js",
+            "e_website_design/static/src/lib/**/*"
         ],
     },
     'application': False,

@@ -1,6 +1,6 @@
 /** @odoo-module **/
 
-import { Component, useState, useRef } from "@odoo/owl";
+import { Component, type, useRef, useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
@@ -13,18 +13,20 @@ export class SearchComponent extends Component {
         'onSelect': Function, 
         'placeholder': { type: String, optional: true },
         'limit': { type: Number, optional: true },
+        'searchQuery':{ type: String , optional: true}
     };
 
     setup() {
         this.orm = useService("orm");
         this.state = useState({
-            searchQuery: "",
+            searchQuery: this.props.searchQuery || "",
             results: [],
             isSearching: false,
             showDropdown: false,
         });
         this.searchTimeout = null;
         this.inputRef = useRef("searchInput");
+        this.dropdownRef = useRef("dropdown")
     }
 
     async searchRecords(query) {
@@ -71,7 +73,12 @@ export class SearchComponent extends Component {
         }, 500);
     }
 
-    
+    onFocusOut(ev){
+        if (this.dropdownRef.el && this.dropdownRef.el.contains(ev.relatedTarget)) {
+            return;
+        }
+        this.state.showDropdown = false;
+    }
     clearSearch(){
       this.selectOption(false);
     }

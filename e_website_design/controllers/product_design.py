@@ -6,18 +6,17 @@ class ProductDesign(http.Controller):
     @http.route([
         "/catalog",
     ], type='http', auth='public',website=True)    
-    def products(self,category=False, **kw):
-        products = http.request.env['product.template'].search([('design_ok','=',True)])
+    def catalog(self, **kw):
+        
         return http.request.render(
-            'e_website_design.CatalogProducts',
-            {
-                'products': products
-            },
+            'e_website_design.CatalogPage',
+            {},
         )
     @http.route([
-        "/catalog/product/<model('product.template'):product>",
+        "/catalog/products",
     ], type='http', auth='public',website=True)    
-    def designs(self,product,**kw):
+    def products(self,category=False, **kw):
+        products = http.request.env['product.template'].search([('design_ok','=',True)])
         referer = http.request.httprequest.headers.get('Referer', '/')
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
@@ -27,13 +26,84 @@ class ProductDesign(http.Controller):
                     'href':'/catalog'
                 },
                 {
-                    'name':product.name,
+                    'name':'Products',
                     'href':False
-                }
+                },
             ],
         }
+        return http.request.render(
+            'e_website_design.CatalogProducts',
+            {
+                'breadcrumbs_context':breadcrumbs_context,
+                'products': products
+            },
+        )
+    @http.route([
+        "/catalog/categories",
+    ], type='http', auth='public',website=True)    
+    def categories(self,category=False, **kw):
+        categories = http.request.env['product.design.category'].search([])
+        referer = http.request.httprequest.headers.get('Referer', '/')
+        breadcrumbs_context = {
+            'back_url': referer if referer != http.request.httprequest.url else '/catalog',
+            'breadcrumbs':[
+                {
+                    'name':'Catalog',
+                    'href':'/catalog'
+                },
+                {
+                    'name':'Categories',
+                    'href':False
+                },
+            ],
+        }
+        return http.request.render(
+            'e_website_design.CatalogCategories',
+            {
+                'breadcrumbs_context':breadcrumbs_context,
+                'categories': categories
+            },
+        )
+        
+    @http.route([
+        "/catalog/designs",
+    ], type='http', auth='public',website=True)    
+    def designs(self,**kw):
+        product = category = False
+        try:
+            if product := kw.get('pid'):
+                product = http.request.env['product.template'].browse(int(product)).read(['name','id'])[0]
+                
+            if category := kw.get('cid'):
+                category = http.request.env['product.design.category'].browse(int(category)).read(['name','id'])[0]
+        except:
+            pass
+        referer = http.request.httprequest.headers.get('Referer', '/')
+        breadcrumbs_context = {
+            'back_url': referer if referer != http.request.httprequest.url else '/catalog',
+            'breadcrumbs':[
+                {
+                    'name':'Catalog',
+                    'href':'/catalog'
+                },
+                {
+                    'name':product.get('name') if product else '',
+                    'href':('/catalog/product/%s' % product.get('id')) if product else False,
+                },
+                {
+                    'name':category.get('name') if category else '',
+                    'href':('/catalog/categories/%s' % category.get('id')) if category else False,
+                },
+                {
+                    'name':'Designs',
+                    'href':False,
+                },
+            ],
+        }
+            
         controller_context = {
-            'product_id':product.id
+            'product': product,
+            'category':category,
         }
         return http.request.render(
             'e_website_design.CatalogDesigns',

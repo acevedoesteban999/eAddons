@@ -1,46 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
-
-    <template id="loaderComponent">
-      <div class="position-relative">
-        <div class="row align-items-center loader-component text-center">
-            <div class="col">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="sr-only"></span>
-                </div>
-            </div>
-        </div>
-      </div>
-    </template>
-
-    <template id="breadcrumbComponent">
-        <div class="d-flex align-items-center mb-2" t-if="breadcrumbs_context">
-            <a t-att-href="breadcrumbs_context['back_url']" class="me-3">
-                <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
-            </a>
-            <nav aria-label="breadcrumb" class="flex-grow-1">
-            <ol class="breadcrumb breadcrumb-custom mb-0">
-                <t t-foreach="breadcrumbs_context['breadcrumbs']" t-as="breadcrumb">
-                    <t t-if="not breadcrumb_first">
-                        <span class="mx-2">/</span>
-                    </t>
-                    <li class="breadcrumb-item" t-att-class="{active:breadcrumb_last}">
-                        <a t-if="breadcrumb['href']" t-att-href="breadcrumb['href']" t-esc="breadcrumb['name']"></a>
-                        <t t-else="" t-esc="breadcrumb['name']"/>
-                    </li>
-                </t>
-            </ol>
-            </nav>
-        </div>
-    </template>
-
-    <template id="e_website_design.CatalogProducts">
+  
+    <template id="e_website_design.CatalogPage">
       <t t-call="website.layout">
           <div class="container py-5">
             <div class="row g-4 public-design-style">
+                <div>
+                <a href="/catalog/products">Products</a>
+                <a href="/catalog/categories">Category</a>
+                <a href="/catalog/designs">All Designs</a>
+                </div>
+            </div>
+        </div>
+      </t>
+    </template>
+    
+    <template id="e_website_design.CatalogProducts">
+      <t t-call="website.layout">
+          <div class="container py-5">
+            <t t-call="e_website_design.breadcrumbComponent"/>
+            <div class="row g-4 public-design-style">
                 <t t-foreach="products" t-as="product">
-                    <a style="text-decoration: none;" t-attf-href="/catalog/product/#{product.id}">
+                    <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid=#{product.id}">
                     <div class="col-12">
                         <div class="card h-100">
                             <img t-if="product.image_1920"
@@ -69,7 +51,39 @@
         </div>
       </t>
     </template>
-    
+
+    <template id="e_website_design.CatalogCategories">
+      <t t-call="website.layout">
+          <div class="container py-5">
+            <t t-call="e_website_design.breadcrumbComponent"/>
+            <div class="row g-4 public-design-style">
+                <t t-foreach="categories" t-as="category">
+                    <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid=#{category.id}">
+                    <div class="col-12">
+                        <div class="card h-100">
+                            <img t-if="category.image"
+                                t-attf-src="/web/image/product.template/#{category.id}/image"
+                                class="card-img-top"
+                                t-att-alt="product.name"/>
+                            <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title fw-bold text-truncate">
+                                    <t t-esc="category.name"/>
+                                </h5>
+                                <div class="card-text flex-grow-1 text-muted">
+                                <t t-esc="category.design_counter"/> Designs
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </t>
+            </div>
+        </div>
+      </t>
+    </template>
     
     <template id="e_website_design.CatalogDesigns">
       <t t-call="website.layout">

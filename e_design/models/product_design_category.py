@@ -14,3 +14,9 @@ class ProductDesignCategory(models.Model):
     name = fields.Char('Name')
     image = fields.Image("Image")
     design_ids = fields.One2many('product.design','category_id',"Designs")
+    design_counter = fields.Integer("Designs",compute="_compute_design_counter")
+    
+    @api.depends('design_ids')
+    def _compute_design_counter(self):
+        for rec in self:
+            rec.design_counter = len(rec.design_ids)

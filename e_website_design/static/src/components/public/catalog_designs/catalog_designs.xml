@@ -14,13 +14,30 @@
             </div>
             <div class="offcanvas-body">
                 <div class="mb-3">
+                    <label class="form-label">Porduct</label>
+                    <SearchComponent 
+                        model="'product.template'"
+                        fields="['id', 'name']"
+                        domain="[['design_ok','=',true]]"
+                        onSelect="(record) => this.onSelectProduct(record)"
+                        placeholder="'Search Product...'"
+                        searchQuery="state.product?state.product.name:''"
+                        limit="5"/>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Category</label>
                     <SearchComponent 
                         model="'product.design.category'"
                         fields="['id', 'name']"
                         onSelect="(record) => this.onSelectCategory(record)"
                         placeholder="'Search Category...'"
+                        searchQuery="state.category?state.category.name:''"
                         limit="5"/>
+                </div>
+                <div class="row justify-content-center">
+                    <button t-on-click="applyFilter" class="col-auto btn btn-primary m-auto">
+                        Apply
+                    </button>
                 </div>
             </div>
         </div>
@@ -44,6 +61,9 @@
                     </div>
                     <div t-if="this.state.category" class="text-muted">
                         Category: <t t-esc="this.state.category.name"/>
+                    </div>
+                    <div t-if="this.state.product" class="text-muted">
+                        Product: <t t-esc="this.state.product.name"/>
                     </div>
                     <div class="row g-4 public-design-style mt-3">
                         <t t-foreach="this.state.designs" t-as="design" t-key="design.id">

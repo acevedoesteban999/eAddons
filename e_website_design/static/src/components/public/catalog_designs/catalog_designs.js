@@ -10,16 +10,19 @@ import { removeLoader } from "../../../js/public_designs"
   export class CatalogDesignsComponent extends Component {
       static template = "e_website_design.CatalogDesignsComponent";
       static components = {SearchComponent};
-      static props = ['product_id?']
+      static props = ['product?','category?']
 
       setup() {
           this.state = useState({
             'designs': [],
             'category': false,
+            'product': this.props.product,
+            'category': this.props.category,
           })
+        
           this.buttonCloseFilter = useRef('buttonCloseFilter')
           this.orm = useService('orm')
-          
+          this.temp_product=this.temp_category=false
           onWillStart(async ()=>{
               await this.searchDesigns();
               removeLoader()
@@ -28,8 +31,8 @@ import { removeLoader } from "../../../js/public_designs"
 
       async searchDesigns(){
         let domain = [];
-        if (this.props.product_id)
-          domain.push(['product_ids','=',this.props.product_id]);
+        if (this.state.product)
+          domain.push(['product_ids','=',this.state.product.id]);
         if (this.state.category)
           domain.push(['category_id','=',this.state.category.id]);
         
@@ -41,14 +44,19 @@ import { removeLoader } from "../../../js/public_designs"
       }
 
       onSelectCategory(category){
-        this.state.category = category;
-        this.searchDesigns().then(()=>{
-          this.buttonCloseFilter.el.click() 
-        })
+        this.temp_category = category;
       }
 
-      onSelectDesign(design){
-        
+      onSelectProduct(product){
+        this.temp_product = product;
+      }
+
+      applyFilter(){
+        this.state.product = this.temp_product
+        this.state.category = this.temp_category
+        this.searchDesigns().then(()=>{
+          this.buttonCloseFilter. el.click() 
+        })
       }
 
 
