@@ -60,7 +60,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="products" t-as="product">
-                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid=#{product.id}">
+                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid={{product.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="product.image_1920"
@@ -109,7 +109,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="categories" t-as="category">
-                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid=#{category.id}">
+                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid={{category.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="category.image"

@@ -44,7 +44,8 @@
             <nav aria-label="breadcrumb" class="flex-grow-1">
             <ol class="breadcrumb breadcrumb-custom mb-0">
                 <t t-foreach="breadcrumbs_context['breadcrumbs']" t-as="breadcrumb">
-                  <t t-if="breadcrumb['name']">
+
+                  <t t-if="breadcrumb and breadcrumb['name']">
                       <t t-if="not breadcrumb_first">
                           <span class="mx-2">/</span>
                       </t>

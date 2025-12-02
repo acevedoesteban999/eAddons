@@ -21,14 +21,8 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {
-                    'name':'Catalog',
-                    'href':'/catalog'
-                },
-                {
-                    'name':'Products',
-                    'href':False
-                },
+                {'name':'Catalog',      'href':'/catalog'},
+                {'name':'Products',     'href':False},
             ],
         }
         return http.request.render(
@@ -47,14 +41,8 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {
-                    'name':'Catalog',
-                    'href':'/catalog'
-                },
-                {
-                    'name':'Categories',
-                    'href':False
-                },
+                {'name':'Catalog',      'href':'/catalog'},
+                {'name':'Categories',   'href':False},
             ],
         }
         return http.request.render(
@@ -82,22 +70,10 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {
-                    'name':'Catalog',
-                    'href':'/catalog'
-                },
-                {
-                    'name':product.get('name') if product else '',
-                    'href':('/catalog/product/%s' % product.get('id')) if product else False,
-                },
-                {
-                    'name':category.get('name') if category else '',
-                    'href':('/catalog/categories/%s' % category.get('id')) if category else False,
-                },
-                {
-                    'name':'Designs',
-                    'href':False,
-                },
+                {'name':'Catalog',                                  'href':'/catalog'},
+                {'name':product.get('name'),     'href':('/catalog/product/%s' % product.get('id'))} if product else {},
+                {'name':category.get('name'),   'href':('/catalog/categories/%s' % category.get('id'))} if category else {},
+                {'name':'Designs',                                  'href':False,},
             ],
         }
             
@@ -113,27 +89,29 @@ class ProductDesign(http.Controller):
             },
         )
     
-    @http.route("/catalog/product/<model('product.template'):product>/design/<model('product.design'):design>", type='http', auth='public',website=True)    
-    def design(self,design,product=False,**kw):
+    @http.route("/catalog/design/<model('product.design'):design>", type='http', auth='public',website=True)    
+    def design(self,design,**kw):
         if design:
+            product = category = False
             referer = http.request.httprequest.headers.get('Referer', '/')
+            try:
+                if product := kw.get('pid'):
+                    product = http.request.env['product.template'].browse(int(product)).read(['name','id'])[0]
+                    
+                if category := kw.get('cid'):
+                    category = http.request.env['product.design.category'].browse(int(category)).read(['name','id'])[0]
+            except:
+                pass
             breadcrumbs_context = {
                 'back_url': referer if referer != http.request.httprequest.url else '/catalog',
                 'breadcrumbs':[
-                    {
-                        'name':'Catalog',
-                        'href':'/catalog'
-                    },
-                    {
-                        'name':product.name,
-                        'href':f'/catalog/product/{product.id}'
-                    },
-                    {
-                        'name':design.name,
-                        'href':False
-                    }
+                    {'name':'Catalog',              'href':'/catalog'},
+                    {'name':product.get('name'),    'href':f'/catalog/designs?pid={product.get('id')}'} if product else {},
+                    {'name':category.get('name'),    'href':f'/catalog/designs?cid={category.get('id')}'} if category else {},
+                    {'name':design.name,            'href':False },
                 ],
             }
+            
             return http.request.render(
                 'e_website_design.CatalogDesign',
                 {

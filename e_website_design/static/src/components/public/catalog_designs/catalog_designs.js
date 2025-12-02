@@ -21,7 +21,7 @@ import { removeLoader } from "../../../js/public_designs"
             'loadingData':false,
             'searchQuery':'',
           })
-        
+          this.extraHref = this.props.product?('pid='+this.props.product.id):this.props.category?('cid='+this.props.category.id):''
           this.buttonCloseFilter = useRef('buttonCloseFilter')
           this.orm = useService('orm')
           this.temp_product=this.temp_category=false
