@@ -99,3 +99,59 @@ $img-height: 200px;
     align-items: center;
     justify-content: center;
 }
+
+
+.catalog-design {
+
+    .design-gallery {
+      position: sticky;
+      top: 20px;
+      
+      .thumbnails-grid {
+        a {
+          transition: transform 0.2s ease;
+          
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  
+    .design-header {
+      .badge {
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+      
+      h1 {
+        color: $dark;
+        letter-spacing: -0.5px;
+      }
+    }
+  
+    .design-description {
+      .card {
+        border-left: 4px solid $primary;
+      }
+    }
+  
+    .design-actions {
+      .btn {
+        i {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+  
+  .design-gallery a[data-fancybox] img {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }

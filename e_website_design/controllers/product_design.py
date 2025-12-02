@@ -115,7 +115,7 @@ class ProductDesign(http.Controller):
             return http.request.render(
                 'e_website_design.CatalogDesign',
                 {
-                    'object': design,
+                    'design': design,
                     'breadcrumbs_context':breadcrumbs_context,
                 },
             )

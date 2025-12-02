@@ -151,12 +151,89 @@
       </t>
     </template>
     
+    <template id="designLayout" inherit_id="website.layout">
+        <xpath expr="//head/link[last()]" position="after">
+          <link rel="stylesheet" href="/e_website_design/static/src/lib/fancybox/fancybox.css"/>
+        </xpath>
+        <xpath expr="//script[@id='web.layout.odooscript']" position="after">
+          <script src="/e_website_design/static/src/lib/fancybox/fancybox.js"></script>
+        </xpath>
+    </template>
+
     <template id="e_website_design.CatalogDesign">
-      <t t-call="website.layout">
-          <div class="container py-3">
+      <t t-call="e_website_design.designLayout">
+        <div class="container py-4">
             <t t-call="e_website_design.breadcrumbComponent"/>
-            <t t-esc="object.name"/>
-          </div>
+            <div class="row g-4 catalog-design">
+              <div class="col-lg-6">
+                <div class="design-gallery">
+                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/image/product.design/#{design.id}/image" 
+                    class="d-block mb-3">
+                    <img t-attf-src="/web/image/product.design/#{design.id}/image" t-att-alt="design.name" 
+                        class="img-fluid rounded-3 shadow-lg w-100" 
+                        style="max-height: 500px; object-fit: contain;"/>
+                  </a>
+                  
+                
+                  <div class="row justify-content-center thumbnails-grid" t-if="design.attachment_ids">
+                    <t t-foreach="design.attachment_ids" t-as="img">
+                      <a href="#" data-fancybox="gallery" t-attf-data-src="/web/content/#{img.id}"
+                        class="col-2 d-inline-block me-2 mb-2">
+                        <img t-attf-src="/web/content/#{img.id}" 
+                            class="rounded-2 border w-100" 
+                            style="aspect-ratio: 1; object-fit: cover;"/>
+                      </a>
+                    </t>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-6">
+                <div class="design-header mb-4">
+                  <span class="badge bg-dark text-uppercase fs-6 px-3 py-2" 
+                        t-if="design.default_code" t-out="design.default_code"/>
+                  <h1 class="display-4 fw-bold mt-3 mb-0" t-out="design.name"/>
+                </div>
+                
+                <!-- <div class="design-tags mb-4" t-if="design.tag_ids">
+                  <t t-foreach="design.tag_ids" t-as="tag">
+                    <span class="badge bg-primary me-1" t-out="tag.name"/>
+                  </t>
+                </div> -->
+                
+                <!-- <div class="design-description mb-4" t-if="design.description">
+                  <h5 class="fw-semibold mb-3">Descripción</h5>
+                  <div class="card border-0 bg-light">
+                    <div class="card-body" t-out="design.description"/>
+                  </div>
+                </div> -->
+                
+                <div class="design-actions">
+                  <button class="btn btn-primary btn-lg px-4 me-2">
+                    <i class="fa fa-download me-2"/> Descargar
+                  </button>
+                  <button class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="fa fa-share me-2"/> Compartir
+                  </button>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            Fancybox.bind('[data-fancybox="gallery"]', {
+              Toolbar: {
+                display: [
+                  { id: "counter", position: "center" },
+                  "zoom",
+                  "fullscreen",
+                  "close",
+                ],
+              },
+            });
+          });
+        </script>
       </t>
     </template>
     
