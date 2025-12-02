@@ -1,15 +1,44 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
-  
+
+
     <template id="e_website_design.CatalogPage">
       <t t-call="website.layout">
           <div class="container py-5">
-            <div class="row g-4 public-design-style">
-                <div>
-                <a href="/catalog/products">Products</a>
-                <a href="/catalog/categories">Category</a>
-                <a href="/catalog/designs">All Designs</a>
+            <div class="row g-4 public-design-style justify-content-center">
+                
+                <div class="col-12 col-md-3 mb-4">
+                  <a href="/catalog/designs" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5">
+                        <i class="fa fa-paint-brush fa-5x text-success mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Designs</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+                <div class="col-12 col-md-3 mb-4">
+                  <a href="/catalog/categories" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5">
+                        <i class="fa fa-folder-open fa-5x text-secondary mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Categories</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-12 col-md-3 mb-4">
+                  <a href="/catalog/products" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5">
+                        <i class="fa fa-cube fa-5x text-primary mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Products</h3>
+                      </div>
+                    </div>
+                  </a>
                 </div>
             </div>
         </div>
@@ -20,35 +49,48 @@
       <t t-call="website.layout">
           <div class="container py-5">
             <t t-call="e_website_design.breadcrumbComponent"/>
-            <div class="row g-4 public-design-style">
-                <t t-foreach="products" t-as="product">
-                    <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid=#{product.id}">
-                    <div class="col-12">
-                        <div class="card h-100">
-                            <img t-if="product.image_1920"
-                                t-attf-src="/web/image/product.template/#{product.id}/image_1920"
-                                class="card-img-top"
-                                t-att-alt="product.name"/>
-                            <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
-                                <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold text-truncate">
-                                    <t t-if="product.default_code">
-                                    [<t t-esc="product.default_code"/>]
-                                    </t>
-                                    <t t-esc="product.name"/>
-                                </h5>
-                                <div class="card-text flex-grow-1 text-muted">
-                                <t t-esc="product.design_counter"/> Designs
+            <div id="listjs-search-component" class="row g-4 public-design-style">
+                <div class="row my-2 justify-content-end">
+                  <div class="col-12 col-sm-6">
+                    <t t-call="e_website_design.listJsSearchComponent">
+                      <t t-set="list_js_id" t-value="'listjs-search-component'"/>
+                      <t t-set="list_js_valueNames" t-value="['listjs-name', 'listjs-default-code']" />
+                    </t>
+                  </div>
+                </div>
+                <div class="list">
+                  <t t-foreach="products" t-as="product">
+                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid=#{product.id}">
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <img t-if="product.image_1920"
+                                    t-attf-src="/web/image/product.template/#{product.id}/image_1920"
+                                    class="card-img-top"
+                                    t-att-alt="product.name"/>
+                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                    <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold text-truncate">
+                                        
+                                        <span class="listjs-default-code" t-if="product.default_code">
+                                          [<t t-esc="product.default_code"/>]
+                                        </span>
+                                        
+                                        <span class="listjs-name" t-esc="product.name"/>
+                                    </h5>
+                                    <div class="card-text flex-grow-1 text-muted">
+                                      <t t-esc="product.design_counter"/> Designs
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </a>
-                </t>
+                      </a>
+                  </t>
+                </div>
             </div>
         </div>
+        
       </t>
     </template>
 
@@ -56,30 +98,40 @@
       <t t-call="website.layout">
           <div class="container py-5">
             <t t-call="e_website_design.breadcrumbComponent"/>
-            <div class="row g-4 public-design-style">
-                <t t-foreach="categories" t-as="category">
-                    <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid=#{category.id}">
-                    <div class="col-12">
-                        <div class="card h-100">
-                            <img t-if="category.image"
-                                t-attf-src="/web/image/product.template/#{category.id}/image"
-                                class="card-img-top"
-                                t-att-alt="product.name"/>
-                            <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
-                                <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                            </div>
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold text-truncate">
-                                    <t t-esc="category.name"/>
-                                </h5>
-                                <div class="card-text flex-grow-1 text-muted">
-                                <t t-esc="category.design_counter"/> Designs
+            <div id="listjs-search-component" class="row g-4 public-design-style">
+                <div class="row my-2 justify-content-end">
+                  <div class="col-12 col-sm-6">
+                    <t t-call="e_website_design.listJsSearchComponent">
+                      <t t-set="list_js_id" t-value="'listjs-search-component'"/>
+                      <t t-set="list_js_valueNames" t-value="['listjs-name']" />
+                    </t>
+                  </div>
+                </div>
+                <div class="list">
+                  <t t-foreach="categories" t-as="category">
+                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid=#{category.id}">
+                        <div class="col-12">
+                            <div class="card h-100">
+                                <img t-if="category.image"
+                                    t-attf-src="/web/image/product.template/#{category.id}/image"
+                                    class="card-img-top"
+                                    t-att-alt="product.name"/>
+                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                    <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold text-truncate listjs-name">
+                                        <t t-esc="category.name"/>
+                                    </h5>
+                                    <div class="card-text flex-grow-1 text-muted">
+                                    <t t-esc="category.design_counter"/> Designs
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </a>
-                </t>
+                      </a>
+                  </t>
+                </div>
             </div>
         </div>
       </t>

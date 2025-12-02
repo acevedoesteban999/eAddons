@@ -1,14 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
-    <template id="layout" inherit_id="web.frontend_layout">
-        <!-- <xpath expr="//head/link[last()]" position="after">
-          <t t-call-assets="e_website_design.assets_frontend" t-js="false"/>
-        </xpath> -->
-        <!-- <xpath expr="//head/script[@id='web.layout.odooscript']" position="after">
-          <t t-call-assets="e_website_design.assets_frontend" t-css="false" defer_load="True"/>
-        </xpath> -->
-    </template>
+    <template id="listJsSearchComponent">
+      <div class="search-component">
+        <div class="dropdown-search">
+            <div class="row px-2">
+                <div class="col px-0">
+                    <input type="text" 
+                        class="form-control fuzzy-search" 
+                        placeholder="Search"
+                        />
+                </div>
+            </div>
+        </div>
+        <script src="/e_website_design/static/src/lib/listjs/listjs.js"/>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var listjs = new List('<t t-raw="list_js_id"/>', { 
+              valueNames: <t t-raw="list_js_valueNames"/>
+            });
+          });
+        </script>
+    </div>
+  </template>
     
     <template id="loaderComponent">
       <div class="position-relative">

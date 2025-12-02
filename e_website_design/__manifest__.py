@@ -16,7 +16,7 @@
             "e_website_design/static/src/components/public/**/*",
             "e_website_design/static/src/scss/*.scss",
             "e_website_design/static/src/js/*js",
-            "e_website_design/static/src/lib/**/*"
+            # "e_website_design/static/src/lib/**/*"
         ],
     },
     'application': False,

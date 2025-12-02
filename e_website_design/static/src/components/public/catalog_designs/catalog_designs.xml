@@ -73,22 +73,10 @@
                                                 t-ref="searchInput"
                                                 t-on-input="onSearchInput"
                                                 />
-                                            
-                                            <div class="dropdown-menu show w-100 p-0" t-if="state.showDropdown" t-ref="dropdown">
-                                                <div class="text-center py-3" t-if="state.isSearching">
-                                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
-                                                        <span class="visually-hidden">Search...</span>
-                                                    </div>
-                                                    <small class="d-block text-muted mt-1">Search...</small>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                     
