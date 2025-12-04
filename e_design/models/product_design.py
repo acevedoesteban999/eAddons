@@ -19,17 +19,10 @@ class ProductDesign(models.Model):
     attachment_ids = fields.Many2many(
         'ir.attachment',
         string="Attachments",
-        compute='_compute_attachment_ids',
         store=True,
         readonly=False,
     )
     file_id = fields.Binary("File")
-    def _compute_attachment_ids(self):
-        for rec in self:
-            rec.attachment_ids = self.env['ir.attachment'].search([
-                ('res_model', '=', 'product.design'),
-                ('res_id', '=', rec.id)
-            ])
             
     @api.depends('attr_value_ids')       
     def _compute_product_ids(self):
@@ -81,6 +74,14 @@ class ProductDesign(models.Model):
     
             
     def write(self,vals):
+        
+        if _att := vals.get('attachment_ids'):
+            att_add, att_sub = self._process_m2m(_att)
+            if att_add:
+                self.env['ir.attachment'].browse(att_add).public=True
+            if att_sub:
+                self.env['ir.attachment'].browse(att_sub).unlink()
+        
         def __get_value_id(product_id):
             line_id =self.env['product.template'].browse(product_id).attribute_line_ids.filtered_domain([('attribute_id.design_ok','=',True)])
             line_id = line_id and line_id[0] or line_id
@@ -89,7 +90,9 @@ class ProductDesign(models.Model):
             return line_id, value_id
         
         product_add, product_sub = self._process_m2m(vals.get('product_ids'))
+
         
+
         for product_id in product_add:
             line_id , value_id = __get_value_id(product_id)
             if line_id:
@@ -106,13 +109,20 @@ class ProductDesign(models.Model):
         if 'name' in vals:
             self.attr_value_ids.name = f"[{self.default_code}] {self.name}"
         return res
+    
     def _create_value(self,name,default_code,extra_price):
         return self.env['product.attribute.value'].create({
                 'name': f"[{default_code}] {name}",
                 'attribute_id': self.env.ref('e_design.default_attr_design').id,
                 'default_extra_price':extra_price
             })
+    
     def create(self,vals_list:dict):
+        if _att := vals_list.get('attachment_ids'):
+            att_add, _ = self._process_m2m(_att)
+            if att_add:
+                self.env['ir.attachment'].browse(att_add).public=True
+                
         products , _ = self._process_m2m(vals_list.get('product_ids'))
         if products:
             attr_value = self._create_value(vals_list.get('name'),vals_list.get('default_code'),vals_list.get('extra_price'))
