@@ -40,12 +40,12 @@ export class SearchComponent extends Component {
         
         const limit = this.props.limit || 5;
         
-        const records = await this.orm.searchRead(
-            this.props.model,
-            domain,
-            this.props.fields,
-            { limit }
-        );
+        const records = await this.orm.rpc("/e_website_design/searchRead", {
+            model: this.props.model,
+            domain: domain,
+            fields: this.props.fields,
+            limit: limit,
+        });
         
         return records;
     }

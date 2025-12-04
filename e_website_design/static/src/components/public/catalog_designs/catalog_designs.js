@@ -47,11 +47,12 @@ import { removeLoader } from "../../../js/public_designs"
               ['name','ilike',this.state.searchQuery],
               ['default_code','ilike',this.state.searchQuery],
           );
-        this.state.designs = await this.orm.searchRead(
-          'product.design',
-          domain,
-          ['id','name','default_code']
-        );
+          
+        this.state.designs = await this.orm.rpc("/e_website_design/searchRead", {
+            model: 'product.design',
+            domain: domain,
+            fields: ['id','name','default_code'],
+        });
 
         if (this.loadingTimeOut)
           clearTimeout(this.loadingTimeOut)

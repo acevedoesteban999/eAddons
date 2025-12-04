@@ -2,6 +2,19 @@ from odoo import http , _
 import json
 
 class ProductDesign(http.Controller):
+    @http.route('/e_website_design/searchRead', type='json', auth='public', website=True)
+    def search_read_public(self, model, domain=None, fields=None, limit=None, **kwargs):
+        allowed_models = ['product.template','product.design','product.design.category'] 
+        if model not in allowed_models:
+            return {'error': 'Model not allowed'}
+            
+        return http.request.env[model].sudo().search_read(
+            domain=domain or [],
+            fields=fields or ['id'],
+            limit=limit
+        )
+    
+    
     
     @http.route([
         "/catalog",
