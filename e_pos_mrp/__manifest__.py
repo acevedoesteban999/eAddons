@@ -11,6 +11,7 @@
     'data': [
         "views/pos_order.xml",
         "views/product_template.xml",
+        "views/mrp_production.xml",
     ],
     
     'application': False,
