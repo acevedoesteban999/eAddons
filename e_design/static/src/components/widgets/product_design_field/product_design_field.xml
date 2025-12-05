@@ -3,7 +3,7 @@
     <t t-name="e_design.ProductDesign">
         <t t-if="this.props.record.resId">
             <div class="row align-items-center">
-                <div class="col-auto">
+                <div t-if="!props.readonly" class="col-auto">
                     <button  class="m-2 btn btn-secondary" t-on-click="this.addDesign">
                         Add Design
                     </button>
