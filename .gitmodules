@@ -1,0 +1,12 @@
+[submodule "eActivityDatetime"]
+	path = eActivityDatetime
+	url = https://github.com/acevedoesteban999/eActivityDatetime
+	branch = main
+[submodule "edrive_downloader"]
+	path = edrive_downloader
+	url = https://github.com/acevedoesteban999/edrive_downloader
+	branch = main
+[submodule "eDesign"]
+	path = eDesign
+	url = https://github.com/acevedoesteban999/eDesign
+	branch = master
