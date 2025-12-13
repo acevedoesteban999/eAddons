@@ -3,9 +3,11 @@
 This module publishes your design catalog to the public website, enabling customers to browse and search available designs.
 ----------------
 **Public catalog interface:**
+----------------
 ![IAMGE](static/description/assets/screenshots/1.png)
 ----------------
 **Design detail page with image gallery**
+----------------
 ![IMAGE](static/description/assets/screenshots/2.png)
 ----------------
 The catalog includes live search, category filtering, and an interactive image gallery for each design.
@@ -17,3 +19,4 @@ Features
 
 ----------------
 ![GIF](static/description/assets/screenshots/3.gif)
+----------------
