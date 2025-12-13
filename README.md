@@ -3,7 +3,9 @@
     eDesign
 </h1>
 This repository contains a suite of Odoo modules designed to extend product customization capabilities by introducing a flexible "Design" feature. It integrates this functionality with Manufacturing (MRP), Point of Sale (POS), and the Odoo Website, creating a comprehensive solution for managing and selling customizable products.
+
 <br/>
+
 | Name                                  | Technical Name     | Summary                                          |
 | ------------------------------------- | ------------------ | -------------------------------------------------| 
 | [eDesign](#e_design)                  | `e_design`         | Create Design for products                       |
