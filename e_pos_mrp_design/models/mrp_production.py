@@ -10,7 +10,7 @@ class MrpProduction(models.Model):
     has_design_id = fields.Boolean(compute="_compute_design_id")
     domain_design = fields.Char(compute="_compute_design_id")
     
-    @api.depends('pos_order_line_id','sale_line_id')
+    @api.depends('product_id','pos_order_line_id','sale_line_id')
     def _compute_design_id(self):
         for rec in self:
             design = rec.design_id or False
@@ -21,10 +21,10 @@ class MrpProduction(models.Model):
             elif rec.sale_line_id:
                 design = rec.sale_line_id.product_no_variant_attribute_value_ids.filtered_domain([('attribute_id.design_ok','=',True)])
                 design = design and design[0].product_attribute_value_id.product_design_id or False
-            elif rec.product_id.product_tmpl_id.design_ok and rec.product_id.product_tmpl_id.design_ids:
+            elif rec.product_id.product_tmpl_id.design_ok:
                 domain_design = [('id', 'in', rec.product_id.product_tmpl_id.design_ids.ids)]
             
-            rec.has_design_id = design and True or domain_design and True or  False
+            rec.has_design_id = True if design or domain_design else False
             rec.domain_design = str(domain_design)
             rec.design_id = design
             
