@@ -59,6 +59,12 @@ msgid "Categories"
 msgstr "Categorías"
 
 #. module: e_website_design
+#. odoo-python
+#: code:addons/e_website_design/controllers/product_design.py:0
+msgid "Design %s"
+msgstr "Diseño %s"
+
+#. module: e_website_design
 #. odoo-javascript
 #: code:addons/e_website_design/static/src/components/public/catalog_designs/catalog_designs.xml:0
 msgid "Category"

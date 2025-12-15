@@ -23,7 +23,9 @@ class ProductDesign(http.Controller):
         
         return http.request.render(
             'e_website_design.CatalogPage',
-            {},
+            {
+                'title':_("Catalog"),
+            },
         )
     @http.route([
         "/catalog/products",
@@ -41,8 +43,10 @@ class ProductDesign(http.Controller):
         return http.request.render(
             'e_website_design.CatalogProducts',
             {
+                'title':_("Products"),
                 'breadcrumbs_context':breadcrumbs_context,
                 'products': products
+                
             },
         )
     @http.route([
@@ -61,6 +65,7 @@ class ProductDesign(http.Controller):
         return http.request.render(
             'e_website_design.CatalogCategories',
             {
+                'title':_("Categories"),
                 'breadcrumbs_context':breadcrumbs_context,
                 'categories': categories
             },
@@ -97,6 +102,7 @@ class ProductDesign(http.Controller):
         return http.request.render(
             'e_website_design.CatalogDesigns',
             {
+                'title':_("Designs"),
                 'breadcrumbs_context':breadcrumbs_context,
                 'controller_context': json.dumps(controller_context), 
             },
@@ -129,6 +135,7 @@ class ProductDesign(http.Controller):
             return http.request.render(
                 'e_website_design.CatalogDesign',
                 {
+                    'title':_("Design %s" % design.name),
                     'design': design,
                     'breadcrumbs_context':breadcrumbs_context,
                 },

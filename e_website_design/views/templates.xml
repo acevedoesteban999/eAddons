@@ -3,7 +3,7 @@
   <data>
 
 
-    <template id="e_website_design.CatalogPage">
+    <template id="e_website_design.CatalogPage" >
       <t t-call="website.layout">
           <div class="container py-5 my-5">
             <div class="row g-4 public-design-style justify-content-center">
@@ -150,7 +150,7 @@
       </t>
     </template>
     
-    <template id="e_website_design.CatalogDesign" name="Design">
+    <template id="e_website_design.CatalogDesign">
       <t t-call="e_website_design.designLayout">
         <div class="container py-4">
             <t t-call="e_website_design.breadcrumbComponent"/>
