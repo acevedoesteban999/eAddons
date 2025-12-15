@@ -34,11 +34,10 @@ export class ProductDesign extends Component {
       )
     }
     
-
-    createDesign(){
+    _doDesignAction(model,method,context){
       return this.action.doAction(
         this.orm.call(
-          'product.design','get_create_design_action',[],{'product_id':this.props.record.data.id}
+          model,method,[],context
         ),
         {
           onClose: (infos) => {
@@ -49,35 +48,46 @@ export class ProductDesign extends Component {
         }
       )
     }
-    attachDesign(){
-      return this.action.doAction(
-        this.orm.call(
-          'product.design','get_attach_design_action',[],{'default_product_id':this.props.record.data.id}
-        ),
+
+    createDesign(){
+      return this._doDesignAction(
+        'product.design',
+        'get_create_design_action',
         {
-          onClose: (infos) => {
-            this.getData();
-            this.props.record.model.load();
-            this.render(true);
-          },
-        }
+          'product_id':this.props.record.data.id
+        },
+      )
+    }
+    attachDesign(){
+      return this._doDesignAction(
+        'product.design',
+        'get_attach_design_action',
+        {
+          'default_product_id':this.props.record.data.id
+        },
       )
     }
     
     openDesign(record){
-      return this.action.doAction(
-        this.orm.call(
-          'product.design','get_open_design_action',[],{'product_design_id':record}
-        ),
+      return this._doDesignAction(
+        'product.design',
+        'get_open_design_action',
         {
-          onClose: (infos) => {
-            this.getData();
-            this.props.record.model.load();
-            this.render(true);
-          },
+          'product_design_id':record
+        },
+      )
+    }
+    unlinkDesign(record){
+      return this._doDesignAction(
+        'product.design',
+        'get_unlink_design_action',
+        {
+          'default_design_id':record,
+          'default_product_id':this.props.record.data.id,
         }
       )
     }
+    
 }
 
 

@@ -59,8 +59,8 @@
             <kanban>
                 <templates>
                     <t t-name="card">
-                        <div class="design-style h-100">
-                            <div class="card card-kanban h-100 d-flex flex-column">
+                        <div class="h-100">
+                            <div class="h-100 d-flex flex-column">
                                 <field name="image" widget="image" alt="Image" 
                                     options="{'img_class': 'card-img-top'}" 
                                     invisible="not image"/>

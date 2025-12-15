@@ -22,6 +22,10 @@
                 <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
                     <div class="col">
                         <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
+                            <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 z-1 outline-button"
+                                    t-on-click.stop="() => this.unlinkDesign(design.id)">
+                                <i class="fa fa-trash"/>
+                            </button>
                             <img class="card-img-top img-fluid" t-attf-src="/web/image/product.design/{{design.id}}/image"/>
                             <div class="card-body p-2 mt-auto">
                                 <h5 class="card-title mb-1">

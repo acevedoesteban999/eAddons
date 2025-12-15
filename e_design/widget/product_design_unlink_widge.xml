@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<record id="product_design_unlink_view_form" model="ir.ui.view">
+    <field name="name">e_design.product_design_unlink_widget.view.form</field>
+    <field name="model">e_design.product_design_unlink_widget</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <field name="product_id" invisible="1"></field>
+                <field name="text" class="h3 text-muted my-2"></field>
+            </sheet>
+            <footer>
+                <button name="unlink_design" string="Confirm" type="object" class="oe_highlight"/>
+                <button string="Cancel" special="cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>
