@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'edesignBundle',
-    'version': '18.1.0.0',
+    'version': '18.1.0',
     'summary': """ eDesign Bundle for all eDesign addons""",
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign',
