@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eWebsiteDesign',
-    'version': '18.0.1.0',
+    'version': '19.0.0',
     'summary': "Integration eDesign with Website",
     'description':"""
                     It allows you to view the design catalog from the website.

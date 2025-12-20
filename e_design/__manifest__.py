@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesign',
-    'version': '18.0.2.0',
+    'version': '19.0.0',
     'summary': "Add Design to Products",
     'description':"""
                     It allows you to add designs to products, 

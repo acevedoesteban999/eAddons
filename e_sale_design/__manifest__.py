@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eSaleDesign',
-    'version': '18.0.0.0',
+    'version': '19.0.0',
     'summary': """ Add design to sale's lines """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_sale_design',
