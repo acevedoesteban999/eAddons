@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'edesignBundle',
+    'name': 'eDesignBundle',
     'version': '19.0.0',
     'summary': """ eDesign Bundle for all eDesign addons""",
     'author': 'acevedoesteban999@gmail.com',
