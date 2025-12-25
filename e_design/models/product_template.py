@@ -1,6 +1,4 @@
 from odoo import fields,models,api , Command , _
-from odoo.exceptions import UserError
-from ..utils.utils import get_datas_m2m
 class ProductProduct(models.Model):
     _inherit = 'product.template'
 
