@@ -18,8 +18,8 @@
                         invisible="not has_variant_template" />  
                     </group>
                     <group invisible="not has_variant_template" >
-                      <field name="auto_create_childs_variants" />
-                      <field name="auto_create_childs_bom" />
+                      <field name="auto_create_variants" />
+                      <field name="auto_create_boms" />
                     </group>
                   </group>
                 </page>

@@ -9,8 +9,9 @@ class ProductTemplate(models.Model):
 
     has_variant_template = fields.Boolean("Variant Template")
     product_variant_template = fields.Many2one('product.template',"Product Variant Template")
-    auto_create_childs_variants = fields.Boolean("Create Childs Variant")
-    auto_create_childs_bom = fields.Boolean("Create Childs Bom")
+    child_variant_template_ids = fields.One2many('product.template','product_variant_template')
+    auto_create_variants = fields.Boolean("Autocreate variant from Parent")
+    auto_create_boms = fields.Boolean("Autocreate Bom from Parent")
     
     
     @api.onchange('product_variant_template')
@@ -34,3 +35,12 @@ class ProductTemplate(models.Model):
                     self_line.value_ids = [
                         Command.link(value.id) for value in add_values
                     ]
+                    
+    
+    def write(self,vals):
+        resp = super().write(vals)
+        if 'attribute_line_ids' in vals:
+            for child in self.child_variant_template_ids.filtered_domain([('auto_create_variants','=',True)]):
+                child.onchange_product_variant_template()
+        return resp
+     
