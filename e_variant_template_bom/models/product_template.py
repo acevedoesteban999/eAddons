@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
     extra_products_create_boms = fields.Many2many('product.product','rel_variant_bom_tamplate',string="Extra products for automatic bum creation")
         
     def _create_auto_bom(self):
-        if not self.auto_create_boms:
+        if not self.has_variant_template or not self.auto_create_boms:
             return
         combination_value_indices = self.product_variant_template.product_variant_ids.mapped('combination_value_indices')
         for variant in self.product_variant_ids.filtered_domain([('combination_value_indices','in',combination_value_indices)]):
