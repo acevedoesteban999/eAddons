@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem
+        id="e_git_update_menu_root"
+        name="eModule Update"
+        action="action_e_git_update_module"
+        parent="base.menu_management"
+        sequence="100"/>
+</odoo>
