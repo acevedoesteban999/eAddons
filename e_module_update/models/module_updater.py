@@ -21,7 +21,6 @@ class EGithubModuleUpdater(models.Model):
     _description = 'GitHub Module Updater'
     _rec_name = 'module_name'
 
-    # CONFIGURACIÓN
     module_name = fields.Char("Module Technical Name", required=True)
     repo_url = fields.Char("GitHub Repo URL", 
                           help="e.g., https://github.com/odoo/odoo", required=True)
@@ -29,13 +28,11 @@ class EGithubModuleUpdater(models.Model):
                                 help="e.g., addons/mail", required=True)
     branch = fields.Char("Branch", default="main", required=True)
     
-    # INFORMACIÓN (solo lectura)
     local_version = fields.Char("Local Version", compute="_compute_versions")
     installed_version = fields.Char("Installed Version", compute="_compute_versions")
     remote_version = fields.Char("Remote Version", compute="_compute_versions")
     last_check = fields.Datetime("Last Check")
     
-    # ESTADO
     remote_state = fields.Selection([
         ('uptodate',"Uptodate"),
         ('to_update',"To Update"),
@@ -45,20 +42,20 @@ class EGithubModuleUpdater(models.Model):
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
-
-    # ===================================================================
-    # MÉTODOS PRINCIPALES (GITHUB API)
-    # ===================================================================
-
+    method = fields.Selection([
+        # ('repository',"Git Repository"),
+        ('download',"Git Download"),
+        # ('store',"Odoo App Store"),
+        ('manual',"Manual Upload"),
+    ],default="download",required=True)
+    
     def _get_github_api_headers(self):
-        """Headers para GitHub API (público, sin auth)"""
         return {
             'Accept': 'application/vnd.github.v3+json',
             'User-Agent': 'Odoo-GitHub-Updater'
         }
 
     def _get_module_git_version(self):
-        """Lee __manifest__.py directamente desde GitHub API"""
         self.ensure_one()
         
         # Construir URL de la API para el archivo
@@ -99,12 +96,29 @@ class EGithubModuleUpdater(models.Model):
     def _get_module_local_version(self):
         self.ensure_one()
         return get_manifest(self.module_name).get('version')
+    
+    def _process_zip(self,zip_file,prefix,local_path):
+        count_files = 0
+        for zip_info in zip_file.infolist():
+            if (prefix and zip_info.filename.startswith(prefix)) and not zip_info.is_dir():
+                relative_path = zip_info.filename[len(prefix):]
+                if relative_path: 
+                    target_path = os.path.join(local_path, relative_path)
+                    os.makedirs(os.path.dirname(target_path), exist_ok=True)
+                    
+                    with zip_file.open(zip_info) as source, open(target_path, 'wb') as target:
+                        shutil.copyfileobj(source, target)
+                    count_files += 1
         
-    def _download_entire_subfolder(self):
-        """Descarga TODA la subcarpeta desde GitHub ZIP y reemplaza el contenido local"""
+         
+        return count_files
+    
+    def _get_backup_path(self,local_path):
+        return local_path + '.backup_' + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    def _download_entire_subfolder_zip(self):
         self.ensure_one()
         
-        # 1. Obtener datos del repositorio
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
@@ -112,7 +126,7 @@ class EGithubModuleUpdater(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = local_path + '.backup_' + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_path = self._get_backup_path(local_path)
         shutil.move(local_path, backup_path)
         os.makedirs(local_path, exist_ok=True)
         
@@ -126,24 +140,10 @@ class EGithubModuleUpdater(models.Model):
             
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
                 prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
-                
-                extracted_files = 0
-                for zip_info in zip_file.infolist():
-                    if zip_info.filename.startswith(prefix) and not zip_info.is_dir():
-                        relative_path = zip_info.filename[len(prefix):]
-                        if relative_path: 
-                            target_path = os.path.join(local_path, relative_path)
-                            os.makedirs(os.path.dirname(target_path), exist_ok=True)
-                            
-                            with zip_file.open(zip_info) as source, open(target_path, 'wb') as target:
-                                shutil.copyfileobj(source, target)
-                            extracted_files += 1
-                
+                extracted_files = self._process_zip(zip_file,prefix,local_path)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
-                
-                _logger.info("Extracted %d files to %s", extracted_files, local_path)
-            
+                _logger.info("Extracted %d files to %s", extracted_files, local_path)   
             shutil.rmtree(backup_path)
             _logger.info("Successfully updated module %s from GitHub", self.module_name)
             return extracted_files
@@ -154,8 +154,6 @@ class EGithubModuleUpdater(models.Model):
             shutil.move(backup_path, local_path)
             raise UserError(_("Update failed: %s") % str(e))
     
-    
-
     def _download_entire_subfolder_optimized(self):
         self.ensure_one()
         
@@ -223,10 +221,8 @@ class EGithubModuleUpdater(models.Model):
             shutil.move(backup_path, local_path)
             raise UserError(_("Update failed: %s") % str(e))
 
-    
     @api.depends('module_name', 'repo_url', 'subfolder_path', 'branch')
     def _compute_versions(self):
-        """Computa versión local vs remota"""
         for record in self:
             if not record.module_name:
                 record.update({
@@ -236,7 +232,6 @@ class EGithubModuleUpdater(models.Model):
                 })
                 continue
             
-            # local_path = record._get_module_local_path()
             local_version = record._get_module_local_version()
             installed_version = self.env['ir.module.module'].search([('name','=',self.module_name)]).installed_version
             
@@ -268,11 +263,10 @@ class EGithubModuleUpdater(models.Model):
             })
 
     # ===================================================================
-    # ACCIONES
+    # ACTIONS
     # ===================================================================
 
     def action_check_version(self):
-        """Acción manual: verificar versión remota"""
         self.ensure_one()
         self._compute_versions()
         
@@ -289,12 +283,11 @@ class EGithubModuleUpdater(models.Model):
         
 
     def action_confirm_and_update(self):
-        """Confirma y ejecuta la actualización"""
         self.ensure_one()
         
         try:
             if self.env.context.get("download_by_zip"):
-                downloaded_files = self._download_entire_subfolder()
+                downloaded_files = self._download_entire_subfolder_zip()
             else:
                 downloaded_files = self._download_entire_subfolder_optimized()
             self._compute_versions()
@@ -313,6 +306,23 @@ class EGithubModuleUpdater(models.Model):
             _logger.exception("Update failed for module %s", self.module_name)
             raise UserError(_("Update failed: %s") % str(e))
 
+    def action_check_repositiry(self):
+        pass
     
     def action_update_local_module(self):
         pass
+    
+    def action_open_manual_upload(self):
+        return {
+            'name': 'Upload Manual Zip',
+            'type': 'ir.actions.act_window',
+            'res_model': 'e_module_update.module_update_manual_wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_ids':[('e_module_update_module_update_manual_wizard_view_form','form')],
+            'target': 'new',
+            'domain': [],
+            'context': {
+                'default_module_update_id':self.id
+            },
+        }

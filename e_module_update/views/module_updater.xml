@@ -21,9 +21,12 @@
                 <header>
                     <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
                     <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
-                            invisible="remote_state  != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                            invisible="method != 'download' or remote_state  != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
                     <button name="action_confirm_and_update" type="object" string="Update Module (By ZIP)" 
-                            invisible="remote_state  != 'to_update'" confirm="This will REPLACE all local files and download all zip repository. Continue?" context="{'download_by_zip':True}"/>
+                            invisible="method != 'download' or remote_state  != 'to_update'" confirm="This will REPLACE all local files and download all zip repository. Continue?" context="{'download_by_zip':True}"/>
+                    <!-- <button name="action_check_repositiry" type="object" string="Check Local Git Repository" 
+                            invisible="method != 'repository'" confirm="This will pull changes and REPLACE all files. Continue?"/> -->
+                
                 </header>
                 <sheet>
                     <group>
@@ -32,17 +35,19 @@
                             <field name="repo_url" placeholder="https://github.com/user/repo"/>
                             <field name="subfolder_path" placeholder="/module_in_main_repo"/>
                             <field name="branch" placeholder="main"/>
+                            <field name="method"></field>
                         </group>
                         <group>
                             <field name="installed_version" readonly="1"/>
                             <field name="local_version" readonly="1"/>
                             <button string="Update Local Module" name="action_update_local_module" type="object" class="oe_highlight" invisible="installed_version == local_version"/>
-                            <field name="remote_version" readonly="1"/>
-                            <field name="remote_state" widget="badge" readonly="1"
+                            <field name="remote_version" readonly="1" invisible="method!='download'"/>
+                            <field name="remote_state" widget="badge" readonly="1" invisible="method!='download'"
                                 decoration-success="remote_state == 'uptodate'"
                                 decoration-info="remote_state  == 'to_update'"
                                 decoration-danger="remote_state == 'error'"/>
-                            <field name="error" readonly="1" invisible="remote_state != 'error'" decoration-danger="True"></field>
+                            <field name="error" readonly="1" invisible="method!='download' or  remote_state != 'error'" decoration-danger="True"></field>
+                            <button string="Upload Zip" name="action_open_manual_upload" type="object" class="oe_highlight" invisible="method!='manual'"/>
                             <field name="last_check" readonly="1"/>
                         </group>
                     </group>
