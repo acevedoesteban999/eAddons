@@ -19,12 +19,12 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
                 <header position="inside">
-                    <button name="action_upload_zip" type="object" string="Upload Zip" class="oe_highlight" 
+                    <button name="action_confirm_and_update" type="object" string="Update" class="oe_highlight" 
                             confirm="This will REPLACE all local files. Continue?"/>
                 </header>
-                <!-- <xpath expr="//field[@name='module_name']" position="after">
+                <xpath expr="//field[@name='module_name']" position="after">
                     <field name="file_zip" widget="file"/>
-                </xpath> -->
+                </xpath>
         </field>
     </record>
 
