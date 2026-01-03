@@ -168,7 +168,7 @@ class eIrModuleUpdateGit(models.Model):
     # ACTIONS
     # ===================================================================
 
-    def action_confirm_and_update(self):
+    def action_store_version(self):
         self.ensure_one()
         
         try:

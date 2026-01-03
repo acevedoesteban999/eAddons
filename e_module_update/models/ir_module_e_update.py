@@ -18,12 +18,18 @@ class EGithubModuleUpdater(models.AbstractModel):
         ('to_update', "To Update"),
         ('error', "Error"),
     ], compute="_compute_versions", store=True,default=False,)
+    update_local = fields.Boolean(compute="_compute_update_local")
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
     
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
+    
+    @api.depends('local_version','installed_version')
+    def _compute_update_local(self):
+        for rec in self:
+            rec.update_local = self.version_to_tuple(rec.local_version) != self.version_to_tuple(rec.installed_version) 
     
     @staticmethod
     def version_to_tuple(v):
@@ -106,8 +112,11 @@ class EGithubModuleUpdater(models.AbstractModel):
                 'sticky': False,
             }
         }
-        
-    def action_update_module(self):
+    
+    def action_store_version(self):
+        pass    
+
+    def action_install_local_version(self):
         self.ensure_one()
         
         module = self.env['ir.module.module'].search([('name', '=', self.module_name)], limit=1)
@@ -138,3 +147,6 @@ class EGithubModuleUpdater(models.AbstractModel):
         except Exception as e:
             raise exceptions.UserError(_("Update failed: %s") % str(e))
     
+    def action_store_and_install_version(self):
+        self.action_store_version()
+        self.action_install_local_version()

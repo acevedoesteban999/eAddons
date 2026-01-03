@@ -18,10 +18,6 @@
         <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_form"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-                <header position="inside">
-                    <button name="action_confirm_and_update" type="object" string="Update" class="oe_highlight" 
-                            invisible="update_state != 'uptodate'" confirm="This will REPLACE all local files. Continue?"/>
-                </header>
                 <xpath expr="//field[@name='module_name']" position="after">
                     <field name="file_zip" widget="binary"/>
                 </xpath>
