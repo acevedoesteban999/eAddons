@@ -10,7 +10,7 @@ import ast
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 import logging
-from ..utils.util import copy_zip, make_backup, remove_backup, restore_backup , get_zip_by_prefix
+from ..utils.util import extract_zip, make_backup, remove_backup, restore_backup , get_zip_by_prefix
 
 _logger = logging.getLogger(__name__)
 
@@ -119,7 +119,7 @@ class eIrModuleUpdateManual(models.Model):
             else:
                 zip_for_extraction = zip_file
             
-            upload_files = copy_zip(zip_for_extraction,local_path)
+            upload_files = extract_zip(zip_for_extraction,local_path)
             
             if upload_files == 0:
                 raise UserError(_("No files were extracted from the ZIP"))
@@ -148,7 +148,10 @@ class eIrModuleUpdateManual(models.Model):
                             (self.module_name, self.zip_version, upload_files),
                 'type': 'success',
                 'sticky': False,
-                'next': {'type': 'ir.actions.act_window_close'},
+                'next': {
+                    'type': 'ir.actions.client',
+                    'tag': 'reload',
+                },
             }
         }
 

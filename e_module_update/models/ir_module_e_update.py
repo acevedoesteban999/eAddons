@@ -4,7 +4,6 @@
 
 from odoo import models, fields, api, _ , modules 
 from odoo.exceptions import UserError
-from odoo.modules import get_manifest
 from ..utils.util import make_backup
 
 class EGithubModuleUpdater(models.AbstractModel):
@@ -66,13 +65,7 @@ class EGithubModuleUpdater(models.AbstractModel):
     def _get_module_local_path(self):
         self.ensure_one()
         return  modules.get_module_path(self.module_name)
-    
-    def _get_module_local_version(self):
-        self.ensure_one()
-        return get_manifest(self.module_name).get('version')
-    
-    
-    
+        
     @api.depends('module_name')
     def _compute_versions(self):
         for record in self:
@@ -85,8 +78,9 @@ class EGithubModuleUpdater(models.AbstractModel):
                 })
                 continue
             
-            local_version = record._get_module_local_version()
-            installed_version = self.env['ir.module.module'].search([('name','=',self.module_name)]).installed_version
+            module = self.env['ir.module.module'].search([('name','=',self.module_name)])
+            local_version = module.installed_version
+            installed_version = module.latest_version
             
             record.update({
                 'local_version': local_version or _("Unknown"),
@@ -132,6 +126,10 @@ class EGithubModuleUpdater(models.AbstractModel):
                 'title': _('Version Check'),
                 'type': 'info',
                 'sticky': False,
+                'next': {
+                    'type': 'ir.actions.client',
+                    'tag': 'reload',
+                },
             }
         }
     
@@ -163,10 +161,10 @@ class EGithubModuleUpdater(models.AbstractModel):
         module = self.env['ir.module.module'].search([('name', '=', self.module_name)], limit=1)
         
         if not module:
-            raise exceptions.UserError(_("Module '%s' not found in repository") % self.module_name)
+            raise UserError(_("Module '%s' not found in repository") % self.module_name)
         
         if module.state not in ['installed', 'to upgrade']:
-            raise exceptions.UserError(_("Module '%s' is not installed (state: %s)") % (self.module_name, module.state))
+            raise UserError(_("Module '%s' is not installed (state: %s)") % (self.module_name, module.state))
         
         try:
             module.button_immediate_upgrade()

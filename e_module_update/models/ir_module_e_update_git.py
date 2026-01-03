@@ -10,7 +10,7 @@ import io
 from odoo import models, fields, api, _ 
 from odoo.exceptions import UserError
 import logging
-from ..utils.util import copy_zip , make_backup , remove_backup , restore_backup , get_zip_by_prefix
+from ..utils.util import extract_zip , make_backup , remove_backup , restore_backup , get_zip_by_prefix
 _logger = logging.getLogger(__name__)
 
 class eIrModuleUpdateGit(models.Model):
@@ -77,7 +77,7 @@ class eIrModuleUpdateGit(models.Model):
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
                 prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
                 zip_for_extraction = get_zip_by_prefix(zip_file,prefix)
-                extracted_files = copy_zip(zip_for_extraction,prefix,local_path)
+                extracted_files = extract_zip(zip_for_extraction,prefix,local_path)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
                 _logger.info("Extracted %d files to %s", extracted_files, local_path)   
@@ -186,6 +186,10 @@ class eIrModuleUpdateGit(models.Model):
                     'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
                     'type': 'success',
                     'sticky': False,
+                    'next': {
+                        'type': 'ir.actions.client',
+                        'tag': 'reload',
+                    },
                 }
             }
         except Exception as e:

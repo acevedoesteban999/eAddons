@@ -50,17 +50,23 @@ def remove_backup(backup_path):
         _logger.error("Failed to remove backup %s: %s", backup_path, str(e))
 
 
-def copy_zip_by_path(zip_path:str , prefix:str, local_path:str):
+def extract_zip_by_path(zip_path:str , prefix:str, local_path:str):
     with zipfile.ZipFile(zip_path, 'r') as zip_file:
-        return copy_zip(zip_file,prefix,local_path)
+        return extract_zip(zip_file,prefix,local_path)
     
-def copy_zip(zip_file:zipfile.ZipFile , local_path:str):
+def extract_zip(zip_file:zipfile.ZipFile , local_path:str):
     if local_path and os.path.exists(local_path):
         shutil.rmtree(local_path)
+    os.makedirs(local_path, exist_ok=True)
     count_files = 0
     for zip_info in zip_file.infolist():
-        os.makedirs(os.path.dirname(local_path), exist_ok=True)
-        with zip_file.open(zip_info) as source, open(local_path, 'wb') as target:
+        target_path = os.path.normpath(os.path.join(local_path, zip_info.filename.lstrip('/\\')))
+        if zip_info.is_dir():
+            os.makedirs(target_path, exist_ok=True)
+            continue
+        os.makedirs(os.path.dirname(target_path), exist_ok=True)
+        
+        with zip_file.open(zip_info) as source, open(target_path, 'wb') as target:
             shutil.copyfileobj(source, target)
         count_files += 1 
     return count_files
@@ -68,7 +74,7 @@ def copy_zip(zip_file:zipfile.ZipFile , local_path:str):
 def restore_backup(backup_path, local_path, _remove_backup = False):
     try:
         if backup_path and os.path.exists(backup_path) and os.path.isfile(backup_path):
-            copy_zip_by_path(backup_path,'',local_path)
+            extract_zip_by_path(backup_path,'',local_path)
             _logger.info("Restored backup ZIP from %s to %s", backup_path, local_path)
             if _remove_backup:
                 remove_backup(backup_path)
