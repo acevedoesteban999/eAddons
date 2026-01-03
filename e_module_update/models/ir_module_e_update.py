@@ -21,10 +21,15 @@ class EGithubModuleUpdater(models.AbstractModel):
     update_local = fields.Boolean(compute="_compute_update_local")
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
+    backup_ids = fields.One2many('ir.module.e_update.backup','e_update_module_id',"Backups",compute="_compute_backup_ids")
     
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
+    
+    def _compute_backup_ids(self):
+        for rec in self:
+            rec.backup_ids = False
     
     @api.depends('local_version','installed_version')
     def _compute_update_local(self):

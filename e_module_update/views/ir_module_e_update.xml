@@ -35,18 +35,37 @@
                             <field name="module_name" placeholder="ej: module"/>
                         </group>
                         <group>
-                            <field name="installed_version" readonly="1"/>
-                            <field name="local_version" readonly="1"/>
-                            <field name="update_state" widget="badge" readonly="1"
-                                decoration-success="update_state == 'uptodate'"
-                                decoration-info="update_state  == 'to_update'"
-                                decoration-danger="update_state == 'error'"
-                                invisible="not update_state"
-                                />
-                            <field name="error_msg" readonly="1" invisible="not update_state or update_state != 'error'" decoration-danger="True"></field>
-                            <field name="last_check" readonly="1"/>
+                            <field name="module_name" widget="module_icon"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="icon" string="Icon">
+                            <group>
+                                <group>
+                                    <field name="installed_version" readonly="1"/>
+                                    <field name="local_version" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="update_state" widget="badge" readonly="1"
+                                        decoration-success="update_state == 'uptodate'"
+                                        decoration-info="update_state  == 'to_update'"
+                                        decoration-danger="update_state == 'error'"
+                                        invisible="not update_state"
+                                        />
+                                    <field name="error_msg" readonly="1" invisible="not update_state or update_state != 'error'" decoration-danger="True"></field>
+                                    <field name="last_check" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="backups" string="Backups">
+                            <field name="backup_ids">
+                                <list>
+                                    <field name="version"></field>
+                                    <button string="Backup" name="action_backup" type="object" class="oe_highlight"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

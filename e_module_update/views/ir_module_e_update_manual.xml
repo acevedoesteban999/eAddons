@@ -21,7 +21,7 @@
                 <xpath expr="//field[@name='module_name']" position="after">
                     <field name="file_zip" widget="binary"/>
                 </xpath>
-                <xpath expr="//field[@name='update_state']" position="before">
+                <xpath expr="//field[@name='local_version']" position="after">
                     <field name="zip_version"></field>
                 </xpath>
         </field>

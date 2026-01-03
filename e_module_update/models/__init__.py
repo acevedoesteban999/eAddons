@@ -4,5 +4,6 @@
 
 # -*- coding: utf-8 -*-
 from . import ir_module_e_update
+from . import ir_module_e_update_backup
 from . import ir_module_e_update_git
 from . import ir_module_e_update_manual

@@ -138,7 +138,7 @@ class eIrModuleUpdateManual(models.Model):
             
             _logger.info("Module %s updated successfully: %d files extracted", self.module_name, extracted_files)
             
-            remove_backup(backup_path)
+            # remove_backup(backup_path)
             
             return extracted_files
             
