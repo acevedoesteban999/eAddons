@@ -37,7 +37,9 @@ class EGithubModuleUpdater(models.AbstractModel):
     
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
+    
     backup_ids = fields.One2many('ir.module.e_update.backup','e_update_module_id',"Backups",compute="_compute_backup_ids")
+    
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
@@ -92,6 +94,7 @@ class EGithubModuleUpdater(models.AbstractModel):
                 rec.update({
                     'local_version': _("Unknown"),
                     'installed_version': _("Unknown"),
+                    'repository_version': _("Unknown"),
                     'update_state': 'error' if rec.module_name else False,
                     'error_msg': _('Module not found') if rec.module_name else False,
                 })
@@ -172,7 +175,6 @@ class EGithubModuleUpdater(models.AbstractModel):
         "The inherit model replace the local module folder"
         return local_path,backup_path
     
-
     def action_install_local_version(self):
         self.ensure_one()
         

@@ -104,6 +104,9 @@ class eIrModuleUpdateManual(models.Model):
                         'update_state': 'error',
                         'error_msg': _("Error reading ZIP: %s") % str(e),
                     })
+            else:
+                rec.zip_version = _("Unknown")
+                rec.update_state = False
 
     # ===================================================================
     # ACTIONS
