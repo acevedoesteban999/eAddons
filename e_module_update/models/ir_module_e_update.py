@@ -5,6 +5,7 @@
 from odoo import models, fields, api, _ , modules 
 from odoo.exceptions import UserError
 from ..utils.util import make_backup
+from odoo.modules.module import load_manifest
 
 class EGithubModuleUpdater(models.AbstractModel):
     _name = 'ir.module.e_update'
@@ -79,7 +80,8 @@ class EGithubModuleUpdater(models.AbstractModel):
                 continue
             
             module = self.env['ir.module.module'].search([('name','=',self.module_name)])
-            local_version = module.installed_version
+            local_version = load_manifest(self.module_name).get('version',_("Unknown"))
+            #local_version1 = module.installed_version
             installed_version = module.latest_version
             
             record.update({
@@ -121,22 +123,13 @@ class EGithubModuleUpdater(models.AbstractModel):
         
         return {
             'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Version Check'),
-                'type': 'info',
-                'sticky': False,
-                'next': {
-                    'type': 'ir.actions.client',
-                    'tag': 'reload',
-                },
-            }
+            'tag': 'reload',
         }
     
     def action_store_version(self):
         "Generate Backup"
         if self.update_state != 'to_update':
-            raise UserError(_("Cannot update: %s") % (self.error or _("Invalid state")))
+            raise UserError(_("Cannot update: %s") % (self.error_msg or _("Invalid state")))
         
         if not self.local_version:
             raise UserError(_("No local version provided"))
@@ -171,20 +164,10 @@ class EGithubModuleUpdater(models.AbstractModel):
             
             return {
                 'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Module Update'),
-                    'message': _('%s is being updated...') % self.module_name,
-                    'type': 'warning',
-                    'sticky': False,
-                    'next': {
-                        'type': 'ir.actions.client',
-                        'tag': 'reload',
-                    },
-                }
+                'tag': 'reload',
             }
         except Exception as e:
-            raise exceptions.UserError(_("Update failed: %s") % str(e))
+            raise UserError(_("Update failed: %s") % str(e))
     
     def action_store_and_install_version(self):
         self.action_store_version()

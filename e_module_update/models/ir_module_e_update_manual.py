@@ -110,7 +110,7 @@ class eIrModuleUpdateManual(models.Model):
 
         local_path , backup_path = super().action_store_version()
         try:
-            zip_data = base64.b64decode(self.file_zip)
+            zip_data = base64.b64decode(self.with_context(bin_size=False).file_zip)
             zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
             
             top_items = set(name.split('/')[0] for name in zip_file.namelist() if name)
@@ -118,7 +118,9 @@ class eIrModuleUpdateManual(models.Model):
                 zip_for_extraction = get_zip_by_prefix(zip_file,self.module_name)
             else:
                 zip_for_extraction = zip_file
-            
+                
+            if "__manifest__.py" not in zip_for_extraction.namelist():
+                raise UserError(_("No manifest provided"))
             upload_files = extract_zip(zip_for_extraction,local_path)
             
             if upload_files == 0:
@@ -141,18 +143,7 @@ class eIrModuleUpdateManual(models.Model):
         
         return {
             'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Success'),
-                'message': _('Module %s updated successfully!\nNew version: %s\nFiles updated: %d') % 
-                            (self.module_name, self.zip_version, upload_files),
-                'type': 'success',
-                'sticky': False,
-                'next': {
-                    'type': 'ir.actions.client',
-                    'tag': 'reload',
-                },
-            }
+            'tag': 'reload',
         }
 
     

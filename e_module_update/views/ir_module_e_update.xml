@@ -21,15 +21,15 @@
                 <header>
                     <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
                     
-                    <button name="action_install_local_version" string="Update Local Module"  type="object" class="oe_highlight" 
-                            invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
-                    
                     <button name="action_store_version" string="Store Version" type="object"
                             invisible="update_state != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
                     
-                    <button name="action_store_and_install_version" type="object" string="Store and Update" class="oe_highlight" 
+                    <button name="action_store_and_install_version" type="object" string="Store and Update" 
                             invisible="update_state != 'to_update'" confirm="This will REPLACE all local files and Update the module in the server. Continue?"/>
                             
+                    <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
+                            invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
+                    
                 </header>
                 <sheet>
                     <group>

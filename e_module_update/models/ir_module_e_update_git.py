@@ -180,17 +180,7 @@ class eIrModuleUpdateGit(models.Model):
             
             return {
                 'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Success'),
-                    'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
-                    'type': 'success',
-                    'sticky': False,
-                    'next': {
-                        'type': 'ir.actions.client',
-                        'tag': 'reload',
-                    },
-                }
+                'tag': 'reload',
             }
         except Exception as e:
             _logger.exception("Update failed for module %s", self.module_name)

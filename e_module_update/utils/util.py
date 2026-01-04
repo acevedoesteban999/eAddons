@@ -92,7 +92,7 @@ def get_zip_by_prefix(zip_file:zipfile.ZipFile , prefix:str):
             if zip_info.is_dir():
                 continue
             if zip_info.filename.startswith(prefix):
-                relative_path = zip_info.filename[len(prefix):]
+                relative_path = zip_info.filename[len(prefix) + 1 :] # +1 for '/' 
                 file_content = zip_file.read(zip_info.filename)
                 filtered_zip.writestr(relative_path, file_content)
     
