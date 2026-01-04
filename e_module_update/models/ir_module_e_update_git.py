@@ -22,7 +22,7 @@ class eIrModuleUpdateGit(models.Model):
     
     subfolder_path = fields.Char("Subfolder Path", required=True)
     branch = fields.Char("Branch", default="main", required=True)
-    remote_version = fields.Char("Remote Version", compute="_compute_versions",store=True)
+    remote_version = fields.Char("Remote Version", compute="_compute_versions")
     
     def _get_remote_git_version(self):
         self.ensure_one()
@@ -180,7 +180,13 @@ class eIrModuleUpdateGit(models.Model):
             
             return {
                 'type': 'ir.actions.client',
-                'tag': 'reload',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Success'),
+                    'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
+                    'type': 'success',
+                    'sticky': False,
+                }
             }
         except Exception as e:
             _logger.exception("Update failed for module %s", self.module_name)

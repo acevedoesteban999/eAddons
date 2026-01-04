@@ -16,20 +16,20 @@ class EGithubModuleUpdater(models.AbstractModel):
     module_icon = fields.Char(compute="_compute_module_icon")
     module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
     
-    installed_version = fields.Char("Installed Version", compute="_compute_versions",store=True,
+    installed_version = fields.Char("Installed Version", compute="_compute_versions",
                                     help="Version installed on Database")
     
-    local_version = fields.Char("Local Version", compute="_compute_versions",store=True,
+    local_version = fields.Char("Local Version", compute="_compute_versions",
                                 help="Version Cached in Odoo. Need Restart Odoo Server for changes")
     
-    repository_version = fields.Char("Repository Version", compute="_compute_versions",store=True,
+    repository_version = fields.Char("Repository Version", compute="_compute_versions",
                                      help="Version on Repository(Disk, Folder , OS)")
     
     update_state = fields.Selection([
         ('uptodate', "Up to date"),
         ('to_update', "To Update"),
         ('error', "Error"),
-    ], compute="_compute_versions", store=True,default=False,)
+    ], compute="_compute_versions",default=False,)
     
     update_local = fields.Boolean(compute="_compute_update_local")
     store_local = fields.Boolean(compute="_compute_store_local")
@@ -148,7 +148,13 @@ class EGithubModuleUpdater(models.AbstractModel):
         
         return {
             'type': 'ir.actions.client',
-            'tag': 'reload',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Version Checked'),
+                'type': 'info',
+                'sticky': False,
+                'next':{'type': 'ir.actions.act_window_close'}
+            }
         }
     
     def action_store_version(self):
@@ -189,16 +195,21 @@ class EGithubModuleUpdater(models.AbstractModel):
             
             return {
                 'type': 'ir.actions.client',
-                'tag': 'reload',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Module Update'),
+                    'message': _("Success update for '%s' !") % self.module_name,
+                    'type': 'success',
+                    'sticky': False,
+                    'next': {
+                        'type': 'ir.actions.client',
+                        'tag': 'reload',
+                    },
+                }
             }
         except Exception as e:
             raise UserError(_("Update failed: %s") % str(e))
-    
-    # def action_store_and_install_version(self):
-    #     self.action_store_version()
-    #     self.action_install_local_version()
         
-
     def action_restart_server(self):
         return {
             'name': _('Restart Server'),

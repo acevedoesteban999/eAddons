@@ -19,7 +19,7 @@ class eIrModuleUpdateManual(models.Model):
     _inherit = 'ir.module.e_update'
     _description = 'Manual Module Updater'
 
-    zip_version = fields.Char("ZIP Version", compute="_compute_versions",store=True)
+    zip_version = fields.Char("ZIP Version", compute="_compute_versions")
     file_zip = fields.Binary("File ZIP")
     
     
@@ -31,11 +31,11 @@ class eIrModuleUpdateManual(models.Model):
     
     @api.depends('module_name','file_zip')
     def _compute_versions(self):
-        for record in self:
-            super(eIrModuleUpdateManual, record)._compute_versions()
-            if record.module_exist:
-                if not record.file_zip:
-                    record.update({
+        for rec in self:
+            super(eIrModuleUpdateManual, rec)._compute_versions()
+            if rec.module_exist and rec.update_state != 'error':
+                if not rec.file_zip:
+                    rec.update({
                         'zip_version': _("Unknown"),
                         'update_state': 'error',
                         'error_msg': _("No ZIP file provided"),
@@ -43,12 +43,12 @@ class eIrModuleUpdateManual(models.Model):
                     continue
                 
                 try:
-                    zip_data = base64.b64decode(record.with_context(bin_size=False).file_zip)
+                    zip_data = base64.b64decode(rec.with_context(bin_size=False).file_zip)
                     zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
                     manifest_content = None
                     manifest_name_in_zip = None
                     
-                    candidates = [f"{record.module_name}/__manifest__.py", "__manifest__.py"]
+                    candidates = [f"{rec.module_name}/__manifest__.py", "__manifest__.py"]
                     
                     for candidate in candidates:
                         if candidate in zip_file.namelist():
@@ -57,7 +57,7 @@ class eIrModuleUpdateManual(models.Model):
                             break
                     
                     if not manifest_content:
-                        record.update({
+                        rec.update({
                             'zip_version': _("Unknown"),
                             'update_state': 'error',
                             'error_msg': _("No manifest file found in ZIP. Expected module structure."),
@@ -72,34 +72,34 @@ class eIrModuleUpdateManual(models.Model):
                     if '/' in manifest_name_in_zip:
                         expected_name = manifest_name_in_zip.split('/')[0]
                     else:
-                        expected_name = record.module_name
+                        expected_name = rec.module_name
                     
-                    if expected_name != record.module_name:
-                        record.update({
+                    if expected_name != rec.module_name:
+                        rec.update({
                             'zip_version': _("Unknown"),
                             'update_state': 'error',
                             'error_msg': _("Module name mismatch: ZIP contains '%s', expected '%s'") % 
-                                    (expected_name, record.module_name),
+                                    (expected_name, rec.module_name),
                         })
                         zip_file.close()
                         continue
                     
                     self.compute_update_state(zip_version,self.local_version)
                     
-                    record.update({
+                    rec.update({
                         'zip_version': zip_version,
                     })
                     zip_file.close()
                     
                 except zipfile.BadZipFile as e:
-                    record.update({
+                    rec.update({
                         'zip_version': _("Unknown"),
                         'update_state': 'error',
                         'error_msg': _("Invalid ZIP file format: %s") % e,
                     })
                 except Exception as e:
-                    _logger.error("Error processing ZIP for module %s: %s", record.module_name, str(e))
-                    record.update({
+                    _logger.error("Error processing ZIP for module %s: %s", rec.module_name, str(e))
+                    rec.update({
                         'zip_version': _("Unknown"),
                         'update_state': 'error',
                         'error_msg': _("Error reading ZIP: %s") % str(e),
@@ -150,7 +150,15 @@ class eIrModuleUpdateManual(models.Model):
         
         return {
             'type': 'ir.actions.client',
-            'tag': 'reload',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('Module %s store successfully! Files updated: %d') % 
+                            (self.module_name, upload_files),
+                'type': 'success',
+                'sticky': False,
+                'next':{'type': 'ir.actions.act_window_close'}
+            }
         }
 
     
