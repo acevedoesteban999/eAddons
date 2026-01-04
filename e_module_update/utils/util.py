@@ -49,7 +49,6 @@ def remove_backup(backup_path):
     except Exception as e:
         _logger.error("Failed to remove backup %s: %s", backup_path, str(e))
 
-
 def extract_zip_by_path(zip_path:str , prefix:str, local_path:str):
     with zipfile.ZipFile(zip_path, 'r') as zip_file:
         return extract_zip(zip_file,prefix,local_path)
@@ -99,3 +98,6 @@ def get_zip_by_prefix(zip_file:zipfile.ZipFile , prefix:str):
     filtered_zip_buffer.seek(0)
     zip_for_extraction = zipfile.ZipFile(filtered_zip_buffer, 'r')
     return zip_for_extraction
+
+def get_backup_list(module_name,local_path):
+    pass

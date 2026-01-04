@@ -61,12 +61,12 @@ class EGithubModuleUpdater(models.AbstractModel):
     @api.depends('local_version','installed_version')
     def _compute_update_local(self):
         for rec in self:
-            rec.update_local = self.version_to_tuple(rec.local_version) != self.version_to_tuple(rec.installed_version) 
+            rec.update_local = self.compare_versions(rec.local_version,rec.installed_version) 
     
     @api.depends('repository_version','local_version')
     def _compute_restart_local(self):
         for rec in self:
-            rec.restart_local = self.version_to_tuple(rec.local_version) != self.version_to_tuple(rec.repository_version) 
+            rec.restart_local = self.compare_versions(rec.local_version,rec.repository_version) 
     
     @api.depends('repository_version')
     def _compute_store_local(self):
@@ -76,12 +76,20 @@ class EGithubModuleUpdater(models.AbstractModel):
     
     
     @staticmethod
+    def compare_versions(_v1,_v2):
+        v1 = EGithubModuleUpdater.version_to_tuple(_v1)
+        v2 = EGithubModuleUpdater.version_to_tuple(_v2) 
+        return bool(v1) and bool(v2) and v1 != v2
+        
+    @staticmethod
     def version_to_tuple(v):
         try:
             parts = str(v).split('.')
-            return tuple(int(p) for p in parts if p.isdigit())
+            if len(parts) > 1 or parts[0].isdigit():
+                return tuple(int(p) for p in parts) 
         except:
-            return False
+            pass
+        return False
     
     def _get_module_local_path(self):
         self.ensure_one()

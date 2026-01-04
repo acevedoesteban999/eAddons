@@ -26,7 +26,7 @@ class eIrModuleUpdateManual(models.Model):
     @api.depends('zip_version')
     def _compute_store_local(self):
         for rec in self:
-            rec.store_local = self.version_to_tuple(rec.zip_version) != self.version_to_tuple(rec.repository_version) 
+            rec.store_local = self.compare_versions(rec.zip_version,rec.repository_version) 
     
     
     @api.depends('module_name','file_zip')
@@ -106,7 +106,6 @@ class eIrModuleUpdateManual(models.Model):
                     })
             else:
                 rec.zip_version = _("Unknown")
-                rec.update_state = False
 
     # ===================================================================
     # ACTIONS
