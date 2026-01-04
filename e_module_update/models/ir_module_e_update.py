@@ -81,12 +81,6 @@ class EGithubModuleUpdater(models.AbstractModel):
         except:
             return False
     
-    def _get_github_api_headers(self):
-        return {
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Odoo-GitHub-Updater'
-        }
-
     def _get_module_local_path(self):
         self.ensure_one()
         return  modules.get_module_path(self.module_name)

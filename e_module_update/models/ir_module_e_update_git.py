@@ -24,6 +24,13 @@ class eIrModuleUpdateGit(models.Model):
     branch = fields.Char("Branch", default="main", required=True)
     remote_version = fields.Char("Remote Version", compute="_compute_versions")
     
+    def _get_github_api_headers(self):
+        return {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Odoo-GitHub-Updater'
+        }
+
+    
     def _get_remote_git_version(self):
         self.ensure_one()
         
