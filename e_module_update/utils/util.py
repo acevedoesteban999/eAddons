@@ -8,17 +8,53 @@ import shutil
 import datetime
 import zipfile
 import logging
-
+import re
+import math
 _logger = logging.getLogger(__name__)
+
+def _generate_zip_filename(version):
+    timestamp = datetime.datetime.now().strftime('%y%m%d_%H%M%S')
+    return f"v{version}-{timestamp}.zip"
+
+def _validate_zip_filename(filename):
+    return bool(re.match(r'^v\d+(?:\.\d+)*-\d{6}_\d{6}\.zip$', filename))
+    
+def _extract_version(filename):
+    m = re.match(r'^v(\d+(?:\.\d+)*)-\d{6}_\d{6}\.zip$', filename)
+    return m.group(1) if m else False
+
+def _bits_to_human(bits):
+    if bits == 0:
+        return "0 b"
+
+    units = ["b", "Kb", "Mb", "Gb", "Tb", "Pb"]
+    k = 1024
+    i = int(math.floor(math.log(bits) / math.log(k)))
+    value = bits / (k ** i)
+
+    if value >= 100:
+        formatted = f"{value:.0f}"
+    elif value >= 10:
+        formatted = f"{value:.1f}"
+    else:
+        formatted = f"{value:.2f}"
+
+    formatted = formatted.rstrip("0").rstrip(".") if "." in formatted else formatted
+
+    return f"{formatted} {units[i]}"
+
+def _os_path_dir(path,count):
+    if count > 0:
+        return os.path.dirname(_os_path_dir(path,count-1))
+    return path
 
 def make_backup(local_path, module_name, version):
     try:
-        base_module_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        base_module_path = _os_path_dir(os.path.abspath(__file__),3)
         backup_base = os.path.join(base_module_path, '.backups', module_name)
         os.makedirs(backup_base, exist_ok=True)
         
-        timestamp = datetime.datetime.now().strftime('%y%m%d_%H%M%S')
-        zip_filename = f"v{version}-{timestamp}.zip"
+        zip_filename = _generate_zip_filename(version)
         zip_path = os.path.join(backup_base, zip_filename)
         
         if os.path.exists(local_path) and os.path.isdir(local_path):
@@ -100,4 +136,16 @@ def get_zip_by_prefix(zip_file:zipfile.ZipFile , prefix:str):
     return zip_for_extraction
 
 def get_backup_list(module_name,local_path):
-    pass
+    backup_path = os.path.join(_os_path_dir(os.path.abspath(__file__),3),'.backups',module_name)
+    backups = []
+    if os.path.exists(backup_path):
+        for zip_file in os.scandir(backup_path):
+            if zip_file.is_dir():
+                continue
+            elif _validate_zip_filename(zip_file.name):
+                backups.append((
+                    zip_file.name,
+                    _extract_version(zip_file.name),
+                    _bits_to_human(os.path.getsize(zip_file))
+                ))
+    return backups

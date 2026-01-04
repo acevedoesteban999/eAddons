@@ -41,7 +41,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page name="icon" string="Icon">
+                        <page name="info" string="Information">
                             <group>
                                 <group name="versions">
                                     <field name="installed_version" readonly="1"/>
@@ -62,7 +62,9 @@
                         <page name="backups" string="Backups">
                             <field name="backup_ids">
                                 <list>
+                                    <field name="name"></field>
                                     <field name="version"></field>
+                                    <field name="size"></field>                                   
                                     <button string="Backup" name="action_backup" type="object" class="oe_highlight"/>
                                 </list>
                             </field>

@@ -2,9 +2,9 @@
 # Copyright 2025 
 # License LGPL-3
 
-from odoo import models, fields, api, _ , modules 
+from odoo import models, fields, api, _ , modules , Command
 from odoo.exceptions import UserError
-from ..utils.util import make_backup
+from ..utils.util import make_backup , get_backup_list
 from odoo.modules.module import load_manifest
 
 class EGithubModuleUpdater(models.AbstractModel):
@@ -38,7 +38,7 @@ class EGithubModuleUpdater(models.AbstractModel):
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
     
-    backup_ids = fields.One2many('ir.module.e_update.backup','e_update_module_id',"Backups",compute="_compute_backup_ids")
+    backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids")
     
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
@@ -49,10 +49,20 @@ class EGithubModuleUpdater(models.AbstractModel):
         for rec in self:
             rec.module_icon = f"/{self.module_name}/static/description/icon.png"
     
+    @api.depends('module_name','module_exist')
     def _compute_backup_ids(self):
         for rec in self:
             rec.backup_ids = False
-    
+            if rec.module_exist:
+                backups = get_backup_list(rec.module_name,rec._get_module_local_path())
+                backups.reverse()
+                rec.backup_ids = [Command.create({
+                        'name':backup_name,
+                        'version': backup_version,
+                        'size':backup_size,
+                    }) for backup_name,backup_version,backup_size in backups]
+                    
+                
     @api.depends('module_name')
     def _compute_module_exist(self):
         for rec in self:
