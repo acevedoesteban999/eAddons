@@ -12,6 +12,7 @@
             </list>
         </field>
     </record>
+    
     <record id="view_ir_module_e_update_manual_form" model="ir.ui.view">
         <field name="name">ir.module.e_update.manual.form</field>
         <field name="model">ir.module.e_update.manual</field>
@@ -21,7 +22,7 @@
                 <xpath expr="//field[@name='module_name']" position="after">
                     <field name="file_zip" widget="binary" readonly="not module_exist"/>
                 </xpath>
-                <xpath expr="//field[@name='local_version']" position="after">
+                <xpath expr="//group[@name='versions']" position="inside">
                     <field name="zip_version"></field>
                 </xpath>
         </field>

@@ -22,6 +22,13 @@ class eIrModuleUpdateManual(models.Model):
     zip_version = fields.Char("ZIP Version", compute="_compute_versions",store=True)
     file_zip = fields.Binary("File ZIP")
     
+    
+    @api.depends('zip_version')
+    def _compute_store_local(self):
+        for rec in self:
+            rec.store_local = self.version_to_tuple(rec.zip_version) != self.version_to_tuple(rec.repository_version) 
+    
+    
     @api.depends('module_name','file_zip')
     def _compute_versions(self):
         for record in self:

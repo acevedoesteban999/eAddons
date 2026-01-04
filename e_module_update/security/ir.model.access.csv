@@ -1,3 +1,4 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_ir_module_e_update_git_manager,ir_module_e_update_git_manager,model_ir_module_e_update_git,base.group_system,1,1,1,1
 access_ir_module_e_update_manual_manager,ir_module_e_update_manual_manager,model_ir_module_e_update_manual,base.group_system,1,1,1,1
+access_e_module_update_restart_server_manager,e_module_update_restart_server_manager,model_e_module_update_restart_server,base.group_system,1,1,1,1

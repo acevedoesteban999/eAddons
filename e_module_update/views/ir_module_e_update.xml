@@ -19,13 +19,13 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
+                    <button name="action_check_version" type="object" string="Check Version"/>
                     
-                    <button name="action_store_version" string="Store Version" type="object"
-                            invisible="update_state != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                    <button name="action_store_version" string="Store Version" type="object" class="oe_highlight"
+                            invisible="not store_local" confirm="This will REPLACE all local files. Continue?"/>
                     
-                    <button name="action_store_and_install_version" type="object" string="Store and Update" 
-                            invisible="update_state != 'to_update'" confirm="This will REPLACE all local files and Update the module in the server. Continue?"/>
+                    <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
+                            invisible="not restart_local" />
                             
                     <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
                             invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
@@ -43,11 +43,12 @@
                     <notebook>
                         <page name="icon" string="Icon">
                             <group>
-                                <group>
+                                <group name="versions">
                                     <field name="installed_version" readonly="1"/>
                                     <field name="local_version" readonly="1"/>
+                                    <field name="repository_version" readonly="1"></field>
                                 </group>
-                                <group>
+                                <group name="state">
                                     <field name="update_state" widget="badge" readonly="1"
                                         decoration-success="update_state == 'uptodate'"
                                         decoration-info="update_state  == 'to_update'"

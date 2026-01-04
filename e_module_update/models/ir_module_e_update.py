@@ -15,14 +15,26 @@ class EGithubModuleUpdater(models.AbstractModel):
     module_name = fields.Char("Module Technical Name", required=True)
     module_icon = fields.Char(compute="_compute_module_icon")
     module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
-    local_version = fields.Char("Local Version", compute="_compute_versions",store=True)
-    installed_version = fields.Char("Installed Version", compute="_compute_versions",store=True)
+    
+    installed_version = fields.Char("Installed Version", compute="_compute_versions",store=True,
+                                    help="Version installed on Database")
+    
+    local_version = fields.Char("Local Version", compute="_compute_versions",store=True,
+                                help="Version Cached in Odoo. Need Restart Odoo Server for changes")
+    
+    repository_version = fields.Char("Repository Version", compute="_compute_versions",store=True,
+                                     help="Version on Repository(Disk, Folder , OS)")
+    
     update_state = fields.Selection([
         ('uptodate', "Up to date"),
         ('to_update', "To Update"),
         ('error', "Error"),
     ], compute="_compute_versions", store=True,default=False,)
+    
     update_local = fields.Boolean(compute="_compute_update_local")
+    store_local = fields.Boolean(compute="_compute_store_local")
+    restart_local = fields.Boolean(compute="_compute_restart_local")
+    
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
     backup_ids = fields.One2many('ir.module.e_update.backup','e_update_module_id',"Backups",compute="_compute_backup_ids")
@@ -49,6 +61,18 @@ class EGithubModuleUpdater(models.AbstractModel):
         for rec in self:
             rec.update_local = self.version_to_tuple(rec.local_version) != self.version_to_tuple(rec.installed_version) 
     
+    @api.depends('repository_version','local_version')
+    def _compute_restart_local(self):
+        for rec in self:
+            rec.restart_local = self.version_to_tuple(rec.local_version) != self.version_to_tuple(rec.repository_version) 
+    
+    @api.depends('repository_version')
+    def _compute_store_local(self):
+        for rec in self:
+            rec.store_local = False
+            
+    
+    
     @staticmethod
     def version_to_tuple(v):
         try:
@@ -69,26 +93,27 @@ class EGithubModuleUpdater(models.AbstractModel):
         
     @api.depends('module_name')
     def _compute_versions(self):
-        for record in self:
-            if not record.module_exist:
-                record.update({
+        for rec in self:
+            if not rec.module_exist:
+                rec.update({
                     'local_version': _("Unknown"),
                     'installed_version': _("Unknown"),
-                    'update_state': 'error' if record.module_name else False,
-                    'error_msg': _('Module not found') if record.module_name else False,
+                    'update_state': 'error' if rec.module_name else False,
+                    'error_msg': _('Module not found') if rec.module_name else False,
                 })
                 continue
             
-            module = self.env['ir.module.module'].search([('name','=',self.module_name)])
-            local_version = load_manifest(self.module_name).get('version',_("Unknown"))
-            #local_version1 = module.installed_version
+            module = self.env['ir.module.module'].search([('name','=',rec.module_name)])
+            repository_version = load_manifest(rec.module_name).get('version',_("Unknown"))
+            local_version = module.installed_version
             installed_version = module.latest_version
             
-            record.update({
+            rec.update({
                 'local_version': local_version or _("Unknown"),
+                'repository_version': repository_version or _("Unknown"),
                 'installed_version':installed_version or _("Unknown"),
             })
-            self.compute_update_state(local_version,installed_version)
+            rec.compute_update_state(local_version,installed_version)
             
     def compute_update_state(self,new_version, local_version, error_if_not_version = False):
         new_version = self.version_to_tuple(new_version)
@@ -169,6 +194,22 @@ class EGithubModuleUpdater(models.AbstractModel):
         except Exception as e:
             raise UserError(_("Update failed: %s") % str(e))
     
-    def action_store_and_install_version(self):
-        self.action_store_version()
-        self.action_install_local_version()
+    # def action_store_and_install_version(self):
+    #     self.action_store_version()
+    #     self.action_install_local_version()
+        
+
+    def action_restart_server(self):
+        return {
+            'name': _('Restart Server'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'e_module_update.restart_server',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_ids': [('e_module_update.e_module_update_restart_server_view_form','form')],
+            'target': 'new',
+            'domain': [],
+            'context': {
+                'default_commands': self.env['ir.config_parameter'].get_param('e_module_update.command_restart_server',''),
+            },
+        }
