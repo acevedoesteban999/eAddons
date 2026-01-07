@@ -74,6 +74,8 @@ class EGithubModuleUpdater(models.AbstractModel):
         
         for rec in self:
             rec.backup_ids = False
+            if not rec.id:
+                continue
             if rec.module_exist:
                 backups = get_backup_list(rec.module_name,rec._get_module_local_path())
                 backups.reverse()
@@ -163,9 +165,12 @@ class EGithubModuleUpdater(models.AbstractModel):
             else:
                 update_state = 'to_downgrade'
                 error_msg = _("Version is older than module's version")
+        elif error_if_not_version:
+            update_state = 'error'
+            error_msg = error_if_not_version
         else:
             update_state = False
-            error_msg = error_if_not_version or _("Versions not set")
+            error_msg = ""
         
         self.write({
             'update_state':update_state,

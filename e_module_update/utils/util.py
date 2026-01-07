@@ -88,8 +88,11 @@ def remove_backup(backup_path):
 def extract_zip_by_path(zip_path:str , local_path:str , prefix = False):
     with zipfile.ZipFile(zip_path, 'r') as zip_file:
         if prefix:
-            return extract_zip(get_zip_by_prefix(zip_file,prefix),local_path)
+            return extract_zip_by_prefix(zip_file,local_path,prefix)
         return extract_zip(zip_file,local_path)
+
+def extract_zip_by_prefix(zip_file:zipfile.ZipFile , local_path:str , prefix:str):
+    return extract_zip(get_zip_by_prefix(zip_file,prefix),local_path)
     
 def extract_zip(zip_file:zipfile.ZipFile , local_path:str):
     if local_path and os.path.exists(local_path):

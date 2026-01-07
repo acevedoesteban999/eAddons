@@ -10,7 +10,7 @@ import io
 from odoo import models, fields, api, _ 
 from odoo.exceptions import UserError
 import logging
-from ..utils.util import extract_zip , make_backup , remove_backup , restore_backup , get_zip_by_prefix
+from ..utils.util import extract_zip_by_prefix , make_backup , remove_backup , restore_backup
 _logger = logging.getLogger(__name__)
 
 class eIrModuleUpdateGit(models.Model):
@@ -23,6 +23,7 @@ class eIrModuleUpdateGit(models.Model):
     subfolder_path = fields.Char("Subfolder Path", required=True)
     branch = fields.Char("Branch", default="main", required=True)
     remote_version = fields.Char("Remote Version", compute="_compute_versions")
+    download_local = fields.Boolean(compute="_compute_download_local")
     
     def _get_github_api_headers(self):
         return {
@@ -30,6 +31,11 @@ class eIrModuleUpdateGit(models.Model):
             'User-Agent': 'Odoo-GitHub-Updater'
         }
 
+    @api.depends('repository_version','remote_version')
+    def _compute_download_local(self):
+        for rec in self:
+            rec.download_local = self.compare_versions(rec.remote_version,rec.repository_version) 
+    
     
     def _get_remote_git_version(self):
         self.ensure_one()
@@ -37,7 +43,11 @@ class eIrModuleUpdateGit(models.Model):
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
-        api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{self.subfolder_path or self.module_name}/__manifest__.py"
+        if self.subfolder_path:
+            api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{self.subfolder_path}/__manifest__.py"
+        else:
+            api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/__manifest__.py"
+        
         params = {'ref': self.branch}
         
         try:
@@ -58,8 +68,7 @@ class eIrModuleUpdateGit(models.Model):
             _logger.error("GitHub API error for %s: %s", self.module_name, e)
             return False , str(e)
         
-        return False , f"Code: {response.status_code} ; Reason: {response.reason}"
-    
+        return False , "%s: %s" % (response.status_code,response.reason)
     
     def _download_entire_subfolder_zip(self):
         self.ensure_one()
@@ -71,7 +80,7 @@ class eIrModuleUpdateGit(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = make_backup(local_path,self.module_name)
+        backup_path = make_backup(local_path,self.module_name,self.local_version)
         
         try:
             zip_url = f"https://github.com/{owner}/{repo}/archive/refs/heads/{self.branch}.zip"
@@ -83,12 +92,11 @@ class eIrModuleUpdateGit(models.Model):
             
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
                 prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
-                zip_for_extraction = get_zip_by_prefix(zip_file,prefix)
-                extracted_files = extract_zip(zip_for_extraction,prefix,local_path)
+                extracted_files = extract_zip_by_prefix(zip_file,local_path,prefix)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
                 _logger.info("Extracted %d files to %s", extracted_files, local_path)   
-            remove_backup(backup_path)
+           
             _logger.info("Successfully updated module %s from GitHub", self.module_name)
             return extracted_files
         except Exception as e:
@@ -106,7 +114,7 @@ class eIrModuleUpdateGit(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = make_backup(local_path , self.module_name)
+        backup_path = make_backup(local_path , self.module_name , self.local_version)
         
         try:
             api_url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/{self.branch}?recursive=1"
@@ -161,28 +169,37 @@ class eIrModuleUpdateGit(models.Model):
 
     @api.depends('repo_url', 'subfolder_path', 'branch')
     def _compute_versions(self):
-        for record in self:
-            super(record,eIrModuleUpdateGit)._compute_versions()
-            remote_version , remote_error = record._get_remote_git_version()
+        for rec in self:
+            super(eIrModuleUpdateGit,rec)._compute_versions()
             
-            self.compute_update_state(remote_version,self.local_version,remote_error)
+            if rec.module_exist and rec.update_state != 'error':
+                if not rec.repo_url:
+                    rec.update({
+                        'remote_version': _("Unknown"),
+                        'update_state': 'error',
+                        'error_msg': _("No Repository URL Provided"),
+                    })
+                    continue
+                
+                remote_version , remote_error = rec._get_remote_git_version()
+                
+                self.compute_update_state(remote_version,self.local_version,remote_error)
             
-            record.update({
-                'remote_version': remote_version or "Unknown",
-            })
+                rec.write({
+                    'remote_version': remote_version or "Unknown",
+                })
+            else:
+                rec.remote_version = _("Unknown")
 
     # ===================================================================
     # ACTIONS
     # ===================================================================
 
-    def action_store_version(self):
+    def action_download_zip_version(self):
         self.ensure_one()
         
         try:
-            if self.env.context.get("download_by_zip"):
-                downloaded_files = self._download_entire_subfolder_zip()
-            else:
-                downloaded_files = self._download_entire_subfolder_optimized()
+            downloaded_files = self._download_entire_subfolder_zip()
             self._compute_versions()
             
             return {
@@ -199,6 +216,26 @@ class eIrModuleUpdateGit(models.Model):
             _logger.exception("Update failed for module %s", self.module_name)
             raise UserError(_("Update failed: %s") % str(e))
 
-    def action_check_repositiry(self):
-        pass
+    def action_download_optimized_version(self):
+        self.ensure_one()
+        
+        try:
+            downloaded_files = self._download_entire_subfolder_optimized()
+            self._compute_versions()
+            
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Success'),
+                    'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
+                    'type': 'success',
+                    'sticky': False,
+                }
+            }
+        except Exception as e:
+            _logger.exception("Update failed for module %s", self.module_name)
+            raise UserError(_("Update failed: %s") % str(e))
+
+    
     

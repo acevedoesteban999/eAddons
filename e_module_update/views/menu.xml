@@ -5,16 +5,19 @@
         name="eModule Update"
         parent="base.menu_management"
         sequence="100">
+
         <menuitem
             id="e_module_update_manual_menu"
             name="Manual"
             action="action_ir_module_e_update_manual"
             sequence="10"/>
-        <!-- <menuitem
+        
+        <menuitem
             id="e_module_update_git_menu"
             name="Git"
             action="action_ir_module_e_update_git"
-            sequence="20"/> -->
+            sequence="20"/>
+            
     </menuitem>
 
 </odoo>

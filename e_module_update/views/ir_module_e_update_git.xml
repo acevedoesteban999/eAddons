@@ -22,11 +22,26 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_check_version']" position="after">
-                    <button name="action_check_repositiry" type="object" string="Check Repository" class="oe_highlight"/>
+                    
+                    <button name="action_download_optimized_version" string="Download Up Version (OPT)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                    
+                    <button name="action_download_optimized_version" string="Download Downgrade Version (OPT)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store downgrade version. Continue?"/>
+
+                    <button name="action_download_zip_version" string="Download Up Version (ZIP)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                    
+                    <button name="action_download_zip_version" string="Download Downgrade Version (ZIP)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store downgrade version. Continue?"/>
                 </xpath>
                 <xpath expr="//field[@name='module_name']" position="after">
-                    <field name="subfolder_path" invisible="update_state=='error'"/>
-                    <field name="branch" invisible="update_state=='error'"/>
+                    <field name="repo_url" invisible="not module_exist"/>
+                    <field name="subfolder_path" invisible="not module_exist"/>
+                    <field name="branch" invisible="not module_exist"/>
+                </xpath>
+                <xpath expr="//group[@name='versions']" position="inside">
+                    <field name="remote_version"></field>
                 </xpath>
         </field>
     </record>
