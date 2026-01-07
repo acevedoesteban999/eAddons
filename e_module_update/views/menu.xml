@@ -13,11 +13,15 @@
             sequence="10"/>
         
         <menuitem
-            id="e_module_update_git_menu"
+            id="e_module_update_git_menu_root"
             name="Git"
-            action="action_ir_module_e_update_git"
-            sequence="20"/>
-            
+            sequence="20">
+            <menuitem
+                id="e_module_update_git_remote_menu"
+                name="Git Remote"
+                action="action_ir_module_e_update_git_remote"
+                sequence="10"/>
+        </menuitem>        
     </menuitem>
 
 </odoo>

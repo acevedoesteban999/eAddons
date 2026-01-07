@@ -10,7 +10,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/ir_module_e_update.xml",
-        "views/ir_module_e_update_git.xml",
+        "views/ir_module_e_update_git_remote.xml",
         "views/ir_module_e_update_manual.xml",
         "wizard/restart_server.xml",
         

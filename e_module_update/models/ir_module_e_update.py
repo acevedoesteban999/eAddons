@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 from ..utils.util import make_backup , get_backup_list
 from odoo.modules.module import load_manifest
 
-class EGithubModuleUpdater(models.AbstractModel):
+class EGitModuleUpdater(models.AbstractModel):
     _name = 'ir.module.e_update'
     _description = 'Base Module Updater'
     _rec_name = 'module_name'
@@ -109,8 +109,8 @@ class EGithubModuleUpdater(models.AbstractModel):
 
     @staticmethod
     def compare_versions(_v1,_v2):
-        v1 = EGithubModuleUpdater.version_to_tuple(_v1)
-        v2 = EGithubModuleUpdater.version_to_tuple(_v2) 
+        v1 = EGitModuleUpdater.version_to_tuple(_v1)
+        v2 = EGitModuleUpdater.version_to_tuple(_v2) 
         return bool(v1) and bool(v2) and v1 != v2
         
     @staticmethod
@@ -273,3 +273,14 @@ class EGithubModuleUpdater(models.AbstractModel):
                     },
                 }
             }
+            
+            
+            
+    # ===================================================================
+    # ORM
+    # ===================================================================
+    
+    def create(self, values):
+        rec = super().create(values)
+        rec._compute_backup_ids()
+        return rec

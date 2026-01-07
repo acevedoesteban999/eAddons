@@ -11,7 +11,7 @@ class EUpdateBackup(models.TransientModel):
     selected = fields.Boolean(string="Selected")
     e_update_id = fields.Reference([
             ('ir.module.e_update.manual',"Manual"),
-            ('ir.module.e_update.git','Git'),
+            ('ir.module.e_update.git.remote','Git Remote'),
         ],
     )   
     
