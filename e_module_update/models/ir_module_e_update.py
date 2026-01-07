@@ -41,6 +41,9 @@ class EGithubModuleUpdater(models.AbstractModel):
     
     backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids",readonly=False)
     
+    all_selected = fields.Boolean(compute="_compute_selecteds")
+    has_selected = fields.Boolean(compute="_compute_selecteds")
+    
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
@@ -49,6 +52,14 @@ class EGithubModuleUpdater(models.AbstractModel):
     # API
     # ===================================================================
 
+    @api.depends('backup_ids.selected')
+    def _compute_selecteds(self):
+        for rec in self:
+            count_selecteds = len(rec.backup_ids.filtered_domain([('selected','=',True)]))
+            total_selecteds = len(rec.backup_ids)
+            rec.all_selected = total_selecteds == count_selecteds
+            rec.has_selected = bool(count_selecteds)
+        
     @api.onchange('module_name')
     def _compute_module_icon(self):
         for rec in self:
