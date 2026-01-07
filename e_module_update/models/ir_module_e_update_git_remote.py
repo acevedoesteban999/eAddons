@@ -79,7 +79,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
-        local_path = self._get_module_local_path()
+        local_path = self.local_path()
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
@@ -113,7 +113,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
 
-        local_path = self._get_module_local_path()
+        local_path = self.local_path()
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
 

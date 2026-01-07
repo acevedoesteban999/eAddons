@@ -4,7 +4,7 @@
 
 from odoo import models, fields, api, _ , modules , Command
 from odoo.exceptions import UserError
-from ..utils.util import make_backup , get_backup_list
+from ..utils.util import make_backup , get_module_backups
 from odoo.modules.module import load_manifest
 
 class EGitModuleUpdater(models.AbstractModel):
@@ -15,6 +15,7 @@ class EGitModuleUpdater(models.AbstractModel):
     module_name = fields.Char("Module Technical Name", required=True)
     module_icon = fields.Char(compute="_compute_module_icon")
     module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
+    local_path = fields.Char(compute="_compute_local_path")
     
     installed_version = fields.Char("Installed Version", compute="_compute_versions",
                                     help="Version installed on Database")
@@ -33,7 +34,6 @@ class EGitModuleUpdater(models.AbstractModel):
     ], compute="_compute_versions",default=False,)
     
     update_local = fields.Boolean(compute="_compute_update_local")
-    
     restart_local = fields.Boolean(compute="_compute_restart_local")
     
     error_msg = fields.Char("Error")
@@ -52,6 +52,11 @@ class EGitModuleUpdater(models.AbstractModel):
     # API
     # ===================================================================
 
+    @api.depends('module_name')
+    def _compute_local_path(self):
+        for rec in self:
+            rec.local_path = modules.get_module_path(rec.module_name)
+    
     @api.depends('backup_ids.selected')
     def _compute_selecteds(self):
         for rec in self:
@@ -67,25 +72,12 @@ class EGitModuleUpdater(models.AbstractModel):
     
     @api.depends('module_name','module_exist')
     def _compute_backup_ids(self):
-        
-        def search_or_create_Command(model,vals:dict):
-            existing = model.search([(key,'=',value) for key,value in vals.items()] , limit=1)
-            return Command.link(existing.id) if existing else Command.create(vals)
-        
         for rec in self:
             rec.backup_ids = False
             if not rec.id:
                 continue
             if rec.module_exist:
-                backups = get_backup_list(rec.module_name,rec._get_module_local_path())
-                backups.reverse()
-                rec.backup_ids = [search_or_create_Command(rec.backup_ids,{
-                        'name':backup_name,
-                        'version': backup_version,
-                        'size':backup_size,
-                        'path':backup_path,
-                        'e_update_id':f"{rec._name},{rec.id}",
-                    }) for backup_name,backup_version,backup_size,backup_path in backups]
+                rec.backup_ids = rec.backup_ids.get_backups_Command(self.env,rec.module_name)
                     
                 
     @api.depends('module_name')
@@ -122,10 +114,6 @@ class EGitModuleUpdater(models.AbstractModel):
         except:
             pass
         return False
-    
-    def _get_module_local_path(self):
-        self.ensure_one()
-        return  modules.get_module_path(self.module_name)
         
     @api.depends('module_name')
     def _compute_versions(self):
@@ -256,7 +244,7 @@ class EGitModuleUpdater(models.AbstractModel):
         for rec in self:
             if rec.module_exist:
                 make_backup(
-                    rec._get_module_local_path(),
+                    rec.local_path(),
                     rec.module_name,
                     rec.repository_version
                 )

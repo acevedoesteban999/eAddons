@@ -66,7 +66,8 @@
                             <button string="Unselect All" name="action_unselect_all_backups" type="object" class="oe_highlight m-2" invisible="not has_selected"/>
                             <button string="Delete Selected" name="action_remove_selected_backups" confirm="This will DELETE the backups. Continue?" type="object" class="m-2" invisible="not has_selected"/>
                             <button string="Reload Backups" name="action_reload_backups" type="object" class="m-2"/>
-                            <field name="backup_ids">
+                            <!-- <field name="local_path" invisible="1"></field> -->
+                            <field name="backup_ids" context="{'local_path': local_path}">
                                 <list create="0" editable="top" delete="0" link="0" unlink="0">
                                     <field name="selected" nolabel="1"></field>
                                     <field name="name" readonly="1"></field>

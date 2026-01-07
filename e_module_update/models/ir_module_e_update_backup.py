@@ -1,26 +1,24 @@
-from odoo import models,fields
-from ..utils.util import remove_backup , extract_zip_by_path
+from odoo import models,fields, Command , _ , exceptions
+from ..utils.util import remove_backup , extract_zip_by_path , get_module_backups , get_all_backups
 class EUpdateBackup(models.TransientModel):
     _name = 'ir.module.e_update.backup'
     _description = 'eUpdate Backup'
     
     name = fields.Char("Name")
+    module_name = fields.Char("Module")
     version = fields.Char("Version")
     path = fields.Char("Path")
     size = fields.Char("Size")
     selected = fields.Boolean(string="Selected")
-    e_update_id = fields.Reference([
-            ('ir.module.e_update.manual',"Manual"),
-            ('ir.module.e_update.git.remote','Git Remote'),
-        ],
-    )   
     
     def action_restore_backup(self):
+        if not self.env.context.get('local_path'):
+            raise exceptions.UserError(_("No local path provided"))
         self.ensure_one()
         extract_zip_by_path(
             self.path,
-            self.e_update_id._get_module_local_path(),
-            self.e_update_id.module_name,
+            self.env.context.get('local_path'),
+            self.module_name,
         )
         return {
             'type': 'ir.actions.client',
@@ -32,4 +30,57 @@ class EUpdateBackup(models.TransientModel):
         for rec in self:
             remove_backup(rec.path)
         return {'type': 'ir.actions.act_window_close'}
+    
+    @staticmethod
+    def _search_or_create_Command(env,vals:dict):
+        existing = env['ir.module.e_update.backup'].search([(key,'=',value) for key,value in vals.items()] , limit=1)
+        return Command.link(existing.id) if existing else Command.create(vals)
+        
+     
+    @staticmethod
+    def get_backups_Command(env, module_name , backups = False):
+        if not backups:
+            backups = get_module_backups(module_name)
+            backups.reverse()
+        return [EUpdateBackup._search_or_create_Command(env,{
+                'name': backup_name,
+                'version': backup_version,
+                'size': backup_size,
+                'path': backup_path,
+                'module_name': backup_module,
+            }) for backup_name,backup_version,backup_size,backup_path,backup_module in backups]
+        
+    def action_load_backups(self):
+        all_backups = get_all_backups()
+        wanted_ids = []
+        new_vals_list = []
+        for module_name,backups in all_backups.items():
+            commands = EUpdateBackup.get_backups_Command(self.env, module_name , backups)
+
+            for cmd in commands:
+                if cmd[0] == Command.CREATE:
+                    new_vals_list.append(cmd[2]) 
+                elif cmd[0] == Command.LINK:
+                    wanted_ids.append(cmd[1]) 
+
+            for vals in new_vals_list:
+                self.env['e.update.backup'].create(vals)
+
+        self.env['ir.module.e_update.backup'].search([
+            ('id', 'not in', wanted_ids + new_vals_list)
+        ]).unlink()
+        
+        
+        return {
+            'name': _('Backups'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'ir.module.e_update.backup',
+            'view_type': 'list',
+            'view_mode': 'list',
+            'view_ids':[('e_module_update.view_ir_module_e_update_backup_list','list')],
+            'target': 'current',
+            'domain': [],
+            'context': {},
+        }
+        
         

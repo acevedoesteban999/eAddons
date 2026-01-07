@@ -21,7 +21,13 @@
                 name="Git Remote"
                 action="action_ir_module_e_update_git_remote"
                 sequence="10"/>
-        </menuitem>        
+        </menuitem>      
+
+        <menuitem
+            id="e_module_update_backups_menu"
+            name="Backups"
+            action="action_e_update_backups"
+            sequence="30"/>  
     </menuitem>
 
 </odoo>

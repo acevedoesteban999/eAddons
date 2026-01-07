@@ -95,6 +95,8 @@ def extract_zip_by_prefix(zip_file:zipfile.ZipFile , local_path:str , prefix:str
     return extract_zip(get_zip_by_prefix(zip_file,prefix),local_path)
     
 def extract_zip(zip_file:zipfile.ZipFile , local_path:str):
+    if not local_path:
+        return 0
     if local_path and os.path.exists(local_path):
         shutil.rmtree(local_path)
     os.makedirs(local_path, exist_ok=True)
@@ -140,7 +142,18 @@ def get_zip_by_prefix(zip_file:zipfile.ZipFile , prefix:str):
     zip_for_extraction = zipfile.ZipFile(filtered_zip_buffer, 'r')
     return zip_for_extraction
 
-def get_backup_list(module_name,local_path):
+def get_all_backups():
+    backup_parent_path = os.path.join(_os_path_dir(os.path.abspath(__file__),3),'.backups')
+    backups = {}
+    if os.path.exists(backup_parent_path):
+        for module_dir in os.scandir(backup_parent_path):
+            if module_dir.is_dir():
+                module_backup = get_module_backups(module_dir.name)
+                if module_backup:
+                    backups[module_dir.name] = module_backup
+    return backups
+
+def get_module_backups(module_name):
     backup_path = os.path.join(_os_path_dir(os.path.abspath(__file__),3),'.backups',module_name)
     backups = []
     if os.path.exists(backup_path):
@@ -153,5 +166,6 @@ def get_backup_list(module_name,local_path):
                     _extract_version(zip_file.name),
                     _bits_to_human(os.path.getsize(zip_file)),
                     zip_file.path,
+                    module_name,
                 ))
     return backups
