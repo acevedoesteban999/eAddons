@@ -2,9 +2,9 @@
 {
     'name': 'eModuleUpdate',
     'version': '18.0.0.0',
-    'summary': """ Can Update module repository from git """,
-    'author': '',
-    'website': '',
+    'summary': """ Can Update module repository """,
+    'author': 'acevedoesteban999@gmail.com',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_module_update',
     'category': '',
     'depends': ['base', 'web'],
     "data": [
@@ -22,7 +22,7 @@
             "e_module_update/static/src/view/list/list_renderer.js",
         ],
     },
-    'application': True,
+    'application': False,
     'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
