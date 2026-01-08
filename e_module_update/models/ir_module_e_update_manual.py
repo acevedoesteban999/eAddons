@@ -124,7 +124,7 @@ class eIrModuleUpdateManual(models.Model):
         if not self.local_version:
             raise UserError(_("No local version provided"))
         
-        local_path = self.local_path()
+        local_path = self.local_path
         
         if not local_path:
             raise UserError(_("No local path provided"))

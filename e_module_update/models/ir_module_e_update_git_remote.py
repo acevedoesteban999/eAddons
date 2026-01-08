@@ -79,7 +79,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
-        local_path = self.local_path()
+        local_path = self.local_path
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
@@ -113,7 +113,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
 
-        local_path = self.local_path()
+        local_path = self.local_path
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
 
@@ -179,7 +179,7 @@ class eIrModuleUpdateGitRemote(models.Model):
                 
                 remote_version , remote_error = rec._get_remote_git_version()
                 
-                self.compute_update_state(remote_version,self.local_version,remote_error)
+                self.compute_update_state(remote_version,self.repository_version,remote_error)
             
                 rec.write({
                     'remote_version': remote_version or "Unknown",
@@ -206,6 +206,9 @@ class eIrModuleUpdateGitRemote(models.Model):
                     'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
                     'type': 'success',
                     'sticky': False,
+                },
+                'next':{
+                    'type': 'ir.actions.act_window_close'
                 }
             }
         except Exception as e:
@@ -227,6 +230,10 @@ class eIrModuleUpdateGitRemote(models.Model):
                     'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
                     'type': 'success',
                     'sticky': False,
+                    'next':{
+                        'type': 'ir.actions.act_window_close'
+                    }
+                        
                 }
             }
         except Exception as e:

@@ -244,7 +244,7 @@ class EGitModuleUpdater(models.AbstractModel):
         for rec in self:
             if rec.module_exist:
                 make_backup(
-                    rec.local_path(),
+                    rec.local_path,
                     rec.module_name,
                     rec.repository_version
                 )
