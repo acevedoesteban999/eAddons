@@ -13,7 +13,9 @@
                 <field name="name"></field>
                 <field name="version"></field>
                 <field name="size"></field>
-                <!-- <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" /> -->
+                <button icon="fa-undo" title="Backup" name="action_to_restore_model" type="object" />
+                <button icon="fa-trash-o" title="Delete" name="action_delete_backup" type="object" confirm="This will DELETE the backups. Continue?" />
+                
             </list>
         </field>
     </record>

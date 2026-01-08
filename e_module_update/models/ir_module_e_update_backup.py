@@ -11,26 +11,53 @@ class EUpdateBackup(models.TransientModel):
     size = fields.Char("Size")
     selected = fields.Boolean(string="Selected")
     
+    def action_to_restore_model(self):
+        MANUAL_MODEL = self.env['ir.module.e_update.manual']
+        e_updata_manual =   MANUAL_MODEL.search(       
+                                [('module_name','=',self.module_name)],limit=1  
+                            ) or MANUAL_MODEL.create({
+                                'module_name' : self.module_name
+                            })
+            
+        return {
+            'name': _('Backups'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'ir.module.e_update.manual',
+            'res_id': e_updata_manual.id,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_ids':[('e_module_update.view_ir_module_e_update_manual_form','form')],
+            'target': 'current',
+            'domain': [],
+            'context': {
+                'from_backup_list_view':True,
+            },
+        }
+        
     def action_restore_backup(self):
+        self.ensure_one()
         if not self.env.context.get('local_path'):
             raise exceptions.UserError(_("No local path provided"))
-        self.ensure_one()
+        
         extract_zip_by_path(
             self.path,
             self.env.context.get('local_path'),
             self.module_name,
         )
+        
         return {
             'type': 'ir.actions.client',
             'tag': 'reload'
         }
         
-        
     def action_delete_backup(self):
         for rec in self:
             remove_backup(rec.path)
+        if self.env.context.get('from_backup_list_view'):
+            return self._get_backup_list_view()
         return {'type': 'ir.actions.act_window_close'}
-    
+        
+        
     @staticmethod
     def _search_or_create_Command(env,vals:dict):
         existing = env['ir.module.e_update.backup'].search([(key,'=',value) for key,value in vals.items()] , limit=1)
@@ -49,28 +76,8 @@ class EUpdateBackup(models.TransientModel):
                 'path': backup_path,
                 'module_name': backup_module,
             }) for backup_name,backup_version,backup_size,backup_path,backup_module in backups]
-        
-    def action_load_backups(self):
-        all_backups = get_all_backups()
-        wanted_ids = []
-        new_vals_list = []
-        for module_name,backups in all_backups.items():
-            commands = EUpdateBackup.get_backups_Command(self.env, module_name , backups)
-
-            for cmd in commands:
-                if cmd[0] == Command.CREATE:
-                    new_vals_list.append(cmd[2]) 
-                elif cmd[0] == Command.LINK:
-                    wanted_ids.append(cmd[1]) 
-
-            for vals in new_vals_list:
-                self.env['e.update.backup'].create(vals)
-
-        self.env['ir.module.e_update.backup'].search([
-            ('id', 'not in', wanted_ids + new_vals_list)
-        ]).unlink()
-        
-        
+    
+    def _get_backup_list_view(self):
         return {
             'name': _('Backups'),
             'type': 'ir.actions.act_window',
@@ -80,7 +87,35 @@ class EUpdateBackup(models.TransientModel):
             'view_ids':[('e_module_update.view_ir_module_e_update_backup_list','list')],
             'target': 'current',
             'domain': [],
-            'context': {},
+            'context': {
+                'from_backup_list_view':True,
+            },
         }
+    
+    def action_load_backups(self):
+        all_backups = get_all_backups()
+        wanted_ids = []
+        new_ids = []
+        new_vals_list = []
+        for module_name,backups in all_backups.items():
+            commands = EUpdateBackup.get_backups_Command(self.env, module_name , backups)
+
+            for cmd in commands:
+                if cmd[0] == Command.CREATE:
+                    new_vals_list.append(cmd[2]) 
+                    
+                elif cmd[0] == Command.LINK:
+                    wanted_ids.append(cmd[1]) 
+
+            for vals in new_vals_list:
+                _new = self.env['ir.module.e_update.backup'].create(vals)
+                new_ids.append(_new.id)
+            
+        self.env['ir.module.e_update.backup'].search([
+            ('id', 'not in', wanted_ids + new_ids)
+        ]).unlink()
+        
+        
+        return self._get_backup_list_view()
         
         
