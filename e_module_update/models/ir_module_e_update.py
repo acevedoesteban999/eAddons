@@ -227,17 +227,8 @@ class EGitModuleUpdater(models.AbstractModel):
         
     def action_restart_server(self):
         return {
-            'name': _('Restart Server'),
-            'type': 'ir.actions.act_window',
-            'res_model': 'e_module_update.restart_server',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_ids': [('e_module_update.e_module_update_restart_server_view_form','form')],
-            'target': 'new',
-            'domain': [],
-            'context': {
-                'default_commands': self.env['ir.config_parameter'].get_param('e_module_update.command_restart_server',''),
-            },
+            'type': 'ir.actions.client',
+            'tag': 'reload'
         }
         
     def action_create_backup(self):

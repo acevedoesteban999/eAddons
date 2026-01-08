@@ -22,7 +22,8 @@
                     <button name="action_check_version" type="object" string="Check Version"/>
                                         
                     <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
-                            invisible="not restart_local or update_state == 'error'" />
+                            invisible="not restart_local or update_state == 'error'" 
+                            confirm="This action only reloads the page. The server needs to restart to apply  the module changes. To do this, restart the service that started Odoo or your operating system."/>
                             
                     <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
                             invisible="not update_local or update_state == 'error'" confirm="This will update this module in the server. Continue?"/>
