@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'eDesignPos',
+    'name': 'ePosOutStock',
     'version': '18.0.0.0',
-    'summary': "Integration POS with eDesign",
-    'description':"It allows integrate eDesign with Point of Sale",
+    'summary': "Hide out of stock pos products",
+    'description':"It allows hide products out of stock from pos. Can inactive from specific products or pos categories",
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design_pos',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_pos_out_stock',
     'category': 'Customizations',
     'depends': ['base',"point_of_sale"],
     'data': [
@@ -20,8 +20,8 @@
     ],
     'assets': {
         'point_of_sale._assets_pos': [
-            'e_design_pos/static/src/js/pos_store.js',
-            'e_design_pos/static/src/js/pos_screen.js',
+            'e_pos_out_stock/static/src/js/pos_store.js',
+            'e_pos_out_stock/static/src/js/pos_screen.js',
         ],
     },
     
