@@ -30,10 +30,11 @@ class eIrModuleUpdateManual(models.Model):
             rec.store_local = self.compare_versions(rec.zip_version,rec.repository_version) 
     
     
+    
     @api.depends('module_name','file_zip')
     def _compute_versions(self):
         for rec in self:
-            super(eIrModuleUpdateManual, rec)._compute_versions()
+            super(eIrModuleUpdateManual, rec)._compute_versions(False)
             if rec.module_exist and rec.update_state != 'error':
                 if not rec.file_zip:
                     rec.update({
@@ -85,11 +86,13 @@ class eIrModuleUpdateManual(models.Model):
                         zip_file.close()
                         continue
                     
-                    self.compute_update_state(zip_version,self.local_version)
                     
                     rec.update({
                         'zip_version': zip_version,
                     })
+                    
+                    rec.compute_update_state()
+                    
                     zip_file.close()
                     
                 except zipfile.BadZipFile as e:
@@ -108,6 +111,11 @@ class eIrModuleUpdateManual(models.Model):
             else:
                 rec.zip_version = _("Unknown")
 
+    def compute_update_state(self):
+        self._compute_update_state(self.zip_version,self.repository_version)
+        if not self.update_state or self.update_state == 'uptodate':
+            super().compute_update_state()
+    
     # ===================================================================
     # ACTIONS
     # ===================================================================

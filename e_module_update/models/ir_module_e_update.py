@@ -116,7 +116,7 @@ class EGitModuleUpdater(models.AbstractModel):
         return False
         
     @api.depends('module_name')
-    def _compute_versions(self):
+    def _compute_versions(self, update_state = True):
         for rec in self:
             if not rec.module_exist:
                 rec.update({
@@ -138,24 +138,28 @@ class EGitModuleUpdater(models.AbstractModel):
                 'repository_version': repository_version or _("Unknown"),
                 'installed_version':installed_version or _("Unknown"),
             })
-            rec.compute_update_state(local_version,installed_version)
             
-    def compute_update_state(self,new_version, local_version, error_if_not_version = False):
-        new_version = self.version_to_tuple(new_version)
-        local_version = self.version_to_tuple(local_version)
-        if new_version and local_version:
-            if new_version > local_version:
+            if update_state:
+                rec.compute_update_state()
+            
+    def compute_update_state(self):
+        self._compute_update_state(self.repository_version,self.local_version)
+        if not self.update_state or self.update_state == 'uptodate':
+            self._compute_update_state(self.local_version,self.installed_version)
+        
+    def _compute_update_state(self,up_version, down_version):
+        up_version = self.version_to_tuple(up_version)
+        down_version = self.version_to_tuple(down_version)
+        if up_version and down_version:
+            if up_version > down_version:
                 update_state = 'to_update'
                 error_msg = False
-            elif new_version == local_version:
+            elif up_version == down_version:
                 update_state = 'uptodate'
-                error_msg = _("Versions are identical")
+                error_msg = False
             else:
                 update_state = 'to_downgrade'
                 error_msg = _("Version is older than module's version")
-        elif error_if_not_version:
-            update_state = 'error'
-            error_msg = error_if_not_version
         else:
             update_state = False
             error_msg = ""

@@ -166,7 +166,7 @@ class eIrModuleUpdateGitRemote(models.Model):
     @api.depends('repo_url', 'subfolder_path', 'branch')
     def _compute_versions(self):
         for rec in self:
-            super(eIrModuleUpdateGitRemote,rec)._compute_versions()
+            super(eIrModuleUpdateGitRemote,rec)._compute_versions(False)
             
             if rec.module_exist and rec.update_state != 'error':
                 if not rec.repo_url:
@@ -179,14 +179,23 @@ class eIrModuleUpdateGitRemote(models.Model):
                 
                 remote_version , remote_error = rec._get_remote_git_version()
                 
-                self.compute_update_state(remote_version,self.repository_version,remote_error)
             
                 rec.write({
                     'remote_version': remote_version or "Unknown",
                 })
+                
+                self.compute_update_state(remote_error)
             else:
                 rec.remote_version = _("Unknown")
 
+    def compute_update_state(self,remote_error=False):
+        self._compute_update_state(self.remote_version,self.repository_version)
+        if remote_error and not self.update_state:
+            self.update_state = 'error'
+            self.error_msg = remote_error
+        elif not self.update_state or self.update_state == 'uptodate':
+            super().compute_update_state()
+    
     # ===================================================================
     # ACTIONS
     # ===================================================================
