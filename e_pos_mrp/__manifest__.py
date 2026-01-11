@@ -15,7 +15,8 @@
     ],
     'assets': {
         'point_of_sale._assets_pos': [
-            'e_pos_mrp/static/src/js/payment_screen.js',
+            'e_pos_mrp/static/src/components/**/*',
+            'e_pos_mrp/static/src/scss/styles.scss',
         ],
     },
     

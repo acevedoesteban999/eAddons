@@ -126,45 +126,6 @@ class PosOrder(models.Model):
         
         return mrp_order
       
-    def _create_draft_picking_for_manufacturing_line1(self, line, mrp_production):
-        Picking = self.env['stock.picking']
-        picking_type = self.config_id.picking_type_id
-        group = mrp_production.procurement_group_id    
-        location_id = picking_type.default_location_src_id.id
-        destination_id = (self.partner_id.property_stock_customer.id or
-                        picking_type.default_location_dest_id.id)
-
-        picking = Picking.create({
-            'picking_type_id': picking_type.id,
-            'location_id': location_id,
-            'location_dest_id': destination_id,
-            'partner_id': self.partner_id.id,
-            'origin': self.name,
-            'pos_session_id': self.session_id.id,
-            'pos_order_id': self.id,
-            'group_id': group.id,                        
-            'move_type': 'direct',
-            'state': 'waiting',                         
-            'company_id': self.company_id.id,
-        })
-
-        
-        self.env['stock.move'].create({
-            'name': line.product_id.display_name,
-            'product_id': line.product_id.id,
-            'product_uom_qty': abs(line.qty),
-            'product_uom': line.product_id.uom_id.id,
-            'picking_id': picking.id,
-            'location_id': location_id,
-            'location_dest_id': destination_id,
-            'group_id': group.id,
-            'procure_method': 'make_to_order',
-            'origin': self.name,
-            'state': 'waiting',
-            #'raw_material_production_id': mrp_production.id 
-        })
-        return picking  
-    
     def _create_draft_picking_for_manufacturing_line(self, line, mrp_production):
         self.ensure_one()
         picking_type = self.config_id.picking_type_id
@@ -216,4 +177,3 @@ class PosOrderLine(models.Model):
         'mrp.production',
         'pos_order_line_id',
         string='Manufacturing orders associated with this pos order line.')
-    
