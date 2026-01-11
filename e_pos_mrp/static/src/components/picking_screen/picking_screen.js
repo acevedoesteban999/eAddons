@@ -50,9 +50,11 @@ export class PickingScreen extends Component {
             nbrPage: 1,
             filter: this._defaultFilterDetails(),
             search: this._defaultSearchDetails(),
-            selectedPickingId: null,
-            filteredPickingList:[]
+            selectedPicking: null,
+            filteredPickingList:[],
+            pickingLines:[],
         });
+
         this.totalPickingCount = 0
 
         onMounted(()=>{
@@ -82,12 +84,11 @@ export class PickingScreen extends Component {
         await this._fetchPickings();
     }
 
-    onClickpicking(clickedPicking) {
-        this.state.selectedPickingId = clickedPicking.id;
-    }
-
-    onClickPickinline(picking_line,picking_id) {
-        this.state.selectedPickinglineId = picking_line.id;
+    async onClickpicking(clickedPicking,switchPane=false) {
+        this.state.selectedPicking = clickedPicking;
+        await this._fetchPickingLines(clickedPicking)
+        if (switchPane)
+            this.switchPane()
     }
 
     onClickRefundOrderUid(orderUuid) {
@@ -98,7 +99,7 @@ export class PickingScreen extends Component {
     }
 
     _isPickingSelected (picking){
-        return picking.id == this.state.selectedPickingId
+        return picking.id == this.state.selectedPicking?.id || null
     }
 
     getSelectedPickinglineId() {
@@ -131,7 +132,7 @@ export class PickingScreen extends Component {
     closePickingScreen() {
         this.pos.showScreen("ProductScreen");
     }
-
+   
     GetState(state){
         return{
             'waiting': _t("Waiting"),
@@ -139,6 +140,11 @@ export class PickingScreen extends Component {
             'done': _t("Delivered"),
         
         }[state]
+    }
+
+
+    onConfirmPicking(){
+        
     }
 
     //#region PAGE
@@ -259,18 +265,27 @@ export class PickingScreen extends Component {
         const offset = (this.state.page - 1) * NBR_BY_PAGE
         const { PickingsInfo, totalPickingCount } = await this.pos.data.call(
             "stock.picking",
-            "search_assigned_picking_ids",
+            "read_assigned_picking_ids",
             [],
             {
                 domain,
-                limit: 30,
+                limit: NBR_BY_PAGE,
                 offset,
             }
         );
 
         this.totalPickingCount = totalPickingCount;
         this.state.filteredPickingList = PickingsInfo
-        this.selectedPickingId = null
+        this.selectedPicking = null
+    }
+
+    async _fetchPickingLines(pickingLine) {
+        this.state.pickingLines  = await this.pos.data.call(
+            "stock.picking",
+            "read_picking_lines",
+            [],
+            {picking_id: pickingLine.id}
+        ); 
     }
 }
 

@@ -5,7 +5,7 @@ class StockPicking(models.Model):
     
     
     @api.model
-    def search_assigned_picking_ids(self, domain, limit, offset):
+    def read_assigned_picking_ids(self, domain, limit, offset):
         _domain = [('state', 'not in', ['draft','cancel']),('pos_order_id','!=',False)]
         if domain:
             _domain = AND([domain, _domain])
@@ -31,3 +31,10 @@ class StockPicking(models.Model):
             'PickingsInfo': pickings_info, 
             'totalPickingCount': totalPickingCount}
         
+    @api.model
+    def read_picking_lines(self,picking_id):
+        return self.env['stock.picking'].browse(picking_id).move_ids_without_package.read([
+                'product_id',
+                'quantity',
+        ])
+            
