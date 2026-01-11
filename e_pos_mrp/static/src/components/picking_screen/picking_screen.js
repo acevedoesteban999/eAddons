@@ -46,6 +46,7 @@ export class PickingScreen extends Component {
         this.pos = usePos();
         this.ui = useState(useService("ui"));
         this.dialog = useService("dialog");
+        this.notification = useService("notification");
         this.state = useState({
             page: 1,
             nbrPage: 1,
@@ -303,6 +304,16 @@ export class PickingScreen extends Component {
             [],
             {picking_id: pickingLine.id}
         ); 
+        this.notification.add(
+            _t("Success confirmation for Picking %s in POS order: %s")
+                .replace("%s", pickingLine.name)
+                .replace("%s", pickingLine.pos_order_id[1]),
+            {
+                type: "success",
+                title: _t("Success"),
+                autocloseDelay: 3000,
+            }
+        );
         this.closePickingScreen();
     }
 }
