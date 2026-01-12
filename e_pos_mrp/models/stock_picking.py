@@ -35,11 +35,17 @@ class StockPicking(models.Model):
     def read_picking_lines(self,picking_id):
         return self.env['stock.picking'].browse(picking_id).move_ids_without_package.read([
                 'product_id',
-                'quantity',
+                'product_uom_qty',
         ])
         
     @api.model
     def confirm_picking(self,picking_id):
         self.env['stock.picking'].browse(picking_id).button_validate()
+    
+    
+    @api.model
+    def read_picking_by_pos_order(self,pos_order_id):
+        order = self.env['pos.order'].browse(pos_order_id)
+        return order.picking_ids and order.picking_ids.read(['name'])[0] or False
     
     

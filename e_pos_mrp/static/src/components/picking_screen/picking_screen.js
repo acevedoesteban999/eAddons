@@ -69,17 +69,7 @@ export class PickingScreen extends Component {
         this.state.filter = selectedFilter;
         await this._fetchPickings();
     }
-    getNumpadButtons() {
-        return getButtons(
-            [{ value: "-", text: "+/-", disabled: true }, ZERO, DECIMAL],
-            [
-                { value: "quantity", text: _t("Qty"), class: "active border-primary" },
-                { value: "discount", text: _t("% Disc"), disabled: true },
-                { value: "price", text: _t("Price"), disabled: true },
-                BACKSPACE,
-            ]
-        );
-    }
+    
     async onSearch(search) {
         this.state.search = search;
         this.state.page = 1;
