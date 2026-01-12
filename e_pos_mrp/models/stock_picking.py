@@ -46,6 +46,11 @@ class StockPicking(models.Model):
     @api.model
     def read_picking_by_pos_order(self,pos_order_id):
         order = self.env['pos.order'].browse(pos_order_id)
-        return order.picking_ids and order.picking_ids.read(['name'])[0] or False
-    
+        has_picking = any(map(lambda p: p == 'waiting',order.picking_ids.mapped('state')))
+        if has_picking:
+            return {
+                'picking_id':order.picking_ids and order.picking_ids.filtered_domain([('state','=','waiting')]).read(['name'])[0],
+                'mrp_production_count': order.mrp_production_count
+            }
+        return False
     

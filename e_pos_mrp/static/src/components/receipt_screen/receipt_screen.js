@@ -5,12 +5,16 @@ import { onMounted } from "@odoo/owl";
 
 patch(ReceiptScreen.prototype,{
     async _get_hasPicking(order_id){
-          return await this.pos.data.call(
+          let response =  await this.pos.data.call(
             "stock.picking",
             "read_picking_by_pos_order",
             [],
             {pos_order_id: order_id}
         ); 
+        if (response)
+            return response
+        else
+            return {'picking_id':false,'mrp_production_count':0}
     },
     setup(){
         super.setup()
@@ -18,7 +22,9 @@ patch(ReceiptScreen.prototype,{
         this.state.pos_order_id = false
         onMounted(async () => {
             const order = this.pos.get_order();
-            this.state.picking_id = await this._get_hasPicking(order?.id||null)
+            let { picking_id , mrp_production_count } = await this._get_hasPicking(order?.id||null)
+            this.state.picking_id = picking_id
+            this.state.mrp_production_count = mrp_production_count
             this.state.pos_order_id = order
         });
 
