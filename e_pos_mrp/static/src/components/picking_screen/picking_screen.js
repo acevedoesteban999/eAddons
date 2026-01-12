@@ -1,44 +1,22 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { formatDateTime, parseDateTime } from "@web/core/l10n/dates";
-import { parseFloat } from "@web/views/fields/parsers";
 import { _t } from "@web/core/l10n/translation";
-import { AlertDialog , ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
-import { ActionpadWidget } from "@point_of_sale/app/screens/product_screen/action_pad/action_pad";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { BackButton } from "@point_of_sale/app/screens/product_screen/action_pad/back_button/back_button";
-import { InvoiceButton } from "@point_of_sale/app/screens/ticket_screen/invoice_button/invoice_button";
-import { Orderline } from "@point_of_sale/app/generic_components/orderline/orderline";
-import { OrderWidget } from "@point_of_sale/app/generic_components/order_widget/order_widget";
 import { CenteredIcon } from "@point_of_sale/app/generic_components/centered_icon/centered_icon";
 import { SearchBar } from "@point_of_sale/app/screens/ticket_screen/search_bar/search_bar";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { Component, onMounted, onWillStart, useState } from "@odoo/owl";
-
-import {
-    BACKSPACE,
-    Numpad,
-    getButtons,
-    ZERO,
-    DECIMAL,
-} from "@point_of_sale/app/generic_components/numpad/numpad";
-import { PosOrderLineRefund } from "@point_of_sale/app/models/pos_order_line_refund";
-import { fuzzyLookup } from "@web/core/utils/search";
 import { parseUTCString } from "@point_of_sale/utils";
-import { useTrackedAsync } from "@point_of_sale/app/utils/hooks";
-import { ConnectionLostError } from "@web/core/network/rpc";
 
 const NBR_BY_PAGE = 30;
 
 export class PickingScreen extends Component {
     static template = "e_pos_mrp.PickingScreen";
     static components = {
-        ActionpadWidget,
-        InvoiceButton,
-        Orderline,
-        OrderWidget,
         CenteredIcon,
         SearchBar,
-        Numpad,
         BackButton,
     };
 
