@@ -91,25 +91,23 @@ class PosOrder(models.Model):
     def _create_mrp_from_pos(self, lines):
         """Crear órdenes de fabricación y pickings en borrador desde PDV"""
         self.ensure_one()
-        
+        mrp_productions = self.env['mrp.production']
+        group = self.env["procurement.group"].create({
+            'name': self.name,
+            'partner_id': self.partner_id.id,
+            'move_type': 'one',
+        }) 
         for line in lines:
-            mrp_production = self._create_mrp_production(line)
-            self._create_draft_picking_for_manufacturing_line(line, mrp_production)
+            mrp_productions += self._create_mrp_production(line,group)
+        self._create_draft_picking_for_productions(mrp_productions,group)
     
-    def _create_mrp_production(self, line):
+    def _create_mrp_production(self, line,group):
         product = line.product_id
         bom = self.env['mrp.bom']._bom_find(product)[product]
         if not bom:
             raise UserError(_('No lista de materiales para %s') % product.name)
         
-        # deadline = fields.Datetime.now() 
-        # days_to_produce = bom.produce_delay or 0
-        
-        group = self.env["procurement.group"].create({
-            'name': self.name,
-            'partner_id': self.partner_id.id,
-            'move_type': 'direct',
-        })      
+             
 
         mrp_order = self.env['mrp.production'].create({
             'product_id': product.id,
@@ -126,10 +124,9 @@ class PosOrder(models.Model):
         
         return mrp_order
       
-    def _create_draft_picking_for_manufacturing_line(self, line, mrp_production):
+    def _create_draft_picking_for_productions(self, mrp_productions,group):
         self.ensure_one()
         picking_type = self.config_id.picking_type_id
-        group = mrp_production.procurement_group_id
         location_id = picking_type.default_location_src_id
         location_dest_id = (
             self.partner_id.property_stock_customer
@@ -148,27 +145,27 @@ class PosOrder(models.Model):
             'move_type': 'one',
             'state': 'draft', 
         })
+        for mrp_production in mrp_productions:
+            move_sale = self.env['stock.move'].create({
+                'name': mrp_production.product_id.display_name,
+                'product_id': mrp_production.product_id.id,
+                'product_uom_qty': abs(mrp_production.product_qty),
+                'product_uom': mrp_production.product_id.uom_id.id,
+                'picking_id': picking.id,
+                'location_id': location_id.id,
+                'location_dest_id': location_dest_id.id,
+                'group_id': group.id,
+                'procure_method': 'make_to_order',
+                'origin': self.name,
+                'state': 'waiting',
+                'date': mrp_production.date_finished,
+            })
 
-        move_sale = self.env['stock.move'].create({
-            'name': line.product_id.display_name,
-            'product_id': line.product_id.id,
-            'product_uom_qty': abs(line.qty),
-            'product_uom': line.product_id.uom_id.id,
-            'picking_id': picking.id,
-            'location_id': location_id.id,
-            'location_dest_id': location_dest_id.id,
-            'group_id': group.id,
-            'procure_method': 'make_to_order',
-            'origin': self.name,
-            'state': 'waiting',
-            'date': mrp_production.date_finished,
-        })
-
-        finished_moves = mrp_production.move_finished_ids.filtered(
-            lambda m: m.product_id == line.product_id
-        )
-        move_sale.move_orig_ids = [Command.link(fm.id) for fm in finished_moves]
-        return picking
+            finished_moves = mrp_production.move_finished_ids.filtered(
+                lambda m: m.product_id == mrp_production.product_id
+            )
+            move_sale.move_orig_ids = [Command.link(fm.id) for fm in finished_moves]
+            return picking
         
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
