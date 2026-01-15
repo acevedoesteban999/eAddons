@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
 
-    <t t-name="e_product_generic.EFloatField">
+    <t t-name="e_product_generic.EFloat">
         <span t-if="props.readonly" t-esc="formattedValue"/>
         <input 
             t-else=""
@@ -9,7 +9,7 @@
             t-on-focusin="(ev)=>ev.target.select()"
             type="text" 
             inputmode="decimal" 
-            t-attf-class="o_input e_field_number {{props.class?props.class:''}}" 
+            t-attf-class="o_input e_float {{props.class?props.class:''}}" 
             t-att-class="{'is-invalid': state.isInvalid }"
             autocomplete="off"
             t-att-step="1"

@@ -9,7 +9,7 @@ class ProductTemplate(models.Model):
     
     @api.model
     def get_generic_bill_material_ids(self,product_tmpl_id):
-        return self.browse(product_tmpl_id).generic_bill_material_ids.read(['name','standard_price'])
+        return self.browse(product_tmpl_id).generic_bill_material_ids.read(['name','standard_price','currency_id'])
     
     @api.model
     def get_generic_final_price(self):

@@ -2,27 +2,33 @@ import { _t } from '@web/core/l10n/translation';
 import { Dialog } from '@web/core/dialog/dialog';
 import { useService } from '@web/core/utils/hooks';
 import { Component, onWillStart, useState } from '@odoo/owl';
-import { EFloatField } from "../e_float_field/e_float_field"
+import { EFloat } from "../e_float/e_float";
+import { EMonetary } from "../e_monetary/e_monetary";
 
 export class GenericConfiguratorDialog extends Component {
     static template = 'e_product_generic.GenericConfiguratorDialog';
-    static components = { Dialog , EFloatField };
+    static components = { Dialog, EFloatField, EMonetary };
     static props = {
         edit: { type: Boolean },
         product_template_id: { type: Number },
         product_template_name: { type: String },
+        currencySymbol: { type: String, optional: true, default: "$" },
+        currencyPosition: { type: String, optional: true, default: "before" },
         save: { type: Function },
         discard: { type: Function },
-        close: Function, // This is the close from the env of the Dialog Component
+        close: Function,
     };
 
     setup() {
         this.dialog = useService('dialog');
         this.env.dialogData.dismiss = () => this.cancel();
-        this.orm = useService('orm')
+        this.orm = useService('orm');
         this.state = useState({
             generic_bill_material_ids: [],
+            finalCost: 0,
+            finalCostEdited: false,
         });
+
         onWillStart(async () => {
             this.state.generic_bill_material_ids = await this.orm.call(
                 'product.template',
@@ -31,26 +37,65 @@ export class GenericConfiguratorDialog extends Component {
             );
 
             this.state.generic_bill_material_ids.forEach((gbm) => {
-                gbm['qty'] = 0;
-                gbm['final_cost'] = 0;
-            })
+                gbm.qty = 0;
+                gbm.final_cost = 0;
+                gbm.standard_price = gbm.standard_price || 0;
+            });
         });
     }
-    onchangeQty(value,generic_product){
+
+    onchangeQty(value, generic_product) {
         generic_product.qty = value;
         this._computeFinalCost(generic_product);
+        this._computeTotals();
     }
 
-    _computeFinalCost(generic_product){
+    onchangePrice(value, generic_product) {
+        generic_product.standard_price = value;
+        this._computeFinalCost(generic_product);
+        this._computeTotals();
+    }
+
+    onchangeFinalCost(value, generic_product) {
+        generic_product.final_cost = value;
+        this._computeTotals();
+    }
+
+    _computeFinalCost(generic_product) {
         generic_product.final_cost = generic_product.qty * generic_product.standard_price;
     }
-    
+
+    _computeTotals() {
+        const total = this.state.generic_bill_material_ids.reduce((sum, product) => {
+            return sum + (product.final_cost || 0);
+        }, 0);
+        
+        if (!this.state.finalCostEdited) {
+            this.state.finalCost = total;
+        }
+    }
+
+    updateFinalCost(value) {
+        this.state.finalCost = value;
+        this.state.finalCostEdited = true;
+    }
+
+    get totalCost() {
+        return this.state.generic_bill_material_ids.reduce((sum, product) => {
+            return sum + (product.final_cost || 0);
+        }, 0);
+    }
+
     async confirm() {
+        this.props.save({
+            products: this.state.generic_bill_material_ids,
+            totalCost: this.totalCost,
+            finalCost: this.state.finalCost,
+        });
         this.props.close();
     }
 
     cancel() {
         this.props.close();
     }
-
 }

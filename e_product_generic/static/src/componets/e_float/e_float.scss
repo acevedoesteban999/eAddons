@@ -1,0 +1,14 @@
+.e_float {
+    text-align: end !important;
+    border: 1px solid transparent;
+    background: transparent;
+    width: 100%;
+    padding: 0.25rem;
+}
+
+.e_float:focus {
+    border-top: 0;
+    border-right: 0;
+    border-left: 0;
+    border-color: black;
+}

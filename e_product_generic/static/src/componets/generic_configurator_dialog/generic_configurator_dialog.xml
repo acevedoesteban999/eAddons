@@ -5,7 +5,7 @@
             title="this.props.product_template_name"
             contentClass="'configurator-dialog'"
         >
-            <div class="container generic_configurator_dialog  mt-4">
+            <div class="container generic_configurator_dialog mt-4">
                 <div class="o_list_renderer o_renderer table-responsive">
                     <table class="o_list_table table table-sm table-hover table-striped">
                         <thead class="table-light">
@@ -19,7 +19,7 @@
                                 <th class="o_list_number_th text-end" style="width: 15%;">
                                     <span class="fw-semibold">Unitary Cost</span>
                                 </th>
-                                <th class="o_list_number_th text-center" style="width: 15%;">
+                                <th class="o_list_number_th text-end" style="width: 15%;">
                                     <span class="fw-semibold">Final Cost</span>
                                 </th>
                             </tr>
@@ -33,22 +33,58 @@
                                     <span class="o_field_char" t-esc="generic_product.name"/>
                                 </td>
                                 <td class="o_data_cell text-center">
-                                    <EFloatField 
+                                    <EFloat 
                                         value="generic_product.qty" 
                                         update="(value) => this.onchangeQty(value,generic_product)" 
                                         digits="[16,0]"
-                                        readonly="false"
-                                        />
+                                        readonly="false"/>
                                 </td>
                                 <td class="o_data_cell text-end">
-                                    <span class="o_field_monetary text-muted" t-esc="generic_product.standard_price"/>
+                                    <EMonetary 
+                                        value="generic_product.standard_price"
+                                        update="(value) => this.onchangePrice(value,generic_product)"
+                                        digits="[16,2]"
+                                        symbol="props.currencySymbol"
+                                        currencyPosition="props.currencyPosition"/>
                                 </td>
                                 <td class="o_data_cell text-end">
-                                    <span class="o_field_monetary text-muted" t-esc="generic_product.final_cost"/>
+                                    <EMonetary 
+                                        value="generic_product.final_cost"
+                                        update="(value) => this.onchangeFinalCost(value,generic_product)"
+                                        digits="[16,2]"
+                                        symbol="props.currencySymbol"
+                                        currencyPosition="props.currencyPosition"/>
                                 </td>
-
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr class="o_data_row fw-bold">
+                                <td class="o_data_cell text-end" colspan="3">
+                                    <span>Total:</span>
+                                </td>
+                                <td class="o_data_cell text-end">
+                                    <EMonetary 
+                                        value="totalCost"
+                                        readonly="true"
+                                        digits="[16,2]"
+                                        symbol="props.currencySymbol"
+                                        currencyPosition="props.currencyPosition"/>
+                                </td>
+                            </tr>
+                            <tr class="o_data_row fw-bold">
+                                <td class="o_data_cell text-end" colspan="3">
+                                    <span>Final Cost:</span>
+                                </td>
+                                <td class="o_data_cell text-end">
+                                    <EMonetary 
+                                        value="state.finalCost"
+                                        update="(value) => this.updateFinalCost(value)"
+                                        digits="[16,2]"
+                                        symbol="props.currencySymbol"
+                                        currencyPosition="props.currencyPosition"/>
+                                </td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
