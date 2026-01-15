@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_product_generic.GenericConfiguratorDialog">
+        <Dialog
+            title="this.props.product_template_name"
+            contentClass="'configurator-dialog'"
+        >
+            <div class="container generic_configurator_dialog  mt-4">
+                <div class="o_list_renderer o_renderer table-responsive">
+                    <table class="o_list_table table table-sm table-hover table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="o_list_number_th text-start" style="width: 55%;">
+                                    <span class="fw-semibold">Product</span>
+                                </th>
+                                <th class="o_list_number_th text-center" style="width: 15%;">
+                                    <span class="fw-semibold">Quantity</span>
+                                </th>
+                                <th class="o_list_number_th text-end" style="width: 15%;">
+                                    <span class="fw-semibold">Unitary Cost</span>
+                                </th>
+                                <th class="o_list_number_th text-center" style="width: 15%;">
+                                    <span class="fw-semibold">Final Cost</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="this.state.generic_bill_material_ids" 
+                                t-as="generic_product" 
+                                t-key="generic_product.id"
+                                class="o_data_row">
+                                <td class="o_data_cell text-start">
+                                    <span class="o_field_char" t-esc="generic_product.name"/>
+                                </td>
+                                <td class="o_data_cell text-center">
+                                    <EFloatField 
+                                        value="generic_product.qty" 
+                                        update="(value) => this.onchangeQty(value,generic_product)" 
+                                        digits="[16,0]"
+                                        readonly="false"
+                                        />
+                                </td>
+                                <td class="o_data_cell text-end">
+                                    <span class="o_field_monetary text-muted" t-esc="generic_product.standard_price"/>
+                                </td>
+                                <td class="o_data_cell text-end">
+                                    <span class="o_field_monetary text-muted" t-esc="generic_product.final_cost"/>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="confirm">
+                    Confirm
+                </button>
+                <button class="btn btn-secondary" t-on-click="cancel">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

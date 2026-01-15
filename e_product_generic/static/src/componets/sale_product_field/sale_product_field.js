@@ -1,7 +1,7 @@
 /** @odoo-module **/
 import { patch } from "@web/core/utils/patch";
 import { SaleOrderLineProductField } from "@sale/js/sale_product_field";
-import { GenericConfiguratorDialog } from "./generic_configurator_dialog/generic_configurator_dialog";
+import { GenericConfiguratorDialog } from "../generic_configurator_dialog/generic_configurator_dialog";
 
 
 patch(SaleOrderLineProductField.prototype, {

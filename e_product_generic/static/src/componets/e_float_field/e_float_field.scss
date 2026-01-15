@@ -1,0 +1,14 @@
+.e_field_number {
+    text-align: end !important;
+    border: 1px solid transparent;
+    background: transparent;
+    width: 100%;
+    padding: 0.25rem;
+}
+
+.e_field_number:focus {
+    text-align: start !important;
+    border-color: #86b7fe;
+    background: white;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
