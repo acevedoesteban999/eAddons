@@ -81,6 +81,7 @@ class SaleOrde(models.Model):
                 'location_id': location_id.id,
                 'location_dest_id': location_dest_id.id,
                 'group_id': group.id,
+                'sale_line_id': mrp_production.sale_line_id.id,
                 'procure_method': 'make_to_order',
                 'origin': self.name,
                 'state': 'waiting',
