@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
     <t t-name="e_product_generic.GenericConfiguratorDialog">
         <Dialog
-            title="this.props.product_template_name"
+            title="this.dialogTitle"
             contentClass="'configurator-dialog'"
         >
             <div class="container generic_configurator_dialog mt-4">
@@ -30,7 +30,7 @@
                                 t-key="generic_product.id"
                                 class="o_data_row">
                                 <td class="o_data_cell text-start">
-                                    <span class="o_field_char" t-esc="generic_product.name"/>
+                                    <span class="o_field_char" t-esc="generic_product.display_name"/>
                                 </td>
                                 <td class="o_data_cell text-center">
                                     <EFloat 
@@ -38,7 +38,7 @@
                                         update="(value) => this.onchangeQty(value,generic_product)" 
                                         invalid="(invalid) => this.onchangeInvalid(invalid,generic_product)"
                                         digits="[16,0]"
-                                        min="1"
+                                        min="0"
                                         />
                                 </td>
                                 <td class="o_data_cell text-end">
@@ -46,32 +46,33 @@
                                         readonly="true"
                                         value="generic_product.standard_price"
                                         digits="[16,2]"
-                                        symbol="props.currencySymbol"
-                                        currencyPosition="props.currencyPosition"/>
+                                        currencySymbol="this.product_template.currency_symbol"
+                                        currencyPosition="this.product_template.currency_position"
+                                        />
                                 </td>
                                 <td class="o_data_cell text-end">
                                     <EMonetary 
                                         readonly="true"
                                         value="generic_product.final_cost"
                                         digits="[16,2]"
-                                        symbol="props.currencySymbol"
-                                        currencyPosition="props.currencyPosition"/>
+                                        currencySymbol="this.product_template.currency_symbol"
+                                        currencyPosition="this.product_template.currency_position"/>
                                 </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr class="o_data_row fw-bold">
                                 <td class="o_data_cell text-end" colspan="3">
-                                    <span>Total:</span>
+                                    <span>Total Cost:</span>
                                 </td>
                                 <td class="o_data_cell text-end">
                                     <EMonetary 
-                                        value="totalCost"
+                                        value="this.state.totalCost"
                                         readonly="true"
                                         digits="[16,2]"
-                                        symbol="props.currencySymbol"
                                         class="'me-1'"
-                                        currencyPosition="props.currencyPosition"/>
+                                        currencySymbol="this.product_template.currency_symbol"
+                                        currencyPosition="this.product_template.currency_position"/>
                                 </td>
                             </tr>
                             <tr class="o_data_row fw-bold">
@@ -82,9 +83,12 @@
                                     <EMonetary 
                                         value="state.finalCost"
                                         update="(value) => this.updateFinalCost(value)"
+                                        invalid="(invalid) => this.onchangeInvalidFinalCost(invalid)"
+                                        min="0"
                                         digits="[16,2]"
-                                        symbol="props.currencySymbol"
-                                        currencyPosition="props.currencyPosition"/>
+                                        currencySymbol="this.product_template.currency_symbol"
+                                        currencyPosition="this.product_template.currency_position"
+                                        />
                                 </td>
                             </tr>
                         </tfoot>

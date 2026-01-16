@@ -33,7 +33,6 @@ patch(SaleOrderLineProductField.prototype, {
         this.dialog.add(GenericConfiguratorDialog, {
             edit: edit,
             product_template_id: this.props.record.data.product_template_id[0],
-            product_template_name: this.props.record.data.product_template_id[1],
             save: ()=>{},
             discard: ()=>{},
         });

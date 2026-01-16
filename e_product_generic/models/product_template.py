@@ -7,10 +7,13 @@ class ProductTemplate(models.Model):
     generic_ok = fields.Boolean(string='Generic Product')
     generic_bill_material_ids = fields.Many2many('product.product',"rel_generic_product_product",name="Generic Bill Materials")
     
+    currency_symbol = fields.Char(related='currency_id.symbol')
+    currency_position = fields.Selection(related='currency_id.position')
+    
     @api.model
     def get_generic_bill_material_ids(self,product_tmpl_id):
-        return self.browse(product_tmpl_id).generic_bill_material_ids.read(['name','standard_price','currency_id'])
-    
+        return self.browse(product_tmpl_id).generic_bill_material_ids.read(['display_name','standard_price'])
+        
     @api.model
     def get_generic_final_price(self):
         self.ensure_one()

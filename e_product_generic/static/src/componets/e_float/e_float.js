@@ -20,15 +20,11 @@ export class EFloat extends Component {
             hasFocus: false,
             isInvalid: false,
         });
-        this.inputValue = this.formatValue(this.props.value);
+        this.inputValue = String(this.props.value)
     }
 
-    get displayValue() {
-        return this.state.hasFocus ? this.state.inputValue : this.formatValue(this.props.value);
-    }
-
-    get formattedValue() {
-        return this.formatValue(this.props.value);
+    get displayValue(){
+        return this.formatValue(this.props.value)
     }
 
     formatValue(value) {
@@ -42,7 +38,11 @@ export class EFloat extends Component {
         this.inputValue = ev.target.value;
     }
 
-    onFocusOut(ev) {
+    onFocusIn(ev) {
+        ev.target.select()
+    }
+    
+    onFocusOut() {
         this._saveValue();
     }
 
