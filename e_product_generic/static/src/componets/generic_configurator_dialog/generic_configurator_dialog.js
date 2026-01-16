@@ -111,7 +111,7 @@ export class GenericConfiguratorDialog extends Component {
 
     async confirm() {
         this.props.save({
-            products: this.state.generic_bill_material_ids,
+            lines: this.state.generic_bill_material_ids,
             finalCost: this.state.finalCost,
         });
         this.props.close();
@@ -119,5 +119,6 @@ export class GenericConfiguratorDialog extends Component {
 
     cancel() {
         this.props.close();
+        this.props.discard()
     }
 }
