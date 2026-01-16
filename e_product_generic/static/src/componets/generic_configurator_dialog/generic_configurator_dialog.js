@@ -84,16 +84,21 @@ export class GenericConfiguratorDialog extends Component {
         this._computeTotals();
     }
 
-    _computeFinalCost(generic_product,computeTotals = true) {
+    _computeFinalCost(generic_product,computeTotals = true) { 
         generic_product.final_cost = generic_product.qty * generic_product.standard_price;
         if(computeTotals)
             this._computeTotals()
     }
 
     _computeTotals() {
+        let syncTotals = this.state.totalCost == this.state.finalCost
+            
         this.state.totalCost = this.state.generic_bill_material_ids.reduce((sum, product) => {
             return sum + (product.final_cost || 0);
         }, 0); 
+        
+        if(syncTotals)
+            this.state.finalCost = this.state.totalCost
     }
 
     _computeInvalidConfirm() {
