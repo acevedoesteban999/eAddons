@@ -13,4 +13,4 @@ This module hides products that are out of stock in the Point of Sale.
 ### Variants  
 The same logic applies to Product Templates: if **none** of the template’s variants have stock, the template itself is hidden.  
 If a specific variant is out of stock, the system blocks its addition to the cart by disabling the **“Add”** button.  
-![IMAGE](static/description/assets/screenshots/3.gif)
+![IMAGE](static/description/assets/screenshots/gif.gif)

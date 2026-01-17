@@ -20,4 +20,4 @@ This module lets you flag products as make-to-order directly from the point of s
 - Ready pickings (manufacturing completed) can be confirmed right from the POS  
 ![IMAGE](static/description/assets/screenshots/5.png)
 
-![IMAGE](static/description/assets/screenshots/6.gif)
+![IMAGE](static/description/assets/screenshots/gif.gif)

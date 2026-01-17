@@ -18,5 +18,5 @@ Features
 - Design Detail Pages: Each design has its own page with image gallery (Fancybox viewer) and detailed information
 
 ----------------
-![GIF](static/description/assets/screenshots/3.gif)
+![GIF](static/description/assets/screenshots/gif.gif)
 ----------------
