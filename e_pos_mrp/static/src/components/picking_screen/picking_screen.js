@@ -175,7 +175,7 @@ export class PickingScreen extends Component {
             indented: true,
         });
         states.set("assigned", {
-            text: _t("Assigned"),
+            text: _t("Ready"),
             indented: true,
         });
         states.set("waiting", {
