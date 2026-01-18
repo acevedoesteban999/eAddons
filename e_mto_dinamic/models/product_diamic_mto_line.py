@@ -16,5 +16,5 @@ class ProductMtoDiamicLine(models.Model):
     
     
     _sql_constraints = [
-        ('unique_products', 'unique(product_template_id,product_id)', 'Can not duplique a combination of Product Temaplate and Variant')
+        ('unique_products', 'unique(parent_product_template_id,product_template_id,product_id)', 'Can not duplique a combination of Products')
     ]

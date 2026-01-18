@@ -4,6 +4,10 @@ import { SaleOrderLineProductField } from "@sale/js/sale_product_field";
 import { DinamicConfiguratorDialog } from "../dinamic_configurator_dialog/dinamic_configurator_dialog";
 
 patch(SaleOrderLineProductField.prototype, {
+    setup(){
+        super.setup();
+        this._to_edit = false;
+    },
     get isDinamic() {
         return this.props.record.data.is_dinamic_mto;
     },
@@ -12,12 +16,21 @@ patch(SaleOrderLineProductField.prototype, {
     },
     async _onProductUpdate() {
         if(this.isDinamic)
-            this._openDinamicConfiguration()
+            if(this.isConfigurableTemplate && this._to_edit){
+                this._openDinamicConfiguration(true)
+                this._to_edit = false
+            }
+            else
+                this._openDinamicConfiguration()
         return super._onProductUpdate()
     },
     onEditConfiguration() {
-        if(this.isDinamic && !this.isConfigurableTemplate)
-            this._openDinamicConfiguration(true)
+        if(this.isDinamic){
+            if(!this.isConfigurableTemplate)
+                this._openDinamicConfiguration(true)
+            else
+                this._to_edit = true
+        }
         return super.onEditConfiguration()
     }, 
 
