@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
 
-    <t t-name="e_product_generic.EFloat">
+    <t t-name="e_mto_dinamic.EFloat">
         <span t-if="props.readonly" t-attf-class="{{props.class?props.class:''}}"  t-esc="displayValue"/>
         <input 
             t-else=""

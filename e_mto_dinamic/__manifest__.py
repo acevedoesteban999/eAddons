@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'eProductGeneric',
+    'name': 'eProductDinamic',
     'version': '18.0.0.0',
-    'summary': """ Create Generic Products for Dinamic Bill of Material """,
+    'summary': """ Create Dinamic Products for Dinamic Bill of Material """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_porduct_generic',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_porduct_dinamic',
     'category': '',
     'depends': ['base','web','product' , 'sale_stock' , 'sale_mrp'],
     'data': [
@@ -13,7 +13,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'e_product_generic/static/src/componets/**/*'
+            'e_mto_dinamic/static/src/componets/**/*'
         ],
     },
     'application': False,

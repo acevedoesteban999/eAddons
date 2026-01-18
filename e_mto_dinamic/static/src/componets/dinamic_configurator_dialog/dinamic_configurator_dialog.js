@@ -5,13 +5,13 @@ import { Component, onWillStart, useState } from '@odoo/owl';
 import { EFloat } from "../e_float/e_float";
 import { EMonetary } from "../e_monetary/e_monetary";
 
-export class GenericConfiguratorDialog extends Component {
-    static template = 'e_product_generic.GenericConfiguratorDialog';
+export class DinamicConfiguratorDialog extends Component {
+    static template = 'e_mto_dinamic.DinamicConfiguratorDialog';
     static components = { Dialog, EFloat, EMonetary };
     static props = {
         product_template_id: { type: Number },
         finalCost : { type: Number , optional: true},
-        generic_bill_material_data : { type: Array , optional: true},
+        dinamic_bill_material_data : { type: Array , optional: true},
         save: { type: Function },
         discard: { type: Function },
         close: Function,
@@ -24,7 +24,7 @@ export class GenericConfiguratorDialog extends Component {
         this.dialogTitle = false,
         this.product_template = {},
         this.state = useState({
-            generic_bill_material_data:  [],
+            dinamic_bill_material_data:  [],
             finalCost: this.props.finalCost || 0,
             totalCost: 0,
             invalidConfirm: false,
@@ -41,16 +41,16 @@ export class GenericConfiguratorDialog extends Component {
             this.product_template = data[0]
 
             this.dialogTitle = _t("Dynamic Bill of Material: %s", this.product_template.display_name);
-            let edit = this.props.generic_bill_material_data && this.props.generic_bill_material_data.length
+            let edit = this.props.dinamic_bill_material_data && this.props.dinamic_bill_material_data.length
             if(edit)
-                this.state.generic_bill_material_data = this.props.generic_bill_material_data
+                this.state.dinamic_bill_material_data = this.props.dinamic_bill_material_data
             else{
-                this.state.generic_bill_material_data = await this.orm.call(
+                this.state.dinamic_bill_material_data = await this.orm.call(
                     'product.template',
-                    'get_generic_bill_material_data',
+                    'get_dinamic_bill_material_data',
                     [this.props.product_template_id],
                 );
-                this.state.generic_bill_material_data.forEach((gbm) => {
+                this.state.dinamic_bill_material_data.forEach((gbm) => {
                     gbm.qty = 1;
                     gbm.invalid = false;
                     gbm.subtotal_cost = 0;
@@ -64,13 +64,13 @@ export class GenericConfiguratorDialog extends Component {
         });
     }
 
-    onchangeQty(value, generic_product) {
-        generic_product.qty = value;
-        this._computeLineTotalCost(generic_product);
+    onchangeQty(value, dinamic_product) {
+        dinamic_product.qty = value;
+        this._computeLineTotalCost(dinamic_product);
     }
 
-    onchangeInvalid(invalid,generic_product){
-        generic_product.invalid = invalid
+    onchangeInvalid(invalid,dinamic_product){
+        dinamic_product.invalid = invalid
         this._computeInvalidConfirm()
     }
     
@@ -80,26 +80,26 @@ export class GenericConfiguratorDialog extends Component {
     }
 
 
-    onchangeFinalCost(value, generic_product) {
-        generic_product.subtotal_cost = value;
+    onchangeFinalCost(value, dinamic_product) {
+        dinamic_product.subtotal_cost = value;
         this._computeTotals();
     }
 
-    _computeLineTotalCost(generic_product,computeTotals = true) { 
-        generic_product.subtotal_cost = generic_product.qty * generic_product.standard_price;
+    _computeLineTotalCost(dinamic_product,computeTotals = true) { 
+        dinamic_product.subtotal_cost = dinamic_product.qty * dinamic_product.standard_price;
         if(computeTotals)
             this._computeTotals()
     }
 
     _computeTotals(computeSubTotals = false) {
         if(computeSubTotals)
-            this.state.generic_bill_material_data.forEach((gbm) => {
+            this.state.dinamic_bill_material_data.forEach((gbm) => {
                 this._computeLineTotalCost(gbm,false)
             });
 
         let syncTotals = this.state.totalCost == this.state.finalCost
             
-        this.state.totalCost = this.state.generic_bill_material_data.reduce((sum, product) => {
+        this.state.totalCost = this.state.dinamic_bill_material_data.reduce((sum, product) => {
             return sum + (product.subtotal_cost || 0);
         }, 0); 
         
@@ -108,7 +108,7 @@ export class GenericConfiguratorDialog extends Component {
     }
 
     _computeInvalidConfirm() {
-        this.state.invalidConfirm = this.state.generic_bill_material_data.some(gbm => gbm.invalid === true) || this.state.invalidFinalCost;
+        this.state.invalidConfirm = this.state.dinamic_bill_material_data.some(gbm => gbm.invalid === true) || this.state.invalidFinalCost;
     }
 
     updateFinalCost(value) {
@@ -117,7 +117,7 @@ export class GenericConfiguratorDialog extends Component {
 
     async confirm() {
         this.props.save({
-            generic_bill_material_data: this.state.generic_bill_material_data.map(
+            dinamic_bill_material_data: this.state.dinamic_bill_material_data.map(
                 ({ invalid,subtotal_cost, ...rest }) => rest
             ),
             finalCost: this.state.finalCost,

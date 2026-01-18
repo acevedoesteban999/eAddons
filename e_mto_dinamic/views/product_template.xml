@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="e_mto_dinamic_inherit_product_template" model="ir.ui.view">
+        <field name="name">product.template.view.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="stock.view_template_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='operations']" position="inside">
+                <field name="mto_ok" invisible="1"></field>
+                <field name="dinamic_mto_ok" readonly="not mto_ok"></field>
+                <field name="dinamic_bill_material_ids" invisible="not dinamic_mto_ok">
+                    <list>
+                        <field name="name"></field>
+                        <field name="product_template_variant_value_ids" widget="many2many_tags"></field>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

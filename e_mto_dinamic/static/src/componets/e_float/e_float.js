@@ -4,7 +4,7 @@ import { parseFloat } from "@web/views/fields/parsers";
 import { Component, useState } from "@odoo/owl";
 
 export class EFloat extends Component {
-    static template = "e_product_generic.EFloat";
+    static template = "e_mto_dinamic.EFloat";
     static props = {
         readonly: { type: Boolean, optional: true },
         value: { type: Number, optional: true },
