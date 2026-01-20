@@ -12,11 +12,11 @@
         'views/ir_module_e_translate.xml',
         "views/menu.xml"
     ],
-    # 'assets': {
-    #         'web.assets_backend': [
-    #             'e_module_translate/static/src/**/*'
-    #         ],
-    #     },
+    'assets': {
+            'web.assets_backend': [
+                'e_module_translate/static/src/components/**/*'
+            ],
+        },
     'application': False,
     'installable': True,
     'auto_install': False,

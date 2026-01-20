@@ -9,7 +9,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
-                <field name="has_translations"></field>
+                <field name="has_pot_translations"></field>
             </list>
         </field>
     </record>
@@ -20,9 +20,14 @@
         <field name="inherit_id" ref="e_module_base.view_ir_module_e_base_form"></field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Recompute Pot" invisible="not module_exist or not has_pot_translations" name="action_recompute_pot" type="object" class="oe_highlight"/>
+                <button name="%(action_pot_translation_dialog)d" invisible="not module_exist" type="action" string="Edit Translations" class="btn-primary"/>
+            </xpath>
             <xpath expr="//field[@name='module_name']" position="after">
-                <field name="has_translations"></field>
-                <field name="translations" invisible="not has_translations" ></field>
+                <field name="has_pot_translations"></field>
+                <field name="po_translations" invisible="has_pot_translations" widget="ejson_tags"></field>
+                
             </xpath>
         </field>
     </record>
@@ -39,6 +44,13 @@
                 There is no examples click here to add new Ir_module Translate.
             </p>
         </field>
+    </record>
+
+
+    <record id="action_pot_translation_dialog" model="ir.actions.client">
+        <field name="name">Edit Translations</field>
+        <field name="tag">pot_translation_dialog</field>
+        <field name="target">new</field>
     </record>
 
 </odoo>

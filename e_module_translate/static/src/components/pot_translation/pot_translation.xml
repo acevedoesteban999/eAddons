@@ -1,0 +1,25 @@
+<templates xml:space="preserve">
+    <t t-name="ir_module_e_translate.PotTranslationDialog">
+        <Dialog size="'xl'" title="'Edit Translations'">
+            <div class="container-fluid">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <t t-foreach="columns" t-as="col" t-key="col">
+                                <th><t t-esc="col"/></th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="rows" t-as="row" t-key="row.key">
+                            <td><t t-esc="row.key"/></td>
+                            <td t-foreach="row.values" t-as="val" t-key="val_index">
+                                <input type="text" class="form-control form-control-sm" t-att-value="val" readonly="readonly"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </Dialog>
+    </t>
+</templates>

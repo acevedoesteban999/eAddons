@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
-import io
 import os
-import ast
-import base64
-from odoo.tools.translate import trans_export, trans_export_records
-import json
+from ..utils.utils import compare_pot_files , get_pot_from_export
 NEW_LANG_KEY = '__new__'
 
 class Ir_moduleTranslate(models.Model):
@@ -15,64 +11,47 @@ class Ir_moduleTranslate(models.Model):
     _description = 'irModuleTranslate'
 
     
-    has_translations = fields.Boolean(compute="_compute_translations")
-    translations = fields.Json(compute="_compute_translations")
+    has_pot_translations = fields.Boolean("Pot File",compute="_compute_translations")
+    po_translations = fields.Json("Languages",compute="_compute_translations")
+    pot_keys = fields.Json("Pot Keys")
+    
+    status = fields.Selection([
+        ('up_to_date',"Up todate")
+        ('out_of_date',"Out to Date")
+    ],required=True)
+    
+    last_check = fields.Datetime(default=fields.Datetime.now)
     
     @api.depends('module_name')
     def _compute_translations(self):
         for rec in self:
-            rec.has_translations = False
-            translations = []
+            rec.has_pot_translations = False
+            po_translations = []
             if rec.module_exist:
                 i18n_path = os.path.join(rec.local_path,'i18n')
                 if os.path.exists(i18n_path):
                     for entry in os.scandir(i18n_path):
                         if entry.name == f'{rec.module_name}.pot':
-                            rec.has_translations = True
+                            rec.has_pot_translations = True
                         if entry.name.endswith('.po'):
                             lang_code = entry.name[:-3]
-                            translations.append({
-                                'file': entry.name,
-                                'lang': lang_code,
-                                'path': entry.path,
+                            po_translations.append({
+                                'name': lang_code,
                             })
-                            
-            rec.translations =  translations
-                
+            rec.po_translations = po_translations
+              
     
-    def validate_pot(slef):
+    
+    def action_recompute_pot(self):
+        self.ensure_one()
+        result = compare_pot_files(self.local_path,self.module_name,self._cr)
+        if result:
+            common_keys, missing_in_file, extra_in_file = result
+            self.pot_keys = common_keys
+            self.status = bool(missing_in_file and extra_in_file)
+            self.last_check = fields.Datetime.now()
+            
+    @api.model
+    def get_po_data(self,e_translate_id):
         pass
-    
-    def act_getfile(self):
-        this = self[0]
-        lang = this.lang if this.lang != NEW_LANG_KEY else False
-
-        with io.BytesIO() as buf:
-            if this.export_type == 'model':
-                ids = self.env[this.model_name].search(ast.literal_eval(this.domain)).ids
-                trans_export_records(lang, this.model_name, ids, buf, this.format, self._cr)
-            else:
-                mods = sorted(this.mapped('modules.name')) or ['all']
-                trans_export(lang, mods, buf, this.format, self._cr)
-            out = base64.encodebytes(buf.getvalue())
-
-        filename = 'new'
-        if lang:
-            filename = tools.get_iso_codes(lang)
-        elif this.export_type == 'model':
-            filename = this.model_name.replace('.', '_')
-        elif len(mods) == 1:
-            filename = mods[0]
-        extension = this.format
-        if not lang and extension == 'po':
-            extension = 'pot'
-        name = "%s.%s" % (filename, extension)
-        this.write({'state': 'get', 'data': out, 'name': name})
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'base.language.export',
-            'view_mode': 'form',
-            'res_id': this.id,
-            'views': [(False, 'form')],
-            'target': 'new',
-        }
+        
