@@ -34,18 +34,8 @@ class ProductProduct(models.Model):
     def get_designs_for_product_template_view(self,product_template):
         return self.env['product.edesign'].browse(product_template).read(['id','name','default_code','extra_price'])
     
-    # @api.constrains('design_ok')
-    # def _check_design_ok(self):
-    #     for rec in self:
-    #         if rec.design_ok:
-    #             attr = self.env.ref('e_design.default_attr_design')
-    #             if attr.id not in rec.attribute_line_ids.attribute_id.ids:
-    #                 rec.attribute_line_ids.create({
-    #                     'attribute_id': attr.id,
-    #                     'product_tmpl_id':self.id,
-    #                     'value_ids': [Command.link(self.env.ref('e_design.default_attr_value_no_design').id)]
-    #                 })
-    #                 rec._create_variant_ids()
-                    
-    
+    @api.model
+    def unlink_design(self, product_id ,design_id):
+        self.browse(product_id).write({'design_ids': [Command.unlink(design_id)]})
+        
         

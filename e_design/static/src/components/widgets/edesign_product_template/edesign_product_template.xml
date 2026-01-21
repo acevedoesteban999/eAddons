@@ -4,31 +4,24 @@
         <t t-if="this.props.record.resId">
             <div class="row align-items-center">
                 <div t-if="!props.readonly" class="col-auto">
-                    <button  class="m-2 btn btn-secondary" t-on-click="() => this.createDesign()">
+                    <button class="m-2 btn btn-secondary" t-on-click="createDesign">
                         Create Design
                     </button>
-                    <button  class="m-2 btn btn-secondary" t-on-click="() => this.linkDesign()">
+                    <button class="m-2 btn btn-secondary" t-on-click="linkDesign">
                         Attach Design
                     </button>
                 </div>
                 <div class="col">
-                    <small class="text-muted fst-italic"  t-if="this.state.designs_attr_values">
-                        This Widget only show some itmes. If you wana see all , check top button 'Designs'
-                    </small >
+                    <input type="text" class="form-control form-control-sm" placeholder="Search design..." t-model="state.search"/>
                 </div>
             </div>
-            
-            <!-- <div class="row m-2">
-                <div class="col-auto">
-                    <small>Designs: <t t-esc="this.state.design_counter"/></small>
-                </div>
-            </div> -->
-            <div class="row g-3 design-style bg-design">
-                <t t-foreach="this.state.designs" t-as="design" t-key="design.id">        
-                    <div class="col-6 col-md-3 col-xl-2">
-                        <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
+
+            <div class="row g-3 design-style bg-design mt-2">
+                <t t-foreach="filteredDesigns" t-as="design" t-key="design.id">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div t-on-click="() => this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
                             <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 z-1 outline-button"
-                                    t-on-click.stop="() => this.unlinkDesign(design.id)">
+                                    t-on-click.stop="() => this.unlinkDesign(design)">
                                 <i class="fa fa-trash"/>
                             </button>
                             <img class="card-img-top img-fluid" t-attf-src="/web/image/product.edesign/{{design.id}}/image"/>
@@ -39,7 +32,6 @@
                                     </t>
                                     <t t-esc="design.name"/>
                                 </h5>
-                                <!-- <small class="text-muted">Extra Price: <t t-esc="design.extra_price"/></small> -->
                             </div>
                         </div>
                     </div>
@@ -48,8 +40,8 @@
         </t>
         <t t-else="">
             <small class="text-muted fst-italic p-2">
-                This section need to crete model first.
-            </small >
+                This section needs a model first.
+            </small>
         </t>
     </t>
 </templates>
