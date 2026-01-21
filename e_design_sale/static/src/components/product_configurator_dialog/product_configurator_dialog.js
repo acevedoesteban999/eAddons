@@ -3,6 +3,7 @@ import { ProductConfiguratorDialog } from "@sale/js/product_configurator_dialog/
 import { patch } from "@web/core/utils/patch";
 import { onWillStart, useState } from '@odoo/owl';
 import { useService } from "@web/core/utils/hooks";
+import { EDesignSelection } from "@e_design/components/edesign_selection/edesign_selection"
 
 patch(ProductConfiguratorDialog, {
     props: {
@@ -11,12 +12,19 @@ patch(ProductConfiguratorDialog, {
     }
 })
 
+patch(ProductConfiguratorDialog, {
+    components: {
+        ...ProductConfiguratorDialog.components,
+        EDesignSelection,
+    },
+})
+
 patch(ProductConfiguratorDialog.prototype,{
     setup(){
         super.setup()
         this.orm = useService('orm')
-        this.state.design = {}
-        
+        this.design = {}
+    
         onWillStart(async ()=>{
             const res = await this.orm.call(
                 'product.template',
@@ -31,27 +39,17 @@ patch(ProductConfiguratorDialog.prototype,{
                     [res[0]?.design_ids,['display_name','image']]
                 )
                 this.designs = res1
-                if( this.props.record.data.design_id)
-                    this.onChangeDesign({target:{value:this.props.record.data.design_id[0]}})
             }
         })
     },
-    onChangeDesign(ev){
-        const designId = Number(ev.target.value);
-        if (!designId){          
-            this.state.design = {};
-        }else{
-            const design = this.designs.find(v => v.id === designId);
-            this.state.design = design;
-        }
-    },
+
     async onConfirm(options) {
         await super.onConfirm(options)
         if(this.has_design){
             let design = false
         
-            if(this.state.design)
-                design = [this.state.design.id , this.state.design.display_name]
+            if(this.design)
+                design = [this.design.id , this.design.display_name]
         
             this.props.record.update({
                 design_id: design,

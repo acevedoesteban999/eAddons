@@ -6,7 +6,7 @@ class SaleOrderLine(models.Model):
 
     design_id = fields.Many2one('product.edesign',"Design")
     is_designable_product = fields.Boolean(related='product_template_id.design_ok')
-    
+    parent_design_ids = fields.Many2many(related='product_template_id.design_ids')
     
     def write(self,vals):
         return super().write(vals)

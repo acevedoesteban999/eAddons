@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesign',
-    'version': '18.1.0.0',
+    'version': '18.0.1.1.0',
     'summary': "Add Design to Products",
     'description':"""
                     It allows you to add designs to products, 
@@ -33,7 +33,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "e_design/static/src/components/**/**/*",
+            "e_design/static/src/components/**/*",
         ],
     },
     'application': True,
