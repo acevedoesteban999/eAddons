@@ -47,9 +47,16 @@ patch(ProductConfiguratorDialog.prototype,{
     },
     async onConfirm(options) {
         await super.onConfirm(options)
-        if(this.has_design && this.state.design)
+        if(this.has_design){
+            let design = false
+        
+            if(this.state.design)
+                design = [this.state.design.id , this.state.design.display_name]
+        
             this.props.record.update({
-                design_id: [this.state.design.id , this.state.design.display_name],
+                design_id: design,
             })
+            
+        }
     }
 })
