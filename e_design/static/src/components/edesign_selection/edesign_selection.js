@@ -6,14 +6,15 @@ export class EDesignSelection extends Component {
     static props = {
         design_id: {type: [Number,Boolean], optional: true},
         designs: {
-            type: Array , 
+            type: Array, 
             element: {
                 type: Object,
+                optional: true,
                 shape: {
                     id: Number,
                     display_name: String,
                     image: [String,Boolean],
-                }
+                },
             },
         },
         update: Function,
