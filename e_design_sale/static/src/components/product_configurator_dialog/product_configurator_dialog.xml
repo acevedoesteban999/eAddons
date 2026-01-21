@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t  t-name="e_design_sale.ProductConfiguratorDialog" t-inherit="sale.ProductConfiguratorDialog" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='footer']" position="before">
+            <t t-if="this.has_design and this.designs">
+                <label for="design_select" class="form-label">Select Design:</label>
+                    <select id="design_select" 
+                        class="form-select"
+                        t-on-change="(ev) => this.onChangeDesign(ev)">
+                    <option  value="Without Design" t-att-selected="!this.state.design"></option>
+                    <option t-foreach="this.designs"
+                            t-as="design"
+                            t-key="design.id"
+                            t-att-value="design.id"
+                            t-esc="design.display_name"
+                            t-att-selected="this.state.design?.id == design.id"/>
+                </select>
+                <div t-if="this.state.design?.image" class="text-center mt-3">
+                    <img t-attf-src="data:image/png;base64,{{this.state.design.image}}" 
+                        class="img-fluid rounded shadow-sm" 
+                        style="max-height: 250px; max-width: 100%;"
+                        alt="Design preview"/>
+                </div>
+                
+            </t>
+        </xpath>
+    </t>
+</templates>

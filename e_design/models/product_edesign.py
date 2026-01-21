@@ -63,12 +63,32 @@ class ProductEDesign(models.Model):
         #         'context': context
         #     } 
             
-       
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"[{rec.default_code}] {rec.name}"
+
+    
+    
     def create(self,vals_list:dict):
         rec = super().create(vals_list)
         if product_id := self.env.context.get('default_product_id'):
             self.env['product.template'].browse(product_id).design_ids = [Command.link(rec.id)]
         return rec
     
+    
+    #OPEN ACTION IN 'NEW' TARGET
+    def get_formview_action(self, access_uid=None):
+        view_id = self.sudo().get_formview_id(access_uid=access_uid)
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'views': [(view_id, 'form')],
+            'target': self._context.get('action_target') or 'current' ,
+            'res_id': self.id,
+            'context': dict(self._context),
+        }
+    
+   
     
         

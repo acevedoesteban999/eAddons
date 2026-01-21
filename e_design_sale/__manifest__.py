@@ -10,11 +10,16 @@
     "data": [
         "views/sale_order.xml"
     ],
+    "assets": {
+        "web.assets_backend": [
+            "e_design_sale/static/src/components/**/*",
+        ],
+    },
     'images': [
         'static/description/banner.png',
     ],
     'application': False,
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'license': 'LGPL-3',
 }
