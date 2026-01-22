@@ -2,8 +2,8 @@
 <templates id="template" xml:space="preserve">
     <t t-name="e_design_pos.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
        <xpath expr="//div[hasclass('product-name')]" position="inside">
-            <small t-if="this.props.line.design_id?.name" class="text-muted fst-italic">
-                (<t t-esc="this.props.line.design_id.name"/>)
+            <small t-if="this.props.line.design_id?.default_code" class="text-muted fst-italic">
+                [<t t-esc="this.props.line.design_id.default_code"/>]
             </small>
        </xpath>
     </t>
