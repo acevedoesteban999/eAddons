@@ -3,13 +3,13 @@ import { PosOrderline } from "@point_of_sale/app/models/pos_order_line";
 
 patch(PosOrderline.prototype,{
     can_be_merged_with(orderline){
-        return super.can_be_merged_with(orderline) && (orderline.design_id?.[0] === this.raw.design_id?.[0] )
+        return super.can_be_merged_with(orderline) && (orderline.design_id?.id === this.raw.design_id?.id )
     },
     getDisplayData() {
         let data = super.getDisplayData()
         return {
             ...data,
-            design_display_name: this.raw.design_id?.[1]
+            design_id: this.raw.design_id?{'name':this.raw.design_id.name}:false
         }
     }
 })

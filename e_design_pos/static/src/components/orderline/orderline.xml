@@ -2,9 +2,9 @@
 <templates id="template" xml:space="preserve">
     <t t-name="e_design_pos.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
        <xpath expr="//div[hasclass('product-name')]" position="inside">
-            <t t-if="this.props.line?.design_display_name">
-                (<t t-esc="this.props.line.design_display_name"/>)
-            </t>
+            <small t-if="this.props.line.design_id?.name" class="text-muted fst-italic">
+                (<t t-esc="this.props.line.design_id.name"/>)
+            </small>
        </xpath>
     </t>
 </templates>

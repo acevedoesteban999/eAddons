@@ -29,8 +29,8 @@ patch(ProductConfiguratorPopup.prototype,{
     },
     computePayload() {
         let payload = super.computePayload()
-        if(this.has_design)
-            payload.design_id = [this.design.id,this.design.display_name]
+        if(this.has_design && this.design?.id)
+            payload.design_id = this.pos.models['product.edesign'].get(this.design.id)
         return payload
     },
 

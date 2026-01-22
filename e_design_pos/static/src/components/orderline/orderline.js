@@ -1,6 +1,5 @@
 import { patch } from "@web/core/utils/patch";
 import { Orderline } from '@point_of_sale/app/generic_components/orderline/orderline';
-import { setup } from '@odoo/owl';
 
 patch(Orderline,{
     props:{
@@ -9,7 +8,7 @@ patch(Orderline,{
             ...Orderline.props.line,
             shape:{
                 ...Orderline.props.line.shape,
-                design_display_name: { type: String, optional: true }
+                design_id: { type: [Object,Boolean], optional: true }
             },
         }
     }

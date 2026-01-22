@@ -9,7 +9,6 @@ patch(PosStore.prototype, {
         const products = this.models["product.product"].getAll();
         if (products.length) {   
             const product_ids = products.map(p => p.id);
-
             try {
                 const qty_data = await this.data.call(
                     "product.product",
