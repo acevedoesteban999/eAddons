@@ -7,5 +7,5 @@ class ProducteDesign(models.Model):
 
     @api.model
     def _load_pos_data_fields(self, config_id):
-        return ['name','default_code','category_id','image']
+        return ['name','default_code','image']
     
