@@ -86,7 +86,7 @@
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">
                                             
-                                            <a style="text-decoration: none;" t-attf-href="{{design.id}}">
+                                            <a style="text-decoration: none;" t-attf-href="{{this.props.base_url}}/{{design.id}}">
 
                                                 <img t-attf-src="/web/image/product.edesign/#{design.id}/image"
                                                     class="card-img-top"

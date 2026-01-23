@@ -10,7 +10,7 @@ import { removeLoader } from "../../../js/public_designs"
   export class EProductDesign extends Component {
       static template = "e_design_website.EProductDesign";
       static components = { SearchComponent };
-      static props = ['product?','category?']
+      static props = ['product?','category?','base_url']
 
       setup() {
           this.state = useState({

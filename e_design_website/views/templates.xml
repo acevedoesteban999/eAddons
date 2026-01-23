@@ -9,7 +9,7 @@
             <div class="row g-4 public-design-style justify-content-center">
                 
                 <div class="col-12 col-md-3 mb-4">
-                  <a href="/edesigns/designs" class="text-decoration-none">
+                  <a href="/edesigns" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-paint-brush fa-5x text-success mb-4"></i>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="products" t-as="product">
-                      <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}/">
+                      <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="product.image_1920"
@@ -115,7 +115,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="categories" t-as="category">
-                      <a style="text-decoration: none;" t-attf-href="/edesigns/categories/{{category.id}}/">
+                      <a style="text-decoration: none;" t-attf-href="/edesigns/categories/{{category.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="category.image"
