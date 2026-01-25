@@ -124,16 +124,15 @@ class ProductDesign(http.Controller):
         breadcrumbs_data = [
             ('Home', '/edesigns/home'),
         ]
-        final_space = True
+        
         if product:
             breadcrumbs_data.append((_("Products"), f'/edesigns/products'))
         elif category:
             breadcrumbs_data.append((_("Categories"), f'/edesigns/categories'))
         else:
             breadcrumbs_data.append((_('Designs'), False))
-            final_space = False
         
-        if final_space:
+        if not (product or category):
             breadcrumbs_data.append((' ', False))
         
         breadcrumb_manager = Breadcrumb(
