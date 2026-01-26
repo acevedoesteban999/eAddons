@@ -147,7 +147,7 @@
                       <t t-set="visible_subs" t-value="[s for s in category.subcategories_ids if s.is_published and s.has_subcategories_designs]"/>
                       <t t-if="visible_subs">
                         <div class="subcategories-accordion">
-                          <t t-set="visible_limit" t-value="5"/>
+                          <t t-set="visible_limit" t-value="3"/>
                           <t t-set="parent_id" t-value="str(category.id)"/>
                           <t t-call="e_design_website.render_subcategories">
                             <t t-set="subcategories" t-value="list(enumerate(visible_subs))"/>
