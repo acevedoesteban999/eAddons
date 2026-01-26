@@ -10,30 +10,7 @@
           <script src="/e_design_website/static/src/lib/fancybox/fancybox.js"></script>
         </xpath>
     </template>
-    
-    <template id="listJsSearchComponent">
-      <div class="search-component">
-        <div class="dropdown-search">
-            <div class="row px-2">
-                <div class="col px-0">
-                    <input type="text" 
-                        class="form-control fuzzy-search" 
-                        placeholder="Search"
-                        />
-                </div>
-            </div>
-        </div>
-        <script src="/e_design_website/static/src/lib/listjs/listjs.js"/>
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            var listjs = new List('<t t-raw="list_js_id"/>', { 
-              valueNames: <t t-raw="list_js_valueNames"/>
-            });
-          });
-        </script>
-    </div>
-  </template>
-    
+        
     <template id="loaderComponent">
       <div class="position-relative">
         <div class="row align-items-center loader-component text-center">

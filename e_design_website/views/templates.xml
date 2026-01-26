@@ -55,13 +55,21 @@
       <t t-call="website.layout">
           <div class="container py-5">
             <t t-call="e_design_website.breadcrumbComponent"/>
-            <div id="listjs-search-component" class="row g-4 public-design-style">
+            <div id="listjs-search-component" class="row g-4 public-design-style" data-value-names='["listjs-name", "listjs-default-code"]'>
                 <div class="row my-2 justify-content-end">
                   <div class="col-12 col-sm-6 col-md-4 pe-0">
-                    <t t-call="e_design_website.listJsSearchComponent">
-                      <t t-set="list_js_id" t-value="'listjs-search-component'"/>
-                      <t t-set="list_js_valueNames" t-value="['listjs-name', 'listjs-default-code']" />
-                    </t>
+                    <div class="search-component">
+                        <div class="dropdown-search">
+                            <div class="row px-2">
+                                <div class="col px-0">
+                                    <input type="text" 
+                                        class="form-control fuzzy-search" 
+                                        placeholder="Search"
+                                        />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   </div>
                 </div>
                 <div class="list row justify-content-center align-items-center">
@@ -104,13 +112,21 @@
       <t t-call="website.layout">
         <div class="container py-5">
           <t t-call="e_design_website.breadcrumbComponent"/>
-          <div id="listjs-search-component" class="public-design-style">
+          <div id="listjs-search-component" class="public-design-style" data-value-names='["listjs-name","listjs-sub-name"]'>
             <div class="row my-2 justify-content-end">
               <div class="col-12 col-sm-6">
-                <t t-call="e_design_website.listJsSearchComponent">
-                  <t t-set="list_js_id" t-value="'listjs-search-component'"/>
-                  <t t-set="list_js_valueNames" t-value="['listjs-name']" />
-                </t>
+                <div class="search-component">
+                    <div class="dropdown-search">
+                        <div class="row px-2">
+                            <div class="col px-0">
+                                <input type="text" 
+                                    class="form-control fuzzy-search" 
+                                    placeholder="Search"
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                </div>
               </div>
             </div>
             <div class="list row g-4">
@@ -163,12 +179,12 @@
           <t t-else="">
             <div t-att-class="'accordion-item' + (' more-item' if is_more_section else '')">
               <div t-att-class="'accordion-header div-href div-href-transition level-' + str(level)" t-att-data-widget-href="'/edesigns/categories/' + str(sub.id)" t-att-data-widget-stop-propagation="1">
-                <span class="accordion-name" t-esc="sub.name"/>
+                <span class="accordion-name listjs-sub-name" t-esc="sub.name"/>
                 <t t-if="sub.subcategories_ids">
                   <t t-set="has_visible_children" t-value="any(s.is_published and s.has_subcategories_designs for s in sub.subcategories_ids)"/>
                   <t t-if="has_visible_children">
                     <button class="btn btn-sm btn-outline-primary accordion-btn" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + parent_id + '-' + str(sub.id)">
-                      + subcategories
+                      + More
                     </button>
                   </t>
                 </t>
