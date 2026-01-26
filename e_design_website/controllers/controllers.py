@@ -31,7 +31,7 @@ class Breadcrumb:
 class ProductDesign(http.Controller):
     
     @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
-    def search_read_public(self, model, domain=None, fields=None, limit=None, **kwargs):
+    def search_read_public(self, model, domain=None, fields=None, limit=None, context = {}, **kwargs):
         allowed_models = ['product.template', 'product.edesign', 'product.edesign.category'] 
         if model not in allowed_models:
             return {'error': 'Model not allowed'}
@@ -39,6 +39,13 @@ class ProductDesign(http.Controller):
         _domain = []
         
         if model == 'product.edesign':
+            if(context.get('get_subcategories_ids')):
+                for item in domain:
+                    if len(item) == 3 and item[0] == 'category_id' and item[2]:
+                        item[1] = 'in'
+                        item[2] = list(set(http.request.env['product.edesign.category'].browse(item[2]).get_subcategories_ids_recursive()))
+                        break
+                    
             _domain.extend(EDESIGN_DOMAIN)
         elif model == 'product.edesign.category':
             _domain.extend(CATEGORY_DOMAIN)

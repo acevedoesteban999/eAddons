@@ -55,6 +55,7 @@ import { SearchComponent } from "../search/search"
             model: 'product.edesign',
             domain: domain,
             fields: ['id','name','default_code'],
+            context: {'get_subcategories_ids': this.state.category?true:false}
         });
 
         if (this.loadingTimeOut)

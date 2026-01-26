@@ -9,3 +9,10 @@ class ProductEDesign(models.Model):
     def _compute_has_subcategories_designs(self):
         for rec in self:
             rec.has_subcategories_designs = (rec.is_published and rec.design_ids) or any(rec.subcategories_ids.mapped('has_subcategories_designs'))
+            
+    def get_subcategories_ids_recursive(self):
+        ids = []
+        for rec in self:
+            ids.append(rec.id)
+            ids.extend(rec.subcategories_ids.get_subcategories_ids_recursive())
+        return ids

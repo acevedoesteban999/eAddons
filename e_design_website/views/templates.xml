@@ -64,34 +64,34 @@
                     </t>
                   </div>
                 </div>
-                <div class="list">
+                <div class="list row justify-content-center align-items-center">
                   <t t-foreach="products" t-as="product">
+                    <div class="col-12 col-sm-6 col-md-5 col-xl-3 my-4">
                       <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}">
-                        <div class="col-12 my-4">
-                            <div class="card h-100">
-                                <img t-if="product.image_1920"
-                                    t-attf-src="/web/image/product.template/#{product.id}/image_1920"
-                                    class="card-img-top"
-                                    t-att-alt="product.name"/>
-                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
-                                    <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title fw-bold text-truncate">
-                                        
-                                        <span class="listjs-default-code" t-if="product.default_code">
-                                          [<t t-esc="product.default_code"/>]
-                                        </span>
-                                        
-                                        <span class="listjs-name" t-esc="product.name"/>
-                                    </h5>
-                                    <div class="card-text flex-grow-1 text-muted">
-                                      <t t-esc="product.design_counter"/> Designs
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                          <div class="card h-100">
+                              <img t-if="product.image_1920"
+                                  t-attf-src="/web/image/product.template/#{product.id}/image_1920"
+                                  class="card-img-top"
+                                  t-att-alt="product.name"/>
+                              <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                  <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                              </div>
+                              <div class="card-body d-flex flex-column">
+                                  <h5 class="card-title fw-bold text-truncate">
+                                      
+                                      <span class="listjs-default-code" t-if="product.default_code">
+                                        [<t t-esc="product.default_code"/>]
+                                      </span>
+                                      
+                                      <span class="listjs-name" t-esc="product.name"/>
+                                  </h5>
+                                  <div class="card-text flex-grow-1 text-muted">
+                                    <t t-esc="product.design_counter"/> Designs
+                                  </div>
+                              </div>
+                          </div>
                       </a>
+                    </div>
                   </t>
                 </div>
             </div>
@@ -178,10 +178,6 @@
                 <t t-if="has_visible_children">
                   <div t-att-id="'collapse-' + parent_id + '-' + str(sub.id)" class="accordion-collapse collapse">
                     <div t-att-class="'accordion-body' + (' nested' if level > 1 else '')">
-                      <div class="see-all div-href div-href-transition" t-att-data-widget-href="'/edesigns/categories/' + str(sub.id)" t-att-data-widget-stop-propagation="1">
-                        <span>See all <t t-esc="sub.name"/></span>
-                        <i class="fa fa-arrow-right"></i>
-                      </div>
                       <t t-call="e_design_website.render_subcategories">
                         <t t-set="subcategories" t-value="list(enumerate(sub.subcategories_ids))"/>
                         <t t-set="level" t-value="level + 1"/>
