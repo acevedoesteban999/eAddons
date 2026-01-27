@@ -14,9 +14,9 @@ class ProductDesignCategory(models.Model):
     name = fields.Char('Name')
     image = fields.Image("Image")
     parent_id = fields.Many2one('product.edesign.category')
-    design_ids = fields.One2many('product.edesign','category_id',"Designs")
+    design_ids = fields.One2many('product.edesign','category_id',"Designs",readonly=True)
     design_counter = fields.Integer("Designs",compute="_compute_design_counter")
-    subcategories_ids = fields.One2many('product.edesign.category','parent_id',"Sub-Categories")
+    subcategories_ids = fields.One2many('product.edesign.category','parent_id',"Sub-Categories",readonly=True)
     
     def _get_display_name (self):
         return (self.parent_id._get_display_name() + " / " + self.name ) if self.parent_id else self.name
