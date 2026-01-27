@@ -52,7 +52,7 @@ class ProductDesign(http.Controller):
     @http.route("/edesigns/home", type='http', auth='public', website=True)    
     def designs(self, **kw):
         return http.request.render(
-            'e_design_website.DesignsPage',
+            'e_design_website.DesignsHome',
             {
                 'title': _("Designs"),
             },
@@ -147,7 +147,7 @@ class ProductDesign(http.Controller):
         }
         
         return http.request.render(
-            'e_design_website.EProductDesignTemplate',
+            'e_design_website.EProductDesignOwlComponent',
             {
                 'title': _("Designs"),
                 'breadcrumbs_context': breadcrumb_manager._dict(),
