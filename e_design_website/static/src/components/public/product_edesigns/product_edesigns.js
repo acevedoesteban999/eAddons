@@ -36,7 +36,7 @@ import { SearchComponent } from "../search/search"
           })
       }
 
-      async searchDesigns(){
+      async searchDesigns(reload_category = false){
         this.loadingTimeOut = setTimeout(() => {
           this.state.loadingData = true;
         }, 500);
@@ -45,15 +45,26 @@ import { SearchComponent } from "../search/search"
         if (this.state.product && this.state.product.design_ids?.length)
           domain.push(['id','in',this.state.product.design_ids]);
         
+        if(reload_category){
+          const _category = await this.orm.rpc("/e_design_website/searchRead", {
+            model: 'product.edesign.category',
+            domain: [['id','=',this.state.category.id]],
+            fields: ['id','display_name','subcategories_ids']
+          });
+
+          this.state.category = _category?.[0] ?? false
+          
+        }
+
         if (this.state.category){
           
           let categories = []
           if(this.state.subcategory?.id)
             categories.push(this.state.subcategory.id)
-          else if(this.state.category?.id){
+          else{
             categories.push(this.state.category.id) 
-            if(this.state.category.subcategories?.length)
-              categories.concat(this.state.category.subcategories)
+            if(this.state.category.subcategories_ids?.length)
+              categories = categories.concat(this.state.category.subcategories_ids)
           }
 
           domain.push(['category_id','in', categories]);
@@ -73,12 +84,18 @@ import { SearchComponent } from "../search/search"
             fields: ['id','name','default_code'],
         });
         
-        if(this.state.designs?.length && this.state.category?.subcategories_ids?.length)
+        if(this.state.designs?.length ){
+          let domain = []
+          if(this.state.category?.subcategories_ids)
+            domain.push(['id','in',this.state.category.subcategories_ids])
+          else
+            domain.push(['parent_id','=',false])
           this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
             model: 'product.edesign.category',
-            domain: [['id','in',this.state.category.subcategories_ids]],
-            fields: ['id','name'],
+            domain: domain,
+            fields: ['id','name','parent_id'],
           });
+        }
         else
           this.state.subcategories = false
 
@@ -90,12 +107,16 @@ import { SearchComponent } from "../search/search"
       }
 
       async selectSubCategory(subcategory){
-        if(!this.state.category)
+        if(!subcategory.parent_id){
           this.state.category = subcategory;
-        else
+          this.state.subcategory = false
+          await this.searchDesigns(true);
+        }
+        else{
           this.state.subcategory = subcategory;
+          await this.searchDesigns();
+        }
         
-        await this.searchDesigns();
       }
 
       async cancelSubCategory(){
