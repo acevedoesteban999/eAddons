@@ -11,13 +11,14 @@
     'category': 'Customizations',
     'depends': ['e_design','website'],
     'data': [
+        "security/ir.model.access.csv",
+        
         "views/pages/components.xml",
         "views/pages/design_categories.xml",
         "views/pages/design_design.xml",
         "views/pages/design_home.xml",
         "views/pages/design_products.xml",
         "views/pages/product_design_owl.xml",
-        
         "views/product_edesign.xml",
         "views/product_edesign_category.xml",
     ],
