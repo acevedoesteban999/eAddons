@@ -1,7 +1,6 @@
 /** @odoo-module **/
 
 import { Component, type, useRef, useState } from "@odoo/owl";
-import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
 export class SearchComponent extends Component {
@@ -90,5 +89,3 @@ export class SearchComponent extends Component {
         
     }
 }
-
-registry.category("public_components").add("e_design_website.SearchComponent", SearchComponent);
