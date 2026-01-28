@@ -39,6 +39,8 @@ patch(PosStore.prototype, {
             const payload = await makeAwaitable(this.dialog, EDesignConfiguratorPopup, {
                 product: vals.product_id,
             });
+            if (payload === undefined)
+                return
             vals.design_id = payload?.design_id ?? false
         }
         return super.addLineToOrder(vals, order, opts, configure)
