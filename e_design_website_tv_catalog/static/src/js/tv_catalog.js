@@ -17,12 +17,12 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
 
     async start() {
         this._super(...arguments);
-        this.maxItemsPerSlide = 6;
         this.groupsCache = [];
         this.isLoading = false;
         
         const rawConfig = this.$el.attr('data-config');
-        this.config = rawConfig ? JSON.parse(rawConfig) : { autoplay: 3000 };
+        this.config = rawConfig ? JSON.parse(rawConfig) : {};
+        this.maxItemsPerSlide = this.config.maxItemsPerSlide ?? 8;
         
         this._startClock();
         await this._fetchFreshData(true);
@@ -138,7 +138,9 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const shuffled = [...items].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, Math.min(max, shuffled.length));
     },
-
+    _getRandomRows(total){
+        return (total >= 6 && total % 2 == 0 && Math.random() > 0.5) ? 1 : 0
+    },
     _generateDynamicGrid(items, groupName) {
         const total = items.length;
         if (total === 0) {
@@ -146,17 +148,11 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         }
 
         let rows = [];
-        if (total <= 3) {
+        if (total <= 3)
             rows = [total];
-        } else if (total === 4) {
-            rows = [2, 2];
-        } else if (total === 5) {
-            rows = [2, 3];
-        } else if (total === 6) {
-            rows = [3, 3];
-        } else {
+        else {
             const half = Math.ceil(total / 2);
-            rows = [half, total - half];
+            rows = [half - this._getRandomRows(total)  , total - half - this._getRandomRows(total) ];
         }
 
         let html = '<div class="h-100 d-flex flex-column gap-2">';
@@ -241,7 +237,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         this.swiper = new Swiper('.tv-swiper', {
             direction: 'horizontal',
             loop: !isSingleSlide, 
-            speed: 1000,
+            speed: 2000,
             autoplay: {
                 delay: delay,
                 disableOnInteraction: false,

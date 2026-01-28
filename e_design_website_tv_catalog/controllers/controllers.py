@@ -9,9 +9,10 @@ class TvCatalog(http.Controller):
         return request.render('e_design_website_tv_catalog.TVCatalog', {
             'title': _("Catalog"),
             'config': json.dumps({
-                'autoplay': 3000,
+                'autoplay': 5000,
                 'scroll_speed': 1.0,
                 'refresh_interval': 3600000,
+                'maxItemsPerSlide': 8,
             })
         })
 
