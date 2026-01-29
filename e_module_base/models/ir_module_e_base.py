@@ -17,6 +17,9 @@ class EGitModuleBase(models.AbstractModel):
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
     
+    error_msg = fields.Char("Error")
+    last_check = fields.Datetime(default=fields.Datetime.now)
+    
     # ===================================================================
     # API
     # ===================================================================

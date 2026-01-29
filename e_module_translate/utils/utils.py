@@ -8,7 +8,7 @@ from odoo.tools.translate import trans_export
 
 def get_pot_from_export(module_name,cr):
     with io.BytesIO() as buf:
-        trans_export(None, [module_name], buf, 'po', cr)
+        trans_export(False, [module_name], buf, 'po', cr)
         buf.seek(0)
         content = buf.read().decode('utf-8')
         return polib.pofile(content)
@@ -20,11 +20,11 @@ def get_pot_from_file(local_path,module_name):
     return polib.pofile(pot_path)
 
 def compare_pot_files(local_path,module_name,cr):
-    file_pot = get_pot_from_export(local_path,module_name)
+    file_pot = get_pot_from_export(module_name,cr)
     if not file_pot:
         return False
 
-    exported_pot = get_pot_from_file(module_name,cr)
+    exported_pot = get_pot_from_file(local_path, module_name)
     
     exported_keys = {entry.msgid for entry in exported_pot if entry.msgid}
     file_keys = {entry.msgid for entry in file_pot if entry.msgid}

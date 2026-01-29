@@ -3,8 +3,7 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { Dialog } from "@web/core/dialog/dialog";
-import { Component, useState } from "@owl";
-
+import { Component , useState } from "@odoo/owl";
 export class PotTranslationDialog extends Component {
     static template = "ir_module_e_translate.PotTranslationDialog";
     static components = { Dialog };

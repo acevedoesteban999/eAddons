@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="action_pot_translation_dialog" model="ir.actions.client">
+        <field name="name">Edit Translations</field>
+        <field name="tag">pot_translation_dialog</field>
+        <field name="target">new</field>
+    </record>
    
     <record id="view_ir_module_e_translate_list" model="ir.ui.view">
         <field name="name">view.ir_module.e_translate.list</field>
@@ -10,6 +15,7 @@
         <field name="arch" type="xml">
             <list position="inside">
                 <field name="has_pot_translations"></field>
+                <field name="status"></field>
             </list>
         </field>
     </record>
@@ -21,13 +27,27 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <button string="Recompute Pot" invisible="not module_exist or not has_pot_translations" name="action_recompute_pot" type="object" class="oe_highlight"/>
+                <button string="Recompute Local Pot" invisible="not module_exist or not has_pot_translations" name="action_compute_translations" type="object" class="oe_highlight"/>
+                <button string="Recompute Odoo Pot" invisible="not module_exist or not has_pot_translations" name="action_recompute_pot" type="object" class="oe_highlight"/>
                 <button name="%(action_pot_translation_dialog)d" invisible="not module_exist" type="action" string="Edit Translations" class="btn-primary"/>
             </xpath>
             <xpath expr="//field[@name='module_name']" position="after">
                 <field name="has_pot_translations"></field>
-                <field name="po_translations" invisible="has_pot_translations" widget="ejson_tags"></field>
-                
+                <field name="po_languages" invisible="not has_pot_translations" widget="ejson_tags"></field>
+                <field name="status" 
+                    widget="badge"
+                    decoration-success="status == 'up_to_date'"
+                    decoration-warning="status == 'out_of_date'"
+                    decoration-danger="status == 'error'"/>
+                <field name="error_msg" 
+                    invisible="not error_msg"
+                    string="Info"
+                    readonly="1" 
+                    widget="badge"
+                    decoration-secondary="True"
+                    decoration-danger="status == 'error'"
+                    />
+                <field name="last_check" readonly="1" decoration=""></field>
             </xpath>
         </field>
     </record>
@@ -47,10 +67,6 @@
     </record>
 
 
-    <record id="action_pot_translation_dialog" model="ir.actions.client">
-        <field name="name">Edit Translations</field>
-        <field name="tag">pot_translation_dialog</field>
-        <field name="target">new</field>
-    </record>
+    
 
 </odoo>

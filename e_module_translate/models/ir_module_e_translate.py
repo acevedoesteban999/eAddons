@@ -12,45 +12,59 @@ class Ir_moduleTranslate(models.Model):
 
     
     has_pot_translations = fields.Boolean("Pot File",compute="_compute_translations")
-    po_translations = fields.Json("Languages",compute="_compute_translations")
-    pot_keys = fields.Json("Pot Keys")
+    po_languages = fields.Json("PO Languages",compute="_compute_translations")
     
     status = fields.Selection([
-        ('up_to_date',"Up todate")
-        ('out_of_date',"Out to Date")
-    ],required=True)
+        ('up_to_date',"Up to Date"),
+        ('out_of_date',"Out of Date"),
+        ('error','Error'),
+    ],readonly=True)
     
-    last_check = fields.Datetime(default=fields.Datetime.now)
+    
     
     @api.depends('module_name')
     def _compute_translations(self):
         for rec in self:
             rec.has_pot_translations = False
-            po_translations = []
+            po_languages = []
             if rec.module_exist:
                 i18n_path = os.path.join(rec.local_path,'i18n')
                 if os.path.exists(i18n_path):
                     for entry in os.scandir(i18n_path):
                         if entry.name == f'{rec.module_name}.pot':
                             rec.has_pot_translations = True
-                        if entry.name.endswith('.po'):
+                        elif entry.name.endswith('.po'):
                             lang_code = entry.name[:-3]
-                            po_translations.append({
+                            po_languages.append({
                                 'name': lang_code,
                             })
-            rec.po_translations = po_translations
+            rec.po_languages = po_languages
+            rec.last_check = fields.Datetime.now()
               
-    
-    
+    def action_compute_translations(self):
+        self._compute_translations()
+        
+        
     def action_recompute_pot(self):
         self.ensure_one()
-        result = compare_pot_files(self.local_path,self.module_name,self._cr)
-        if result:
-            common_keys, missing_in_file, extra_in_file = result
-            self.pot_keys = common_keys
-            self.status = bool(missing_in_file and extra_in_file)
-            self.last_check = fields.Datetime.now()
-            
+        try:
+            self._compute_translations()
+            result = compare_pot_files(self.local_path,self.module_name,self._cr)
+            if result:
+                common_keys, missing_in_file, extra_in_file = result
+                self.status = 'out_of_date' if bool(missing_in_file and extra_in_file) else 'up_to_date'
+                if self.status == 'out_of_date':
+                    self.error_msg = _("Missing: %s ; Extra: %s") % (len(missing_in_file) , len(extra_in_file))
+                else:
+                    self.error_msg = False
+                self.last_check = fields.Datetime.now()
+            else:
+                self.status = 'error'
+                
+                self.error_msg = _("No Pot files Generated")
+        except Exception as e:
+            self.status = 'error'
+            self.error_msg = str(e)
     @api.model
     def get_po_data(self,e_translate_id):
         pass
