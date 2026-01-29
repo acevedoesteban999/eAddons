@@ -13,11 +13,18 @@ def get_pot_from_export(module_name,cr):
         content = buf.read().decode('utf-8')
         return polib.pofile(content)
 
+def get_po_from_file(local_path,lang):
+    pot_path = os.path.join(local_path, 'i18n', f'{lang}.po')
+    if not os.path.isfile(pot_path):
+        return None
+    return polib.pofile(pot_path)
+
 def get_pot_from_file(local_path,module_name):
     pot_path = os.path.join(local_path, 'i18n', f'{module_name}.pot')
     if not os.path.isfile(pot_path):
         return None
     return polib.pofile(pot_path)
+
 
 def compare_pot_files(local_path,module_name,cr):
     file_pot = get_pot_from_export(module_name,cr)
