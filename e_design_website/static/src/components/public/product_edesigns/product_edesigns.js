@@ -77,20 +77,19 @@ import { SearchComponent } from "../search/search"
             fields: ['id','name','default_code'],
         });
         
-        if(this.state.designs?.length ){
-          let domain = []
-          if(this.state.category?.subcategories_ids)
-            domain.push(['id','in',this.state.category.subcategories_ids])
-          else
-            domain.push(['parent_id','=',false])
-          this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
-            model: 'product.edesign.category',
-            domain: domain,
-            fields: ['id','name','parent_id'],
-          });
-        }
+        
+        domain = []
+        if(this.state.category?.subcategories_ids)
+          domain.push(['id','in',this.state.category.subcategories_ids])
         else
-          this.state.subcategories = false
+          domain.push(['parent_id','=',false])
+        this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
+          model: 'product.edesign.category',
+          domain: domain,
+          fields: ['id','name','parent_id'],
+        });
+        
+        
 
 
         if (this.loadingTimeOut)

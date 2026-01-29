@@ -9,7 +9,6 @@ _DOMAINES = {
     ],
     'product.edesign.category':[
         ('is_published','=',True),
-        ('design_ids','!=',False),
     ],
     'product.template':[
         ('is_published','=',True),

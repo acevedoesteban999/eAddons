@@ -82,26 +82,26 @@
                     <div class="row g-4 public-design-style mt-3">
                         <t t-if="!this.state.loadingData">
                             <t t-set="designs" t-value="SearchDesigns"/>
-                            <t t-if="designs?.length">
-                                <div t-if="this.state.subcategories?.length and this.state.subcategories.length > 1" class="row g-2 subcategory-filters">
-                                    <div class="col-auto" 
-                                        t-foreach="this.state.subcategories" 
-                                        t-as="subcategory" 
-                                        t-key="subcategory.id"
+                            <div t-if="this.state.subcategories?.length and this.state.subcategories.length > 1" class="row g-2 subcategory-filters">
+                                <div class="col-auto" 
+                                    t-foreach="this.state.subcategories" 
+                                    t-as="subcategory" 
+                                    t-key="subcategory.id"
+                                >
+                                    <button 
+                                        t-attf-class="btn {{this.state.subcategory?.id == subcategory.id ? 'btn-primary' : 'btn-outline-primary'}}"
+                                        t-on-click="() => this.selectSubCategory(subcategory)"
                                     >
-                                        <button 
-                                            t-attf-class="btn {{this.state.subcategory?.id == subcategory.id ? 'btn-primary' : 'btn-outline-primary'}}"
-                                            t-on-click="() => this.selectSubCategory(subcategory)"
-                                        >
-                                            <small t-esc="subcategory.name"/>
-                                            <span 
-                                                t-if="this.state.subcategory?.id == subcategory.id" 
-                                                class="remove-icon"
-                                                t-on-click="(event) => { event.stopPropagation(); this.cancelSubCategory(); }"
-                                            >×</span>
-                                        </button>
-                                    </div>
+                                        <small t-esc="subcategory.name"/>
+                                        <span 
+                                            t-if="this.state.subcategory?.id == subcategory.id" 
+                                            class="remove-icon"
+                                            t-on-click="(event) => { event.stopPropagation(); this.cancelSubCategory(); }"
+                                        >×</span>
+                                    </button>
                                 </div>
+                            </div>
+                            <t t-if="designs?.length">
                                 <t t-foreach="designs" t-as="design" t-key="design.id">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">
