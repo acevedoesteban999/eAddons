@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'eWebsiteDesign',
+    'name': 'eDesignWebsiteTvCatalog',
     'version': '18.0.3.0.0',
     'summary': "Integration eDesign with Website",
     'description':"""
