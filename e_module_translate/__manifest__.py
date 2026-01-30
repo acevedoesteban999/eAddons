@@ -10,7 +10,9 @@
     'data': [
         'security/ir.model.access.csv',
         'views/ir_module_e_translate.xml',
-        "views/menu.xml"
+        "wizards/ir_module_e_translate_autotranslate_wizard.xml",
+        
+        "views/menu.xml",
     ],
     'assets': {
         'web.assets_backend': [

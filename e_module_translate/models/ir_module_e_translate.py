@@ -97,8 +97,9 @@ class IrModuleTranslate(models.Model):
             }
             simple_data[entry.msgid] = entry.msgid
         
-        installed_langs = self.env['res.lang'].get_installed()
-        existing_langs = {l['name'] for l in rec.po_languages}
+        
+        installed_langs = [code for code in self.env['res.lang']._get_active_by('iso_code').keys() if code != 'en']
+        existing_langs = {l['name'] for l in rec.po_languages if l} if rec.po_languages else {}
         
         datas = {
             _POT_DICT_KEY: {
@@ -128,10 +129,7 @@ class IrModuleTranslate(models.Model):
         
         return {
             'datas': datas,
-            'lang_installed': [
-                lang[0] for lang in installed_langs 
-                if lang[0] not in existing_langs and lang[0] != 'en_US'
-            ]
+            'lang_installed': installed_langs
         }
 
 
@@ -250,3 +248,18 @@ class IrModuleTranslate(models.Model):
             'pot_file': f'{rec.module_name}.pot',
             'po_files': saved_pos
         }
+        
+    def action_open_autotranslate_wizard(self):
+        return {
+            'name': _('Autotranslate'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'res_model': 'ir.module.e_translate.autotranslate.wizard',
+            'domain': [],
+            'context': {
+                'e_translation_ids': self.ids
+            }
+        }
+        
