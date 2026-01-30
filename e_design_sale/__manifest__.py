@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'eSaleDesign',
+    'name': 'eDesignSale',
     'version': '18.0.3.0.0',
     'summary': """ Add design to sale's lines """,
     'author': 'acevedoesteban999@gmail.com',
