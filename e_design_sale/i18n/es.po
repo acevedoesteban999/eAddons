@@ -1,0 +1,44 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_design_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-30 06:46+0000\n"
+"PO-Revision-Date: 2026-01-30 06:46\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
+
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__design_id
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__is_designable_product
+msgid "Design"
+msgstr "Diseño"
+
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__parent_design_ids
+msgid "Designs for Product Template"
+msgstr "Diseños para plantilla de producto"
+
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order__has_design
+msgid "Has Design"
+msgstr "Tiene diseño"
+
+#. module: e_design_sale
+#: model:ir.model,name:e_design_sale.model_sale_order
+msgid "SaleOrder"
+msgstr "VentaOrden"
+
+#. module: e_design_sale
+#: model:ir.model,name:e_design_sale.model_sale_order_line
+msgid "SaleOrderLine"
+msgstr "Línea de pedido de venta"

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'eProductDinamic',
+    'name': 'eMtoDinamic',
     'version': '18.0.0.2',
     'summary': """ Create Dinamic Products for Dinamic Bill of Material """,
     'author': 'acevedoesteban999@gmail.com',

@@ -8,5 +8,5 @@ class ProductProduct(models.Model):
     
     def _compute_can_show_in_pos_out_stock(self):
         for rec in self:
-            rec.can_show_in_pos_out_stock = rec.product_tmpl_id.show_pos_outofstock or rec.product_tmpl_id.pos_categ_ids.get_show_pos_outofstock_recursive()
+            rec.can_show_in_pos_out_stock = rec.product_tmpl_id.show_pos_outstock or rec.product_tmpl_id.pos_categ_ids.get_show_pos_outstock_recursive()
     
