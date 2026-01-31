@@ -7,7 +7,7 @@ class TvCatalog(http.Controller):
     @http.route('/tv/catalog', type='http', auth='user', website=True)
     def tv_catalog(self):
         return request.render('e_design_website_tv_catalog.TVCatalog', {
-            'title': _("Catalog"),
+            'title': request.website.company_id.name or _("Catalog"),
             'config': json.dumps({
                 'autoplay': 5000,
                 'scroll_speed': 1.0,
