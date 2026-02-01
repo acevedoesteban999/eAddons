@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eModuleBase',
-    'version': '18.0.0.0',
+    'version': '18.0.0.1',
     'summary': """ Base Module for eModules """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_base',
@@ -11,6 +11,8 @@
         "security/ir.model.access.csv",
         "wizards/addon_modules_wizard.xml",
         "views/ir_module_e_base.xml",
+        
+        "views/menu.xml",
     ],
     "assets": {
         "web.assets_backend": [
