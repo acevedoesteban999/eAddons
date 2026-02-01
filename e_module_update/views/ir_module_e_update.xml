@@ -21,7 +21,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="action_check_version" type="object" string="Check Version"/>
+                <button name="action_check_version" invisible="module_status != 'ready'" type="object" string="Check Version"/>
                                     
                 <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
                         invisible="not restart_local" 
