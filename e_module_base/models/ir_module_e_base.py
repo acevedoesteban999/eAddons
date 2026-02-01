@@ -19,6 +19,11 @@ class EGitModuleBase(models.AbstractModel):
         ('dont_found','Dont Found'),
     ],compute="_compute_module_status",readonly=True)
     
+    state = fields.Selection([
+        ('error','Error'),
+    ],readonly=True)
+    
+    
     installed_version = fields.Char("Installed Version", compute="_compute_installed_versions",
                                     help="Version installed on Database")
     
@@ -59,8 +64,8 @@ class EGitModuleBase(models.AbstractModel):
     @api.depends('module_name')
     def _compute_module_status(self):
         for rec in self:
-            rec.module_status = 'ready' if rec.module_installed else 'no_installed' if rec.module_exist else 'dont_found'
-    
+            rec.module_status = 'ready' if rec.module_installed else 'no_installed' if rec.module_exist else 'dont_found' if (rec.module_name and len(rec.module_name)) else False
+                
     @api.onchange('module_name')
     def _compute_module_icon(self):
         for rec in self:

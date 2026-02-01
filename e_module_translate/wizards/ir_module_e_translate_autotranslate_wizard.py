@@ -28,7 +28,7 @@ class ModelName(models.TransientModel):
                     continue
                 
                 e_translation._recompute_translations(True,pot_file)
-                if e_translation.status not in ['outdated','missing']:
+                if e_translation.state not in ['outdated','missing']:
                     continue
                 
                 result = e_translation.get_pot_translation_data(e_translation.id,pot_file)

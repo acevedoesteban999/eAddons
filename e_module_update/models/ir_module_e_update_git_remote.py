@@ -166,13 +166,13 @@ class eIrModuleUpdateGitRemote(models.Model):
     @api.depends('repo_url', 'subfolder_path', 'branch')
     def _compute_versions(self):
         for rec in self:
-            super(eIrModuleUpdateGitRemote,rec)._compute_versions(False)
+            super(eIrModuleUpdateGitRemote,rec)._compute_versions()
             
-            if rec.module_exist and rec.update_state != 'error':
+            if rec.module_exist and rec.state != 'error':
                 if not rec.repo_url:
                     rec.update({
                         'remote_version': _("Unknown"),
-                        'update_state': 'error',
+                        'state': 'error',
                         'error_msg': _("No Repository URL Provided"),
                     })
                     continue
@@ -190,10 +190,10 @@ class eIrModuleUpdateGitRemote(models.Model):
 
     def compute_update_state(self,remote_error=False):
         self._compute_update_state(self.remote_version,self.repository_version)
-        if remote_error and not self.update_state:
-            self.update_state = 'error'
+        if remote_error and not self.state:
+            self.state = 'error'
             self.error_msg = remote_error
-        elif not self.update_state or self.update_state == 'uptodate':
+        elif not self.state or self.state == 'uptodate':
             super().compute_update_state()
     
     # ===================================================================

@@ -16,18 +16,17 @@ class IrModuleTranslate(models.Model):
     _description = 'Translation Manager for Modules'
 
     po_languages = fields.Json("PO Languages", compute="_compute_translations")
-    status = fields.Selection([
+    state = fields.Selection(selection_add=[
         ('synced', "Synced"),
         ('outdated', "Outdated"),
         ('missing', "Missing"),
-        ('error', "Error"),
-    ], string="Translate Status", readonly=True)
+    ], string="Translate State")
 
     def _recompute_translations(self,recompute_status = False , pot_file_cached = False):
         self.po_languages = po_languages = []
             
         if self.module_status != 'ready':
-            self.status = 'error'
+            self.state = 'error'
             return
             
         try:
@@ -43,14 +42,14 @@ class IrModuleTranslate(models.Model):
                     if result:
                         common_keys, missing_in_file, extra_in_file = result
                         if missing_in_file or extra_in_file:
-                            self.status = 'outdated'
+                            self.state = 'outdated'
                             self.error_msg = (_("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file)))
                         else:
-                            self.status = 'synced'
+                            self.state = 'synced'
                     else:
-                        self.status = False
+                        self.state = False
             else:
-                self.status = 'missing'
+                self.state = 'missing'
                 
             for entry in os.scandir(i18n_path):
                 if entry.name.endswith('.po'):
@@ -58,7 +57,7 @@ class IrModuleTranslate(models.Model):
                     po_languages.append({'name': lang_code})
                     
         except Exception:
-            self.status = 'error'
+            self.state = 'error'
                         
         self.po_languages = po_languages
         self.last_check = fields.Datetime.now()

@@ -15,12 +15,12 @@
         <field name="arch" type="xml">
             <list position="inside">
                 <field name="module_icon" widget="image_url" options="{'size':[50,50]}"/>
-                <field name="status" 
+                <field name="state" 
                     widget="badge"
-                    decoration-success="status == 'synced'"
-                    decoration-warning="status == 'outdated'"
-                    decoration-danger="status == 'error'"
-                    decoration-muted="status == 'missing'"/>
+                    decoration-success="state == 'synced'"
+                    decoration-warning="state == 'outdated'"
+                    decoration-danger="state == 'error'"
+                    decoration-muted="state == 'missing'"/>
                 <field name="po_languages" widget="ejson_tags"></field>
             </list>
         </field>
@@ -40,6 +40,7 @@
                         type="object" 
                         class="oe_highlight"
                         context="{'recompute_status':True}"/>
+                <field name="id" invisible="1"></field>
                 <button name="%(action_pot_translation_dialog)d" 
                         invisible="module_status != 'ready'" 
                         type="action" 
@@ -48,16 +49,12 @@
                         context="{'e_translate_id': id}"/>
             </xpath>
             <xpath expr="//field[@name='module_name']/parent::group" position="inside">
-                <field name="id" invisible="1"></field>
-                <field name="po_languages" widget="ejson_tags"></field>
+                <field name="po_languages" widget="ejson_tags" invisible="module_status != 'ready'"></field>
             </xpath>
-            <xpath expr="//field[@name='error_msg']" position="before">
-                <field name="status" 
-                    widget="badge"
-                    decoration-success="status == 'synced'"
-                    decoration-warning="status == 'outdated'"
-                    decoration-danger="status == 'error'"
-                    decoration-muted="status == 'missing'"/>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="decoration-success">state == 'synced'</attribute>
+                <attribute name="decoration-warning">state == 'outdated'</attribute>
+                <attribute name="decoration-muted">state == 'missing'</attribute>
             </xpath>
         </field>
     </record>

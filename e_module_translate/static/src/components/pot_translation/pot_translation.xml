@@ -44,7 +44,7 @@
                                                         t-on-click="() => this.translateLang(lang)"
                                                         t-att-disabled="state.translating === lang">
                                                     <t t-if="state.translating === lang">
-                                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"/>
+                                                        <span class="spinner-border spinner-border-sm me-1" role="state" aria-hidden="true"/>
                                                         Translating ... <t t-esc="state.translating"/>
                                                     </t>
                                                     <t t-else="">

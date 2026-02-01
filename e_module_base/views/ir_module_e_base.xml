@@ -40,13 +40,18 @@
                             <field name="module_icon" widget="image_url"/>
                         </group>
                     </group>
-                    <notebook>
+                    <notebook invisible="module_status != 'ready'">
                         <page name="info" string="Information">
                             <group>
                                 <group name="versions">
                                     <field name="installed_version" readonly="1"/>
                                 </group>
                                 <group name="state">
+                                    <field name="state" 
+                                        widget="badge" 
+                                        readonly="1" 
+                                        decoration-danger="state == 'error'"
+                                        />
                                     <field name="error_msg" 
                                         invisible="not error_msg"
                                         string="Info"

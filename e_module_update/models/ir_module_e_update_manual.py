@@ -34,14 +34,11 @@ class eIrModuleUpdateManual(models.Model):
     @api.depends('module_name','file_zip')
     def _compute_versions(self):
         for rec in self:
-            super(eIrModuleUpdateManual, rec)._compute_versions(False)
-            if rec.module_exist and rec.update_state != 'error':
+            super(eIrModuleUpdateManual, rec)._compute_versions()
+            if rec.module_status == 'ready' and rec.state != 'error':
                 if not rec.file_zip:
-                    rec.update({
-                        'zip_version': _("Unknown"),
-                        'update_state': 'error',
-                        'error_msg': _("No ZIP file provided"),
-                    })
+                    rec.state = rec.zip_version = False
+                    rec.error_msg = _("No ZIP file provided")
                     continue
                 
                 try:
@@ -61,7 +58,7 @@ class eIrModuleUpdateManual(models.Model):
                     if not manifest_content:
                         rec.update({
                             'zip_version': _("Unknown"),
-                            'update_state': 'error',
+                            'state': 'error',
                             'error_msg': _("No manifest file found in ZIP. Expected module structure."),
                         })
                         zip_file.close()
@@ -79,7 +76,7 @@ class eIrModuleUpdateManual(models.Model):
                     if expected_name != rec.module_name:
                         rec.update({
                             'zip_version': _("Unknown"),
-                            'update_state': 'error',
+                            'state': 'error',
                             'error_msg': _("Module name mismatch: ZIP contains '%s', expected '%s'") % 
                                     (expected_name, rec.module_name),
                         })
@@ -98,22 +95,22 @@ class eIrModuleUpdateManual(models.Model):
                 except zipfile.BadZipFile as e:
                     rec.update({
                         'zip_version': _("Unknown"),
-                        'update_state': 'error',
+                        'state': 'error',
                         'error_msg': _("Invalid ZIP file format: %s") % e,
                     })
                 except Exception as e:
                     _logger.error("Error processing ZIP for module %s: %s", rec.module_name, str(e))
                     rec.update({
                         'zip_version': _("Unknown"),
-                        'update_state': 'error',
+                        'state': 'error',
                         'error_msg': _("Error reading ZIP: %s") % str(e),
                     })
             else:
-                rec.zip_version = _("Unknown")
+                rec.zip_version = False
 
     def compute_update_state(self):
         self._compute_update_state(self.zip_version,self.repository_version)
-        if not self.update_state or self.update_state == 'uptodate':
+        if not self.state or self.state == 'uptodate':
             super().compute_update_state()
     
     # ===================================================================
@@ -126,7 +123,7 @@ class eIrModuleUpdateManual(models.Model):
         if not self.file_zip:
             raise UserError(_("No ZIP file provided"))
 
-        if self.update_state not in ['to_update','to_downgrade']:
+        if self.state not in ['to_update','to_downgrade']:
             raise UserError(_("Cannot update: %s") % (self.error_msg or _("Invalid state")))
         
         if not self.local_version:

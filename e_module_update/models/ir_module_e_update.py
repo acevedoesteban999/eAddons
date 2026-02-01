@@ -20,12 +20,11 @@ class EGitModuleUpdater(models.AbstractModel):
     repository_version = fields.Char("Repository Version", compute="_compute_versions",
                                      help="Version on Repository(Disk, Folder , OS)")
     
-    update_state = fields.Selection([
+    state = fields.Selection(selection_add=[
         ('uptodate', "Up to date"),
         ('to_update', "To Update"),
         ('to_downgrade',"To Downgrade"),
-        ('error', "Error"),
-    ], compute="_compute_versions",default=False,)
+    ],string="Update State")
     
     update_local = fields.Boolean(compute="_compute_update_local")
     restart_local = fields.Boolean(compute="_compute_restart_local")
@@ -93,34 +92,29 @@ class EGitModuleUpdater(models.AbstractModel):
         return False
         
     @api.depends('module_name')
-    def _compute_versions(self, update_state = True):
+    def _compute_versions(self):
         for rec in self:
-            if rec.module_status != 'ready':
+            try:
+                rec.repository_version = rec.local_version = False
+                if rec.module_status != 'ready':
+                    continue
+                
+                repository_version = load_manifest(rec.module_name).get('version')
+                local_version = self.env['ir.module.module'].search([('name','=',rec.module_name)]).installed_version
+                rec._compute_installed_versions()
+                
                 rec.update({
-                    'local_version': _("Unknown"),
-                    'installed_version': _("Unknown"),
-                    'repository_version': _("Unknown"),
-                    'update_state': 'error' if rec.module_name else False,
-                    'error_msg': _('Module not found') if rec.module_name else False,
+                    'local_version': local_version,
+                    'repository_version': repository_version,
                 })
-                continue
-            
-            module = self.env['ir.module.module'].search([('name','=',rec.module_name)])
-            repository_version = load_manifest(rec.module_name).get('version',_("Unknown"))
-            local_version = module.installed_version
-            rec._compute_installed_versions()
-            
-            rec.update({
-                'local_version': local_version or _("Unknown"),
-                'repository_version': repository_version or _("Unknown"),
-            })
-            
-            if update_state:
+                
                 rec.compute_update_state()
+            except:
+                rec.state = 'error'
             
     def compute_update_state(self):
         self._compute_update_state(self.repository_version,self.local_version)
-        if not self.update_state or self.update_state == 'uptodate':
+        if not self.state or self.state == 'uptodate':
             self._compute_update_state(self.local_version,self.installed_version)
         
     def _compute_update_state(self,up_version, down_version):
@@ -128,20 +122,20 @@ class EGitModuleUpdater(models.AbstractModel):
         down_version = self.version_to_tuple(down_version)
         if up_version and down_version:
             if up_version > down_version:
-                update_state = 'to_update'
+                state = 'to_update'
                 error_msg = False
             elif up_version == down_version:
-                update_state = 'uptodate'
+                state = 'uptodate'
                 error_msg = False
             else:
-                update_state = 'to_downgrade'
+                state = 'to_downgrade'
                 error_msg = _("Version is older than module's version")
         else:
-            update_state = False
+            state = False
             error_msg = ""
         
         self.write({
-            'update_state':update_state,
+            'state':state,
             'error_msg':error_msg,
             'last_check': fields.Datetime.now(),
         })
