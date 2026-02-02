@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eModuleBase',
-    'version': '18.0.0.1',
+    'version': '18.0.0.2.0',
     'summary': """ Base Module for eModules """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_base',
