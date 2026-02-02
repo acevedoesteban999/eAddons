@@ -180,13 +180,17 @@ class eIrModuleUpdateGitRemote(models.Model):
         else:
             self.remote_version = False
 
+    def _get_versions(self):
+        versions = super()._get_versions() 
+        if self.remote_version:
+            versions = [self.remote_version] + versions
+        return versions
+
     @api.depends('repo_url', 'subfolder_path', 'branch')
-    def _compute_state(self,remote_error=False):
+    def _compute_state(self):
         for rec in self:
             rec._recompute_remote_version()
-            if rec.remote_version:
-                super(eIrModuleUpdateGitRemote,rec)._compute_state(versions=[rec.remote_version])
-            super(eIrModuleUpdateGitRemote,rec)._compute_state(compute_versions=False)
+            super(eIrModuleUpdateGitRemote,rec)._compute_state()
     
     # ===================================================================
     # ACTIONS

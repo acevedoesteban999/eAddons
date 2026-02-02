@@ -100,16 +100,20 @@ class eIrModuleUpdate(models.AbstractModel):
             except:
                 rec.state = 'error'
     
-    def _compute_state(self,compute_versions = True, versions = []):
+    def _get_versions(self):
+        return [self.repository_version,self.local_version,self.installed_version]
+    
+    def _compute_state(self):
         for rec in self:
             try:
                 super(eIrModuleUpdate,rec)._compute_state()
                 rec._compute_repository_version()
-                if compute_versions:
-                    rec.state = rec._check_version_recursive(versions + [rec.repository_version,rec.local_version,rec.installed_version])
-                    if rec.state == 'to_downgrade':
-                        rec.error_msg = _("Version is older than module's version")
-                    rec.last_check = fields.Datetime.now()
+                
+                versions = rec._get_versions()
+                rec.state = rec._check_version_recursive(versions)
+                if rec.state == 'to_downgrade':
+                    rec.error_msg = _("Version is older than module's version")
+                rec.last_check = fields.Datetime.now()
             except:
                 rec.state = 'error'
     

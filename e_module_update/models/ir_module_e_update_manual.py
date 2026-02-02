@@ -98,13 +98,17 @@ class eIrModuleUpdateManual(models.Model):
             self.error_msg = False
             self.zip_version = False
 
+    def _get_versions(self):
+        versions = super()._get_versions() 
+        if self.zip_version:
+            versions = [self.zip_version] + versions
+        return versions
+
     @api.depends('file_zip')
     def _compute_state(self):
         for rec in self:
             rec._recompute_file_zip()
-            if rec.zip_version:
-                super(eIrModuleUpdateManual,rec)._compute_state(versions=[rec.zip_version])
-            super(eIrModuleUpdateManual,rec)._compute_state(compute_versions=False)
+            super(eIrModuleUpdateManual,rec)._compute_state()
                 
     # ===================================================================
     # ACTIONS
