@@ -14,39 +14,38 @@ class AddonModules(models.TransientModel):
     _description = "Get Modules by Addon Path"
 
     addon_path = fields.Char("Addon Path", default=lambda self: _os_path_dir(os.path.abspath(__file__),3))
-    modules = fields.Json("Modules Found", compute="_compute_modules", store=False)
-    modules_not_installed = fields.Json("Modules Not Installed", compute="_compute_modules", store=False)
+    addon_modules = fields.Json("Modules Found", compute="_compute_addons_modules",store=True)
+    modules = fields.Json("Modules", compute="_compute_modules", readonly=False,store=True)
+    
+    
+    @api.depends('addon_path')
+    def _compute_addons_modules(self):
+        for rec in self:
+            if not rec.addon_path or not os.path.exists(rec.addon_path):
+                rec.addon_modules = []
+                continue
+            
+            found_modules = scan_addon_path(rec.addon_path)
+            if found_modules:
+                rec.addon_modules = [{"name": mod['name']} for mod in found_modules]
+            else:
+                rec.addon_modules = []
     
     @api.depends('addon_path')
     def _compute_modules(self):
-        for record in self:
-            if not record.addon_path or not os.path.exists(record.addon_path):
-                record.modules = []
-                record.modules_not_installed = []
+        for rec in self:
+            if not rec.addon_path or not os.path.exists(rec.addon_path):
+                rec.modules = []
                 continue
-            
-            found_modules = scan_addon_path(record.addon_path)
             
             installed_modules = self.env['ir.module.module'].sudo().search([
                 ('state', '=', 'installed')
             ]).mapped('name')
+            if rec.addon_modules and installed_modules:
+                not_installed = [mod for mod in rec.addon_modules if mod['name'] not in installed_modules]
+                if not_installed:
+                    rec.modules = [{"name": mod['name']} for mod in not_installed]
+                    continue
+            rec.modules = []
+    
             
-            not_installed = [mod for mod in found_modules if mod['name'] not in installed_modules]
-            
-            record.modules = [{"name": mod['name']} for mod in found_modules]
-            record.modules_not_installed = [{"name": mod['name']} for mod in not_installed]
-            
-    def action_scan(self):
-        self.ensure_one()
-        self._compute_modules()
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
-        
-    # def loadModules(self):
-    #     return {'type': 'ir.actions.act_window_close'}
-        
