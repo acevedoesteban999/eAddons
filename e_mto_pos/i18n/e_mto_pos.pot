@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-01 00:23+0000\n"
-"PO-Revision-Date: 2026-02-01 00:23+0000\n"
+"POT-Creation-Date: 2026-02-02 04:44+0000\n"
+"PO-Revision-Date: 2026-02-02 04:44+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgstr ""
 #. module: e_mto_pos
 #: model:ir.model.fields,help:e_mto_pos.field_product_product__can_create_mto_pos
 #: model:ir.model.fields,help:e_mto_pos.field_product_template__can_create_mto_pos
-msgid "Product should make mrp order in pos. Require MTO route"
+msgid "Product should make mrp order in pos. Requires MTO route"
 msgstr ""
 
 #. module: e_mto_pos
