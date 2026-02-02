@@ -21,8 +21,6 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="action_check_version" invisible="module_state != 'installed'" type="object" string="Check Version"/>
-                                    
                 <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
                         invisible="not restart_local" 
                         confirm="This action only reloads the page. The server needs to restart to apply  the module changes. To do this, restart the service that started Odoo or your operating system."/>

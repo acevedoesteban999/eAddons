@@ -36,7 +36,7 @@
             <xpath expr="//button[@name='action_recompute_data']" position="attributes">
                 <attribute name="context">{'recompute_state':True}</attribute>
             </xpath>
-            <xpath expr="//header" position="inside">
+            <header position="inside">
                 <field name="id" invisible="1"></field>
                 <button name="%(action_pot_translation_dialog)d" 
                         invisible="module_state != 'installed'" 
@@ -44,7 +44,7 @@
                         string="Edit Translations" 
                         class="btn-primary" 
                         context="{'e_translate_id': id}"/>
-            </xpath>
+            </header>
             <xpath expr="//field[@name='module_id']/parent::group" position="inside">
                 <field name="po_languages" widget="ejson_tags" invisible="module_state != 'installed'"></field>
             </xpath>

@@ -54,8 +54,8 @@ class eIrModuleUpdateManual(models.Model):
                         break
                 
                 if not manifest_content:
-                    self.zip_version=  False,
-                    self.state = 'error',
+                    self.zip_version =  False
+                    self.state = 'error'
                     self.error_msg = _("No manifest file found in ZIP. Expected module structure.")
                     
                     zip_file.close()
@@ -71,36 +71,31 @@ class eIrModuleUpdateManual(models.Model):
                     expected_name = self.module_name
                 
                 if expected_name != self.module_name:
-                    self.zip_version = False,
-                    self.state ='error',
+                    self.zip_version = False
+                    self.state ='error'
                     self.error_msg =_("Module name mismatch: ZIP contains '%s', expected '%s'") % (expected_name, self.module_name)
                     
                     zip_file.close()
                     return
                 
                 
-                self.update({
-                    'zip_version': zip_version,
-                })
-                
-                self._compute_state()
+                self.zip_version = zip_version
                 
                 zip_file.close()
                 
             except zipfile.BadZipFile as e:
-                self.update({
-                    'zip_version': False,
-                    'state': 'error',
-                    'error_msg': _("Invalid ZIP file format: %s") % e,
-                })
+                self.zip_version = False
+                self.state ='error'
+                self.error_msg = _("Invalid ZIP file format: %s") % e
+        
             except Exception as e:
                 _logger.error("Error processing ZIP for module %s: %s", self.module_name, str(e))
-                self.update({
-                    'zip_version': False,
-                    'state': 'error',
-                    'error_msg': _("Error reading ZIP: %s") % str(e),
-                })
+                self.zip_version = False
+                self.state ='error'
+                self.error_msg = _("Error reading ZIP: %s") % str(e)
         else:
+            self.state = False
+            self.error_msg = False
             self.zip_version = False
 
     @api.depends('file_zip')

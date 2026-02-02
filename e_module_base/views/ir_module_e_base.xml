@@ -24,8 +24,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button string="Install Module" name="install_module" type="object" invisible="module_state != 'uninstalled'" class="oe_highlight"/>
-                    <button string="Recompute Data" name="action_recompute_data" type="object" class="oe_highlight" invisible="module_state != 'installed'"/>
+                    <button string="Install Module" name="install_module" type="object" invisible="module_state != 'uninstalled'"/>
+                    <button string="Recompute Data" name="action_recompute_data" type="object" invisible="module_state != 'installed'"/>
                 </header>
                 <sheet>
                     <group>

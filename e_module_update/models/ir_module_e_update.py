@@ -88,7 +88,7 @@ class eIrModuleUpdate(models.AbstractModel):
             pass
         return False
         
-    @api.depends('module_name')
+    @api.depends('module_id')
     def _compute_repository_version(self):
         for rec in self:
             try:
@@ -104,6 +104,7 @@ class eIrModuleUpdate(models.AbstractModel):
         for rec in self:
             try:
                 super(eIrModuleUpdate,rec)._compute_state()
+                rec._compute_repository_version()
                 if compute_versions:
                     rec.state = rec._check_version_recursive(versions + [rec.repository_version,rec.local_version,rec.installed_version])
                     if rec.state == 'to_downgrade':
@@ -137,7 +138,6 @@ class eIrModuleUpdate(models.AbstractModel):
             
         self.last_check = fields.Datetime.now()
         
-    
     # ===================================================================
     # ACTIONS
     # ===================================================================
@@ -151,21 +151,6 @@ class eIrModuleUpdate(models.AbstractModel):
     def action_remove_selected_backups(self):
         self.backup_ids.filtered_domain([('selected','=',True)]).action_delete_backup()
 
-    def action_check_version(self):
-        self.ensure_one()
-        self._compute_repository_version()
-        
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Version Checked'),
-                'type': 'info',
-                'sticky': False,
-                'next':{'type': 'ir.actions.act_window_close'}
-            }
-        }
-    
     def action_install_local_version(self):
         self.ensure_one()
         
