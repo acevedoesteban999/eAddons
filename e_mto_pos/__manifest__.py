@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eMtoPos',
-    'version': '18.0.0.0.0',
+    'version': '18.0.0.1.0',
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
@@ -9,6 +9,8 @@
     'category': 'Customizations',
     'depends': ['base' , 'pos_mrp','e_mto_base'],
     'data': [
+        "security/ir.model.access.csv",
+        
         "views/pos_order.xml",
         "views/product_template.xml",
         "views/res_config.xml",
