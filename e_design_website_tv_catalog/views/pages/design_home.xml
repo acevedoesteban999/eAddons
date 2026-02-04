@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    <template id="e_design_website_tv_catalog.DesignsHome" inherit_id="e_design_website.DesignsHome">
+      <xpath expr="//div[hasclass('public-design-style')]" position="inside">
+        <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
+            <a href="/tv/catalog" class="text-decoration-none">
+              <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                <div class="card-body text-center py-5 bg-light">
+                  <i class="fa fa-tv fa-5x text-info mb-4"></i>
+                  <h3 class="card-title font-weight-bold text-dark">TV Catalog</h3>
+                </div>
+              </div>
+            </a>
+          </div>
+      </xpath>
+    </template>
+  </data>
+</odoo>
