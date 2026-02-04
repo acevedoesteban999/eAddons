@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design_website.VideoContentField">
+        <div class="o_video_content_field">
+            
+            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading content...</span>
+                </div>
+                <p class="text-muted mt-2 small">Loading video content...</p>
+            </div>
+
+            <div t-if="state.error" class="alert alert-danger alert-dismissible">
+                <span t-esc="state.error"/>
+                <button class="btn btn-sm btn-link" t-on-click="retry">Retry</button>
+                <button type="button" class="btn-close" t-on-click="() => state.error = null"/>
+            </div>
+
+            <div t-if="!props.readonly" class="d-flex align-items-center gap-2 mb-3">
+                <FileUploader 
+                    acceptedFileExtensions="'video/mp4,video/webm,video/ogg,video/x-matroska'"
+                    onUploaded.bind="update">
+                    <t t-set-slot="toggler">
+                        <button class="btn btn-primary btn-sm" t-att-disabled="state.loading">
+                            <i class="fa fa-upload" t-att-class="{'fa-spin': state.loading}"/>
+                            <t t-if="hasVideo"> Replace</t>
+                            <t t-else=""> Upload Video</t>
+                        </button>
+                    </t>
+                </FileUploader>
+                
+                <span t-if="filename and hasVideo" class="badge bg-light text-dark border">
+                    <i class="fa fa-file-video-o text-primary"/> 
+                    <span t-esc="filename" class="text-truncate d-inline-block" style="max-width: 150px;"/>
+                </span>
+                
+                <button t-if="hasVideo" 
+                    class="btn btn-outline-danger btn-sm" 
+                    t-on-click="onDelete"
+                    t-att-disabled="state.loading"
+                    title="Remove video">
+                    <i class="fa fa-trash"/>
+                </button>
+            </div>
+
+            <div t-if="hasVideo" class="video-container position-relative">
+                <div t-if="state.loading" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-25" style="z-index: 10;">
+                    <div class="spinner-border text-light"/>
+                </div>
+
+                <!-- CORREGIDO: controls="controls" en vez de solo controls -->
+                <video 
+                    t-ref="content"
+                    class="plyr"
+                    controls="controls"
+                    crossorigin="anonymous"
+                    preload="metadata"
+                    style="max-height: 500px; width: 100%;">
+                    <source t-att-src="state.videoUrl" type="video/mp4"/>
+                    <p>Your browser doesn't support HTML5 video. 
+                        <a t-att-href="state.videoUrl">Download</a> instead.
+                    </p>
+                </video>
+            </div>
+
+            <div t-elif="!props.readonly and !state.loading" class="alert alert-light border text-center py-4">
+                <i class="fa fa-video-camera fa-3x text-muted mb-3 d-block"/>
+                <p class="text-muted mb-1">No video uploaded</p>
+                <small class="text-muted">Supported: MP4, WebM, OGG (Max 2GB)</small>
+            </div>
+        </div>
+    </t>
+</templates>

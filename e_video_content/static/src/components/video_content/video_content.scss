@@ -1,0 +1,24 @@
+.o_video_content_field {
+    .video-container {
+        border-radius: 8px;
+        overflow: hidden;
+        background: #000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    // Estilos para Plyr
+    .plyr {
+        --plyr-color-main: #71639e; // Color Odoo
+        --plyr-video-background: #000;
+        --plyr-badge-background: #71639e;
+        
+        .plyr__controls {
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+        }
+    }
+
+    // Estados de loading
+    .fa-spin {
+        animation: fa-spin 1s infinite linear;
+    }
+}
