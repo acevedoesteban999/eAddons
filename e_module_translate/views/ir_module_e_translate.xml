@@ -25,7 +25,7 @@
                 <field name="state" 
                     widget="badge"
                     decoration-success="state == 'synced'"
-                    decoration-warning="state == 'outdated'"
+                    decoration-warning="state == 'mismatch'"
                     decoration-danger="state == 'error'"
                     decoration-muted="state == 'missing'"
                     />
@@ -58,7 +58,7 @@
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="decoration-success">state == 'synced'</attribute>
-                <attribute name="decoration-warning">state == 'outdated'</attribute>
+                <attribute name="decoration-warning">state == 'mismatch'</attribute>
                 <attribute name="decoration-muted">state == 'missing'</attribute>
             </xpath>
         </field>
