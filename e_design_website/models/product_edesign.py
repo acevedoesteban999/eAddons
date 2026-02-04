@@ -3,7 +3,7 @@ from odoo import models , fields
 class ProductEDesign(models.Model):
     _inherit = "product.edesign"
     
-    is_published = fields.Boolean("Is Published",help="Is Published on Website",default=True)
+    ewebsite_published = fields.Boolean("Is Published",help="Is Published on eWebsite",default=True)
     
     product_ids = fields.Many2many('product.template','rel_product_edesigns',compute="_compute_product_ids")
     

@@ -221,10 +221,10 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const typeLabel = this._getGroupTypeLabel(group.type);
         
         this.$('#group-indicators').html(`
-            <span class="badge bg-primary fs-6 me-2">${current} / ${total}</span>
             <span class="badge bg-info text-dark ms-2 fs-6 text-uppercase fw-bold">${typeLabel}</span>
             <span class="mx-2 text-white-50">|</span>
             <span class="text-white fw-bold" style="font-size: 1.2rem; text-transform: uppercase;">${group.name}</span>
+            <span class="badge bg-primary fs-6 ms-2">${current} / ${total}</span>
         `);
     },
 

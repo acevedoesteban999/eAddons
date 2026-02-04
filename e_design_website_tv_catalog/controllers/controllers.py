@@ -24,7 +24,7 @@ class TvCatalog(http.Controller):
         Design = request.env['product.edesign']
 
         parent_categories = Category.search([
-            ('is_published', '=', True),
+            ('ewebsite_published', '=', True),
             ('parent_id', '=', False),
         ])
 
@@ -33,7 +33,7 @@ class TvCatalog(http.Controller):
             
             direct_designs = Design.search([
                 ('category_id', '=', category.id),
-                ('is_published', '=', True),
+                ('ewebsite_published', '=', True),
             ])
             for design in direct_designs:
                 all_designs.append({
@@ -45,12 +45,12 @@ class TvCatalog(http.Controller):
             
             subcategories = Category.search([
                 ('parent_id', '=', category.id),
-                ('is_published', '=', True),
+                ('ewebsite_published', '=', True),
             ])
             for subcat in subcategories:
                 sub_designs = Design.search([
                     ('category_id', '=', subcat.id),
-                    ('is_published', '=', True),
+                    ('ewebsite_published', '=', True),
                 ])
                 for design in sub_designs:
                     all_designs.append({
@@ -69,12 +69,12 @@ class TvCatalog(http.Controller):
                 })
 
         products = Product.search([
-            ('is_published', '=', True),
+            ('ewebsite_published', '=', True),
             ('design_ok', '=', True),
         ])
         
         for product in products:
-            designs = product.design_ids.filtered(lambda d: d.is_published)
+            designs = product.design_ids.filtered(lambda d: d.ewebsite_published)
             if designs:
                 items = [{
                     'type': 'design',

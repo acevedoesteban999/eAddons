@@ -13,19 +13,24 @@
                      style="z-index: 1050; height: 60px; border-color: #333 !important;">
                     
                     <div class="d-flex align-items-center gap-3">
-                        <h1 class="fw-bold mb-0 text-white text-uppercase mb-0" 
-                            style="font-size: 1.8rem; letter-spacing: 2px; margin-right: 2rem;">
+                        <h1 class="fw-bold mb-0 text-white text-uppercase" 
+                            style="font-size: 1.8rem; letter-spacing: 2px;">
                             <t t-esc="title"/>
                         </h1>
-                        
                         <div id="group-indicators" class="d-flex align-items-center">
                             <span class="badge bg-primary fs-6">Loading...</span>
                         </div>
                     </div>
                     
-                    <div id="tv-clock" class="fs-2 fw-bold font-monospace text-warning">
-                        00:00:00
+                    <div class="d-flex align-items-center gap-3">
+                        <a class="btn btn-primary" href="/edesigns/home">
+                            Diseños
+                        </a>
+                        <div id="tv-clock" class="fs-2 fw-bold font-monospace text-warning mb-0">
+                            00:00:00
+                        </div>
                     </div>
+                    
                 </div>
 
                 <div class="swiper tv-swiper" style="height: calc(100vh - 60px); margin-top: 60px;">
