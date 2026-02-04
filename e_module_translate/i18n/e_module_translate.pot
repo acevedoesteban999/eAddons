@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-02 04:44+0000\n"
-"PO-Revision-Date: 2026-02-02 04:44+0000\n"
+"POT-Creation-Date: 2026-02-04 18:22+0000\n"
+"PO-Revision-Date: 2026-02-04 18:22+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -202,6 +202,14 @@ msgid "Outdated"
 msgstr ""
 
 #. module: e_module_translate
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate_autotranslate_wizard__overwrite_existing
+msgid "Overwrite Existing"
+msgstr ""
+
+#. module: e_module_translate
 #: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate__po_languages
 msgid "PO Languages"
 msgstr ""
@@ -260,6 +268,13 @@ msgid "There is no examples click here to add new Ir_module Translate."
 msgstr ""
 
 #. module: e_module_translate
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+msgid "Translate All"
+msgstr ""
+
+#. module: e_module_translate
 #: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate__state
 msgid "Translate State"
 msgstr ""
@@ -269,6 +284,13 @@ msgstr ""
 #: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
 #: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
 msgid "Translating ..."
+msgstr ""
+
+#. module: e_module_translate
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+msgid "Translating All..."
 msgstr ""
 
 #. module: e_module_translate
