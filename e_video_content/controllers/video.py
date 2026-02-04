@@ -6,18 +6,25 @@ from odoo.http import request, Response
 
 class VideoStreamController(http.Controller):
     
-    CHUNK_SIZE = 256 * 1024
+    CHUNK_SIZE = 256 * 1024  # 256KB chunks
     
-    @http.route('/e_design_website/video/stream/<int:video_id>', type='http', auth='user')
-    def stream_video(self, video_id, **kwargs):
-        record = request.env['e_design_website.video.content'].browse(video_id)
+    @http.route('/e_video_content/video/stream/<string:res_model>/<int:res_id>', type='http', auth='user')
+    def stream_video(self, res_model, res_id, **kwargs):
+        
+        if res_model not in request.env:
+            return request.not_found()
+        
+        try:
+            record = request.env[res_model].browse(res_id)
+        except Exception:
+            return request.not_found()
         
         if not record.exists():
             return request.not_found()
         
         attachment = request.env['ir.attachment'].sudo().search([
-            ('res_model', '=', record._name),
-            ('res_id', '=', record.id),
+            ('res_model', '=', res_model),
+            ('res_id', '=', res_id),
             ('res_field', '=', 'video_data')
         ], limit=1)
         
@@ -25,6 +32,9 @@ class VideoStreamController(http.Controller):
             return request.not_found()
         
         file_path = attachment._full_path(attachment.store_fname)
+        if not os.path.exists(file_path):
+            return request.not_found()
+            
         file_size = os.path.getsize(file_path)
         
         range_header = request.httprequest.headers.get('Range', '')

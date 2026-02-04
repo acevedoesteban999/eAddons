@@ -16,7 +16,7 @@
     ],
     "assets": {
         "web.assets_backend":[
-            "e_design_website/static/src/components/**/*",
+            "e_video_content/static/src/components/**/*",
         ]
     },
     'images': [
