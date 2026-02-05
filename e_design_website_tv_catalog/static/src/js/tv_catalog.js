@@ -4,6 +4,7 @@ import publicWidget from "@web/legacy/js/public/public_widget";
 import { loadJS, loadCSS } from "@web/core/assets";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
+import { expr } from '@odoo/owl';
 
 publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
     selector: '.tv-catalog-container',
@@ -39,7 +40,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         this._startClock();
         await this._fetchFreshData(true);
         this._startAutoRefresh();
-        this.$('#tvNextBtn').on('click', () => {
+        this.$('#tvNextTrigger').on('click', () => {
             this._goToNextSlide();
         });
     },
@@ -105,7 +106,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
                 }
             }
         } catch (error) {
-            console.error('TV Catalog: Failed to fetch data', error);
+            //console.error('TV Catalog: Failed to fetch data', error);
         } finally {
             this.isLoading = false;
         }
@@ -115,7 +116,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const videoGroup = this.groupsCache.find(g => g.type === 'videos');
         if (videoGroup && videoGroup.shuffleState) {
             this._shuffleArray(videoGroup.shuffleState.available);
-            console.log('Video shuffle initialized:', videoGroup.shuffleState.available);
+            //console.log('Video shuffle initialized:', videoGroup.shuffleState.available);
         }
     },
 
@@ -134,7 +135,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const state = group.shuffleState;
 
         if (state.available.length === 0) {
-            console.log('All videos seen, reshuffling...');
+            //console.log('All videos seen, reshuffling...');
             state.available = [...state.used];
             state.used = [];
             this._shuffleArray(state.available);
@@ -144,7 +145,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         state.used.push(nextIndex);
         
         const video = group.allItems[nextIndex];
-        console.log(`Playing video ${nextIndex + 1}/${group.allItems.length}: ${video.name}`);
+        //console.log(`Playing video ${nextIndex + 1}/${group.allItems.length}: ${video.name}`);
         
         return video;
     },
@@ -238,24 +239,54 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         }
         
         this.videoPlayer = new Plyr(videoEl, {
-            controls: [],
+            controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
             autoplay: true,
             muted: true, 
         });
         
+
+        const forcePlay = () => {
+            if (this.videoPlayer && this.videoPlayer.playing === false) {
+                //console.log('Video paused/blocked, forcing play...');
+                this.videoPlayer.play().catch(err => {
+                    //console.warn('Autoplay blocked, retrying muted...', err);
+                    // this.videoPlayer.muted = true;
+                    this.videoPlayer.play().catch(e => {
+                        //console.error('Could not autoplay even muted:', e);
+                    });
+                });
+            }
+        };
+        
+        forcePlay();
+        
+        this.videoPlayer.on('ready', () => {
+            //console.log('Video ready, ensuring playback...');
+            forcePlay();
+        });
+        
+        this.videoPlayer.on('pause', () => {
+            if (this.isVideoPlaying) { 
+                //console.log('Video paused unexpectedly, resuming...');
+                setTimeout(() => forcePlay(), 10000);
+            }
+        });
+
+
         this.videoPlayer.on('ended', () => {
-            console.log('Video ended, waiting before next slide...');
+            //console.log('Video ended, waiting before next slide...');
             this._scheduleNextSlide();
         });
         
-        this.videoPlayer.on('error', () => {
+        this.videoPlayer.on('error', (e) => {
             console.error('Video error, skipping...');
+            console.log(e)
             this._scheduleNextSlide();
         });
         
         this.videoMaxDuration = setTimeout(() => {
             if (this.isVideoPlaying) {
-                console.log('Video timeout, forcing next slide...');
+                //console.log('Video timeout, forcing next slide...');
                 this._scheduleNextSlide();
             }
         }, 180000);
@@ -264,7 +295,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
     _scheduleNextSlide() {
         if (!this.isVideoPlaying) return;
         
-        console.log(`Waiting ${this.videoDelay}ms before next slide...`);
+        //console.log(`Waiting ${this.videoDelay}ms before next slide...`);
         
         this.videoTimeout = setTimeout(() => {
             this._goToNextSlide();
@@ -296,7 +327,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             try {
                 this.videoPlayer.destroy();
             } catch (e) {
-                console.warn('Error destroying video player:', e);
+                //console.warn('Error destroying video player:', e);
             }
             this.videoPlayer = null;
         }
