@@ -3,13 +3,6 @@
     <t t-name="e_video_content.VideoContentField">
         <div class="o_video_content_field w-100">
             
-            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="text-muted mt-2 small">Initializing player...</p>
-            </div>
-
             <div t-if="state.error" class="alert alert-danger alert-dismissible fade show">
                 <i class="fa fa-exclamation-circle me-2"/> 
                 <span t-esc="state.error"/>
@@ -19,6 +12,7 @@
             <div t-if="!isReadonly" class="d-flex align-items-center gap-2 mb-3">
                 <FileUploader 
                     acceptedFileExtensions="'.mp4,.webm,.ogg,.mov'"
+                    showUploadingText="false"
                     onUploaded.bind="update">
                     <t t-set-slot="toggler">
                         <button class="btn btn-primary btn-sm" t-att-disabled="state.loading">
@@ -37,18 +31,15 @@
                     <i class="fa fa-trash me-1"/> Remove
                 </button>
             </div>
+            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+                <p class="text-muted mt-2 small">Initializing player...</p>
+            </div>
             <t t-if="this.props.record.resId">
                 <div t-if="hasVideo" class="video-wrapper">
                     <div class="video-container position-relative ratio ratio-16x9">
-                
-                        <div t-if="state.loading" 
-                            class="video-loading-overlay">
-                            <div class="text-center">
-                                <div class="spinner-border text-light mb-2"/>
-                                <p class="text-light mb-0 small">Loading video...</p>
-                            </div>
-                        </div>
-
                         <video 
                             t-ref="player"
                             class="plyr"  

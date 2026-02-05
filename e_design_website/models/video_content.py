@@ -6,5 +6,5 @@ class DesignVideo(models.Model):
     _description = "Video Content"
     
     name = fields.Char("Video Name", required=True)
-    ewebsite_published = fields.Boolean("Is Published", default=False)
+    ewebsite_published = fields.Boolean("Is Published",help="Is Published on eWebsite",default=True)
     
