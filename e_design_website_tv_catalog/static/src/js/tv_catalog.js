@@ -106,7 +106,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
                 }
             }
         } catch (error) {
-            //console.error('TV Catalog: Failed to fetch data', error);
         } finally {
             this.isLoading = false;
         }
@@ -116,7 +115,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const videoGroup = this.groupsCache.find(g => g.type === 'videos');
         if (videoGroup && videoGroup.shuffleState) {
             this._shuffleArray(videoGroup.shuffleState.available);
-            //console.log('Video shuffle initialized:', videoGroup.shuffleState.available);
         }
     },
 
@@ -135,7 +133,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const state = group.shuffleState;
 
         if (state.available.length === 0) {
-            //console.log('All videos seen, reshuffling...');
             state.available = [...state.used];
             state.used = [];
             this._shuffleArray(state.available);
@@ -145,7 +142,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         state.used.push(nextIndex);
         
         const video = group.allItems[nextIndex];
-        //console.log(`Playing video ${nextIndex + 1}/${group.allItems.length}: ${video.name}`);
         
         return video;
     },
@@ -209,28 +205,102 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             $container.html('<div class="text-center text-muted">No videos available</div>');
             return;
         }
-
+    
+        this._createVideoElement(group, $container, video, 0);
+    },
+    
+    _createVideoElement(group, $container, video, retryCount) {
+        const maxRetries = 2;
+        const videoId = `tv-video-player-${Date.now()}-${retryCount}`;
+        
         const html = `
-           <div class="video-player-container w-100 h-100 d-flex align-items-center justify-content-center">
-                <div style="width: 100%; height: 100%; max-height: calc(100vh - 140px);">
-                    <video id="tv-video-player" class="plyr" playsinline controls data-video-id="${video.id}">
-                        <source src="${video.url}" type="video/mp4"/>
-                    </video>
+           <div class="video-player-container w-100 h-100 d-flex align-items-center justify-content-center position-relative" 
+                id="container-${videoId}">
+                <div style="width: 100%; height: 100%; max-height: calc(100vh - 140px);" id="wrapper-${videoId}">
                 </div>
                 <div class="video-info position-absolute bottom-0 start-0 m-4 px-4 py-2 bg-dark bg-opacity-75 rounded">
                     <span class="fw-bold text-warning">▶ ${video.name}</span>
                     <span class="text-white-50 ms-2">(${group.shuffleState.used.length}/${group.allItems.length})</span>
                 </div>
-            </div>
+                <div class="video-progress-overlay position-absolute bottom-0 start-0 end-0 bg-warning" 
+                     style="height: 6px; z-index: 1060; width: 0%;">
+                </div>
+           </div>
         `;
         
         $container.html(html);
-        setTimeout(() => this._initVideoPlayer(), 100);
+        
+        const wrapper = document.getElementById(`wrapper-${videoId}`);
+        
+        setTimeout(() => {
+            const videoEl = document.createElement('video');
+            videoEl.id = 'tv-video-player';
+            videoEl.className = 'plyr';
+            videoEl.playsInline = true;
+            videoEl.muted = true;
+            videoEl.preload = 'metadata';
+            videoEl.setAttribute('data-video-id', video.id);
+            
+            const sourceEl = document.createElement('source');
+            sourceEl.src = video.url;
+            sourceEl.type = 'video/mp4';
+            
+            videoEl.appendChild(sourceEl);
+            wrapper.appendChild(videoEl);
+            
+            
+            let errorHandled = false;
+            
+            const handleError = (e) => {
+                if (errorHandled) return;
+                errorHandled = true;
+                
+                
+                if (videoEl.error && videoEl.error.code === 4 && retryCount < maxRetries) {
+               
+                    const container = document.getElementById(`container-${videoId}`);
+                    if (container) container.remove();
+                    
+                    setTimeout(() => {
+                        this._createVideoElement(group, $container, video, retryCount + 1);
+                    }, 100 * (retryCount + 1));
+                    
+                } else {
+                    this._scheduleNextSlide();
+                }
+            };
+            
+            const handleSuccess = () => {
+                if (errorHandled) return;
+                errorHandled = true;
+                
+                videoEl.removeEventListener('error', handleError);
+                this._initVideoPlayer();
+            };
+            
+            videoEl.addEventListener('error', handleError, { once: true });
+            
+            videoEl.addEventListener('loadedmetadata', handleSuccess, { once: true });
+            
+            setTimeout(() => {
+                if (!errorHandled && !videoEl.error) {
+                    handleSuccess();
+                }
+            }, 2000);
+            
+        }, retryCount * 50); 
     },
 
     _initVideoPlayer() {
         const videoEl = document.getElementById('tv-video-player');
-        if (!videoEl || !window.Plyr) return;
+        if (!videoEl || !window.Plyr) {
+            return;
+        }
+        
+        if (videoEl.error) {
+            this._scheduleNextSlide();
+            return;
+        }
         
         this.isVideoPlaying = true;
         
@@ -238,64 +308,46 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             this.swiper.autoplay.stop();
         }
         
-        this.videoPlayer = new Plyr(videoEl, {
-            controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
-            autoplay: true,
-            muted: true, 
-        });
+        try {
+            this.videoPlayer = new Plyr(videoEl, {
+                controls: [],
+                autoplay: false,
+                muted: true,
+                clickToPlay: false,
+                loadSprite: false,
+                previewThumbnails: { enabled: false }
+            });
+        } catch (e) {
+            this._scheduleNextSlide();
+            return;
+        }
         
-
-        const forcePlay = () => {
-            if (this.videoPlayer && this.videoPlayer.playing === false) {
-                //console.log('Video paused/blocked, forcing play...');
-                this.videoPlayer.play().catch(err => {
-                    //console.warn('Autoplay blocked, retrying muted...', err);
-                    // this.videoPlayer.muted = true;
-                    this.videoPlayer.play().catch(e => {
-                        //console.error('Could not autoplay even muted:', e);
-                    });
-                });
+        const attemptPlay = () => {
+            if (!this.videoPlayer || !this.isVideoPlaying) return;
+            
+            
+            if (videoEl.readyState < 1) {
+                setTimeout(attemptPlay, 100);
+                return;
             }
+            
+            videoEl.play().then(() => {
+            }).catch(err => {
+                setTimeout(attemptPlay, 200);
+            });
         };
         
-        forcePlay();
-        
-        this.videoPlayer.on('ready', () => {
-            //console.log('Video ready, ensuring playback...');
-            forcePlay();
-        });
-        
-        this.videoPlayer.on('pause', () => {
-            if (this.isVideoPlaying) { 
-                //console.log('Video paused unexpectedly, resuming...');
-                setTimeout(() => forcePlay(), 10000);
-            }
-        });
-
-
-        this.videoPlayer.on('ended', () => {
-            //console.log('Video ended, waiting before next slide...');
-            this._scheduleNextSlide();
-        });
-        
-        this.videoPlayer.on('error', (e) => {
-            console.error('Video error, skipping...');
-            console.log(e)
-            this._scheduleNextSlide();
-        });
+        this.videoPlayer.on('ready', attemptPlay);
+        this.videoPlayer.on('ended', () => this._scheduleNextSlide());
         
         this.videoMaxDuration = setTimeout(() => {
-            if (this.isVideoPlaying) {
-                //console.log('Video timeout, forcing next slide...');
-                this._scheduleNextSlide();
-            }
+            if (this.isVideoPlaying) this._scheduleNextSlide();
         }, 180000);
     },
 
     _scheduleNextSlide() {
         if (!this.isVideoPlaying) return;
         
-        //console.log(`Waiting ${this.videoDelay}ms before next slide...`);
         
         this.videoTimeout = setTimeout(() => {
             this._goToNextSlide();
@@ -327,17 +379,22 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             try {
                 this.videoPlayer.destroy();
             } catch (e) {
-                //console.warn('Error destroying video player:', e);
             }
             this.videoPlayer = null;
         }
         
-        const videoEl = document.getElementById('tv-video-player');
-        if (videoEl) {
-            videoEl.pause();
-            videoEl.src = '';
-            videoEl.load();
+        const videoContainer = document.querySelector('.video-player-container');
+        if (videoContainer) {
+            const videoEl = videoContainer.querySelector('video');
+            if (videoEl) {
+                videoEl.pause();
+                videoEl.src = '';
+                videoEl.load();
+                videoEl.remove();
+            }
         }
+        
+        this.videoErrorCount = 0;
     },
 
     _getRandomItems(items, max) {
