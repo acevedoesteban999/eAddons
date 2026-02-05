@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="e_video_content.VideoContentField">
-        <div class="o_video_content_field">
+        <div class="o_video_content_field w-100">
             
             <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
@@ -38,29 +38,31 @@
                 </button>
             </div>
             <t t-if="this.props.record.resId">
-                <div t-if="hasVideo" class="video-container position-relative">
+                <div t-if="hasVideo" class="video-wrapper">
+                    <div class="video-container position-relative ratio ratio-16x9">
                 
-                    <div t-if="state.loading" 
-                        class="video-loading-overlay">
-                        <div class="text-center">
-                            <div class="spinner-border text-light mb-2"/>
-                            <p class="text-light mb-0 small">Loading video...</p>
+                        <div t-if="state.loading" 
+                            class="video-loading-overlay">
+                            <div class="text-center">
+                                <div class="spinner-border text-light mb-2"/>
+                                <p class="text-light mb-0 small">Loading video...</p>
+                            </div>
                         </div>
-                    </div>
 
-                    <video 
-                        t-ref="player"
-                        class="plyr__video-embed"
-                        playsinline="true"
-                        controls="true"
-                        crossorigin="anonymous"
-                        preload="metadata">
-                        <source t-att-src="state.videoUrl" type="video/mp4"/>
-                        <p class="plyr__fallback">
-                            Your browser doesn't support HTML5 video. 
-                            <a t-att-href="state.videoUrl" download="">Download</a> instead.
-                        </p>
-                    </video>
+                        <video 
+                            t-ref="player"
+                            class="plyr"  
+                            playsinline="true"
+                            controls="true"
+                            crossorigin="anonymous"
+                            preload="metadata">
+                            <source t-att-src="state.videoUrl" type="video/mp4"/>
+                            <p class="plyr__fallback">
+                                Your browser doesn't support HTML5 video. 
+                                <a t-att-href="state.videoUrl" download="">Download</a> instead.
+                            </p>
+                        </video>
+                    </div>
                 </div>
 
                 <div t-elif="!isReadonly and !state.loading" class="alert alert-light border text-center py-4">
