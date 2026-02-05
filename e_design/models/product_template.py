@@ -35,3 +35,10 @@ class ProductTemplate(models.Model):
         self.browse(product_id).write({'design_ids': [Command.unlink(design_id)]})
         
         
+        
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+    
+    
+    def action_view_designs(self):
+        return self.product_tmpl_id.action_view_designs()
