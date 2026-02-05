@@ -19,7 +19,7 @@
                 <sheet>
                     <group>
                         <field name="filename" readonly="1"/>
-                        <field name="preview" readonly="1"></field>
+                        <field name="preview" invisible="1"/>
                         <field name="file_size" widget="file_size" readonly="1"/>
                         <field name="video_data" 
                             widget="video_content" 
