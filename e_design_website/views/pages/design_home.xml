@@ -40,6 +40,18 @@
                     </div>
                   </a>
                 </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4 ">
+                  <a href="/edesigns/videos" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5 bg-light">
+                        <i class="fa fa-video-camera fa-5x text-primary mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Videos</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
             </div>
         </div>
       </t>

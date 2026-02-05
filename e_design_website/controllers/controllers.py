@@ -32,7 +32,7 @@ class Breadcrumb:
             'breadcrumbs': self.breadcrumbs,
         }
 
-class ProductDesign(http.Controller):
+class eDesignWebsiteControllers(http.Controller):
     
     @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
     def search_read_public(self, model, domain=None, fields=None, limit=None, context = {}, **kwargs):
@@ -116,8 +116,6 @@ class ProductDesign(http.Controller):
                 'categories': categories,
             },
         )
-        
-    
         
     @http.route([
         "/edesigns",

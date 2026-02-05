@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+
+    <template id="e_design_website.VideosContent">
+      <t t-call="website.layout">
+        <div class="container py-5">
+          <t t-call="e_design_website.breadcrumbComponent"/>
+          
+          <div id="searchable-list" data-empty-message="No videos found"  class="public-design-style">
+            
+            <div class="row my-2 mb-4 justify-content-end">
+              <div class="col-12 col-sm-6 col-md-4 pe-0">
+                <div class="search-component">
+                    <div class="dropdown-search">
+                        <div class="row px-2">
+                            <div class="col px-0">
+                                <input type="text" 
+                                    id="searchable-input"
+                                    class="form-control" 
+                                    placeholder="Search"
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="list row g-4 justify-content-center align-items-center">
+              <t t-foreach="videos" t-as="video">
+                <div class="col-12 col-sm-6 col-md-5 col-xl-3 my-4" data-search-container="true">
+                  <a style="text-decoration: none;" t-attf-href="/edesigns/videos/{{video.id}}">
+                      <div class="card h-100">
+                          <img t-if="video.preview"
+                              t-attf-src="/web/image/product.template/#{video.id}/preview"
+                              class="card-img-top"
+                              t-att-alt="video.name"/>
+                          <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                              <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                          </div>
+                          <div class="card-body d-flex flex-column">
+                              <h5 class="card-title fw-bold text-truncate">
+                                  <span data-search-mark="true" t-esc="video.name"/>
+                              </h5>
+                          </div>
+                      </div>
+                  </a>
+                </div>
+              </t>
+            </div>
+            
+          </div>
+        </div>
+      </t>
+    </template>
+
+
+    <template id="e_design_website.VideoContent">
+      <t t-call="website.layout">
+        <div class="container py-5">
+          <t t-call="e_design_website.breadcrumbComponent"/>
+          
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-10 col-xl-8">
+                <h1 class="h2 mb-4" t-esc="video.name"/>
+                
+                <div class="o_video_content_field" 
+                      t-att-data-video-url="'/e_video_content/video/stream/e_design_website.video.content/%s' % video.id"
+                      t-att-data-video-name="video.name">
+                    
+                    <div class="video-wrapper ratio ratio-16x9 bg-dark rounded overflow-hidden">
+                        <video 
+                            id="websiteVideoPlayer"
+                            class="plyr"
+                            playsinline="true"
+                            controls="true"
+                            crossorigin="anonymous"
+                            preload="metadata">
+                            <source t-att-src="'/e_video_content/video/stream/e_design_website.video.content/%s' % video.id" type="video/mp4"/>
+                            <p>
+                                Your browser doesn't support HTML5 video. 
+                                <a t-att-href="'/e_video_content/video/stream/e_design_website.video.content/%s' % video.id" download="">
+                                    Download video
+                                </a>
+                            </p>
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+      </t>
+    </template>
+
+    
+</odoo>
