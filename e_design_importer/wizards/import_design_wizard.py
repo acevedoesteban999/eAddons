@@ -2,7 +2,7 @@ import os
 import base64
 from pathlib import Path
 
-from odoo import models, fields, api, _
+from odoo import models, fields, api, _ , Command
 from odoo.exceptions import UserError
 
 from ..utils.utils import FolderScanner
@@ -17,7 +17,6 @@ class ImportDesignWizard(models.TransientModel):
     state = fields.Selection([
         ('select', 'Select Folder'),
         ('preview', 'Preview'),
-        ('done', 'Done')
     ], default='select')
     
     def action_scan_folder(self):
@@ -40,13 +39,9 @@ class ImportDesignWizard(models.TransientModel):
                 'path': des['path'],
                 'image': des.get('image'),
                 'file': des.get('file'),
-                'attachments': des.get('attachments', [])
+                'attachments': des.get('attachments', []),
+                'id': existing_des.id
             }
-            if existing_des:
-                result['existing'] = {
-                    'name': existing_des.name,
-                    'id': existing_des.id
-                }
             return result
         
         def check_product(prod):
@@ -60,17 +55,13 @@ class ImportDesignWizard(models.TransientModel):
                 'name': prod['name'],
                 'code': prod['code'],
                 'path': prod['path'],
+                'id': existing_prod.id,
                 'designs': []
             }
             for des in prod.get('designs', []):
                 checked_des = check_design(des)
                 if checked_des:
                     result['designs'].append(checked_des)
-            if existing_prod:
-                result['existing'] = {
-                    'name': existing_prod.name,
-                    'id': existing_prod.id
-                }
             return result
         
         def check_subcategory(sub):
@@ -83,9 +74,16 @@ class ImportDesignWizard(models.TransientModel):
                 'name': sub['name'],
                 'code': sub['code'],
                 'path': sub['path'],
+                'id': existing_sub.id,
                 'products': [],
                 'designs': []
             }
+            if existing_sub:
+                result['existing'] = {
+                    'name': existing_sub.name,
+                    'id': existing_sub.id
+                }
+              
             for prod in sub.get('products', []):
                 checked_prod = check_product(prod)
                 if checked_prod:
@@ -94,11 +92,7 @@ class ImportDesignWizard(models.TransientModel):
                 checked_des = check_design(des)
                 if checked_des:
                     result['designs'].append(checked_des)
-            if existing_sub:
-                result['existing'] = {
-                    'name': existing_sub.name,
-                    'id': existing_sub.id
-                }
+            
             return result
         
         def check_category(cat):
@@ -115,6 +109,13 @@ class ImportDesignWizard(models.TransientModel):
                 'products': [],
                 'designs': []
             }
+            
+            if existing_cat:
+                result['existing'] = {
+                    'name': existing_cat.name,
+                    'id': existing_cat.id
+                }
+                
             for sub in cat.get('subcategories', []):
                 checked_sub = check_subcategory(sub)
                 if checked_sub:
@@ -127,11 +128,7 @@ class ImportDesignWizard(models.TransientModel):
                 checked_des = check_design(des)
                 if checked_des:
                     result['designs'].append(checked_des)
-            if existing_cat:
-                result['existing'] = {
-                    'name': existing_cat.name,
-                    'id': existing_cat.id
-                }
+            
             return result
         
         preview_data = {
@@ -165,74 +162,139 @@ class ImportDesignWizard(models.TransientModel):
     
     def action_confirm_import(self):
         self.ensure_one()
-        scanner = FolderScanner(self.folder_path)
-        data = scanner.scan()
         
-        category_map = {}
-        for cat_data in data['categories']:
-            cat = self.env['product.edesign.category'].search([
-                ('default_code', '=', cat_data['code'])
-            ], limit=1)
-            if not cat:
+        preview_data = self.preview_data
+        
+        created_designs = 0
+        
+        def process_category(cat_data):
+            cat_id = cat_data.get('id',False)
+                    
+            if not cat_id:
                 cat = self.env['product.edesign.category'].create({
                     'name': cat_data['name'],
                     'default_code': cat_data['code']
                 })
-            category_map[cat_data['code']] = cat.id
+                cat_id = cat.id
+            
+            for sub_data in cat_data.get('subcategories', []):
+                process_subcategory(sub_data, cat_id)
+            
+            for des_data in cat_data.get('designs', []):
+                create_design(des_data, cat_id)
+            
+            for prod_data in cat_data.get('products', []):
+                process_product(prod_data,cat_id)
+            
+            return cat_id
         
-        for sub_data in data['subcategories']:
-            sub = self.env['product.edesign.category'].search([
-                ('default_code', '=', sub_data['code'])
-            ], limit=1)
-            if not sub:
-                sub = self.env['product.edesign.category'].create({
+        def create_design(design_data, category_id = False):
+            nonlocal created_designs
+            design_id = design_data.get('id',False)
+            if design_id:
+                return design_id
+            
+            
+            image_data = FolderScanner.get_files_data(design_data.get('image'))
+            file_data = FolderScanner.get_files_data(design_data.get('file'))
+            
+            attachment_ids = []
+            
+            if image_data:
+                image_att = self.env['ir.attachment'].create({
+                    'name': 'image.png',
+                    'datas': image_data,
+                    'res_model': 'product.edesign',
+                })
+                attachment_ids.append(image_att.id)
+            
+            if file_data:
+                file_name = os.path.basename(design_data.get('file', 'file'))
+                file_att = self.env['ir.attachment'].create({
+                    'name': file_name,
+                    'datas': file_data,
+                    'res_model': 'product.edesign',
+                })
+                attachment_ids.append(file_att.id)
+            
+            for att in design_data.get('attachments', []):
+                att_data = FolderScanner.get_files_data(att.get('path'))
+                if att_data:
+                    attachment = self.env['ir.attachment'].create({
+                        'name': att['name'],
+                        'datas': att_data,
+                        'res_model': 'product.edesign',
+                    })
+                    attachment_ids.append(attachment.id)
+            
+            design_id = self.env['product.edesign'].create({
+                'name': design_data['name'],
+                'default_code': design_data['code'],
+                'category_id': category_id,
+                'image': image_data,
+                'file_id': file_data,
+                'attachment_ids': [(6, 0, attachment_ids)] if attachment_ids else False
+            }).id
+            created_designs += 1
+            return design_id
+        
+        def process_subcategory(sub_data, category_id = False):
+            sub_id = sub_data.get('id',False)
+            if not sub_id:
+                sub_id = self.env['product.edesign.category'].create({
                     'name': sub_data['name'],
                     'default_code': sub_data['code'],
-                    'parent_id': category_map.get(sub_data['parent_code'])
-                })
-                category_map[sub_data['code']] = sub.id
+                    'parent_id': category_id
+                }).id
+            
+            for des_data in sub_data.get('designs', []):
+                create_design(des_data, sub_id)
+            
+            for prod_data in sub_data.get('products', []):
+                process_product(prod_data,sub_id)
+            
+            return sub_id
         
-        for design_data in data['designs']:
-            preview_data = self.env['product.edesign'].search([
-                ('default_code', '=', design_data['code'])
-            ], limit=1)
-            if not preview_data:
-                files_data = scanner.get_design_files_data(design_data)
-                attachment_ids = self._create_attachments(files_data)
-                
-                self.env['product.edesign'].create({
-                    'name': design_data['name'],
-                    'default_code': design_data['code'],
-                    'category_id': category_map.get(design_data['category_code']),
-                    'attachment_ids': [(6, 0, attachment_ids)]
-                })
-        
-        for prod_data in data['products']:
-            product = self.env['product.template'].search([
-                ('default_code', '=', prod_data['code'])
-            ], limit=1)
+        def process_product(prod_data , category_id = False):
+            product_id = prod_data.get('id',False)
+            if not product_id:
+                for des_data in prod_data.get('designs', []):
+                    create_design(des_data, category_id)
+                return None
+            product = self.env['product.template'].browse(product_id)
             design_ids = []
-            for d in prod_data['designs']:
-                design = self.env['product.edesign'].search([
-                    ('default_code', '=', d['code'])
-                ], limit=1)
-                if design:
-                    design_ids.append(design.id)
+            for des_data in prod_data.get('designs', []):
+                des_id = create_design(des_data, category_id)
+                design_ids.append(des_id)
             
-            vals = {
-                'name': prod_data['name'],
-                'default_code': prod_data['code'],
-                'design_ok': True,
-                'design_ids': [(6, 0, design_ids)]
-            }
+            product.write({
+                'design_ids': [Command.link(design_id) for design_id in design_ids]
+            })
             
-            if product:
-                product.write(vals)
-            else:
-                self.env['product.template'].create(vals)
+            return product_id
         
-        self.state = 'done'
-        return self._reload_wizard()
+        for cat_data in preview_data.get('categories', []):
+            process_category(cat_data)
+        
+        for prod_data in preview_data.get('products', []):
+            process_product(prod_data)
+        
+        for des_data in preview_data.get('designs', []):
+            create_design(des_data)
+        
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Import Successful',
+                'message': f'{created_designs} designs loaded successfully',
+                'type': 'success',
+                'sticky': False,
+                'next': {
+                    'type': 'ir.actions.act_window_close'
+                }
+            }
+        }
     
     def _create_attachments(self, files_data):
         attachment_ids = []

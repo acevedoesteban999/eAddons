@@ -134,7 +134,7 @@
                     <span class="fw-bold fs-6" t-esc="category.name"/>
                     <span class="badge bg-secondary ms-2" t-esc="category.code"/>
                 </div>
-                <span t-if="!category.existing" class="badge bg-secondary rounded-pill me-2">
+                <span t-if="!category.id" class="badge bg-secondary rounded-pill me-2">
                     <i class="bi bi-exclamation-triangle-fill me-1"></i>New
                 </span>
                 <span class="badge bg-primary text-light border rounded-pill">
@@ -168,7 +168,7 @@
                     <span class="fw-semibold" t-esc="sub.name"/>
                     <span class="badge bg-secondary ms-2" t-esc="sub.code"/>
                 </div>
-                <span t-if="!sub.existing" class="badge bg-secondary rounded-pill me-2">
+                <span t-if="!sub.id" class="badge bg-secondary rounded-pill me-2">
                     <i class="bi bi-exclamation-triangle-fill me-1"></i>New
                 </span>
                 <span class="badge bg-info text-light border rounded-pill">
@@ -190,20 +190,20 @@
     <t t-name="e_design_import.ProductNode">
         <div class="product-item mb-2">
             <div class="item-header d-flex align-items-center p-2 shadow-sm"
-                 t-att-class="product.existing ? 'bg-warning-subtle border-warning' : 'bg-danger-subtle border-danger'"
+                 t-att-class="product.id ? 'bg-warning-subtle border-warning' : 'bg-danger-subtle border-danger'"
                  t-on-click.stop="() => this.toggleExpand(product.code)">
                 <button t-if="product.designs?.length" class="btn btn-sm btn-link text-decoration-none me-2 p-1">
                     <i t-att-class="isExpanded(product.code) ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"/>
                 </button>
                 <span t-else="" class="me-2" style="width: 24px;"></span>
-                <i t-att-class="product.existing ? 'bi bi-box-seam-fill text-warning fs-5 me-3' : 'bi bi-box-seam text-danger fs-5 me-3'"/>
+                <i t-att-class="product.id ? 'bi bi-box-seam-fill text-warning fs-5 me-3' : 'bi bi-box-seam text-danger fs-5 me-3'"/>
                 <div class="flex-grow-1">
                     <span class="fw-medium" t-esc="product.name"/>
                     <span class="badge bg-secondary ms-2" t-esc="product.code"/>
                 </div>
                 <span 
                     class="badge border rounded-pill"
-                    t-att-class="!product.existing?'bg-danger text-light':'bg-warning text-dark'"
+                    t-att-class="!product.id?'bg-danger text-light':'bg-warning text-dark'"
                     >
                     <t t-esc="(product.designs?.length || 0)"/> designs
                 </span>
@@ -212,7 +212,7 @@
             <div t-if="isExpanded(product.code) and product.designs?.length" class="ms-4 mt-1">
                 <t t-foreach="product.designs" t-as="design" t-key="design.code">
                     <t t-call="e_design_import.DesignNode">
-                        <t t-set="product_no_existing" t-value="!product.existing"/>
+                        <t t-set="product_no_existing" t-value="!product.id"/>
                     </t>
                 </t>
             </div>
@@ -241,7 +241,7 @@
                 </span>
             </div>
             <t t-if="!product_no_existing">
-                <span t-if="!design.existing " class="badge bg-secondary rounded-pill">
+                <span t-if="!design.id " class="badge bg-secondary rounded-pill">
                     <i class="bi bi-exclamation-triangle-fill me-1"></i>New
                 </span>
             </t>

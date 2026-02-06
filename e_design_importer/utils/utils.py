@@ -1,7 +1,7 @@
 import os
 import re
 from pathlib import Path
-
+import base64
 
 class FolderScanner:
     def __init__(self, root_path: str):
@@ -134,3 +134,9 @@ class FolderScanner:
         
         return attachments
     
+    @staticmethod
+    def get_files_data(path):
+        if not path or not os.path.exists(path):
+            return None
+        with open(path, 'rb') as f:
+            return base64.b64encode(f.read()).decode('utf-8')

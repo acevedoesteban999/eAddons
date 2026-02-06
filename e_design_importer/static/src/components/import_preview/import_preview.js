@@ -32,41 +32,41 @@ export class ImportPreview extends Component {
 
         const countCategory = (cat) => {
             categories++;
-            if (!cat.existing) newCategories++;
+            if (!cat.id) newCategories++;
             
             (cat.subcategories || []).forEach(sub => {
                 subcategories++;
-                if (!sub.existing) newSubcategories++;
+                if (!sub.id) newSubcategories++;
                 
                 (sub.products || []).forEach(prod => {
                     products++;
-                    if (!prod.existing) newProducts++;
+                    if (!prod.id) newProducts++;
                     
                     (prod.designs || []).forEach(des => {
                         designs++;
-                        if (!des.existing) newDesigns++;
+                        if (!des.id) newDesigns++;
                     });
                 });
                 
                 (sub.designs || []).forEach(des => {
                     designs++;
-                    if (!des.existing) newDesigns++;
+                    if (!des.id) newDesigns++;
                 });
             });
             
             (cat.products || []).forEach(prod => {
                 products++;
-                if (!prod.existing) newProducts++;
+                if (!prod.id) newProducts++;
                 
                 (prod.designs || []).forEach(des => {
                     designs++;
-                    if (!des.existing) newDesigns++;
+                    if (!des.id) newDesigns++;
                 });
             });
             
             (cat.designs || []).forEach(des => {
                 designs++;
-                if (!des.existing) newDesigns++;
+                if (!des.id) newDesigns++;
             });
         };
 
@@ -74,17 +74,17 @@ export class ImportPreview extends Component {
         
         (data.products || []).forEach(prod => {
             products++;
-            if (!prod.existing) newProducts++;
+            if (!prod.id) newProducts++;
             
             (prod.designs || []).forEach(des => {
                 designs++;
-                if (!des.existing) newDesigns++;
+                if (!des.id) newDesigns++;
             });
         });
         
         (data.designs || []).forEach(des => {
             designs++;
-            if (!des.existing) newDesigns++;
+            if (!des.id) newDesigns++;
         });
 
         return {

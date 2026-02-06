@@ -16,9 +16,6 @@
                         <field name="preview_data" widget="import_preview" nolabel="1"/>
                     </div>
                     
-                    <div invisible="state != 'done'" class="alert alert-success text-center">
-                        <h3>Import Completed Successfully!</h3>
-                    </div>
                 </sheet>
                 
                 <footer>
