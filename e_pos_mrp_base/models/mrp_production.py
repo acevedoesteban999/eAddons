@@ -11,12 +11,4 @@ class MrpProduction(models.Model):
     def _compute_pos_order(self):
         for rec in self:
             rec.pos_order_id = rec.pos_order_line_id.order_id
-            
-            
-    def _get_move_dest_order_line(self,move_finished_ids):
-        for move in move_finished_ids:
-            while move:
-                if move.sale_line_id:
-                    return move.sale_line_id
-                move = move.move_dest_ids[:1]
     
