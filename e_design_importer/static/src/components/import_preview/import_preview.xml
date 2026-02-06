@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="e_design_import.ImportPreview">
+        <div class="import-preview-container">
+            <div class="stats-row mb-4">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <div class="card text-center border-primary">
+                            <div class="card-body">
+                                <h2 class="text-primary mb-0" t-esc="stats.categories"/>
+                                <small class="text-muted">Categories</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center border-info">
+                            <div class="card-body">
+                                <h2 class="text-info mb-0" t-esc="stats.subcategories"/>
+                                <small class="text-muted">Sub-Categories</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center border-success">
+                            <div class="card-body">
+                                <h2 class="text-success mb-0" t-esc="stats.designs"/>
+                                <small class="text-muted">Designs</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center border-warning">
+                            <div class="card-body">
+                                <h2 class="text-warning mb-0" t-esc="stats.products"/>
+                                <small class="text-muted">Products</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tree-container">
+                <h5 class="mb-3 text-secondary">Structure Preview</h5>
+                <div class="category-list">
+                    <t t-foreach="categories" t-as="category" t-key="category.code">
+                        <div class="category-item mb-2">
+                            <div class="d-flex align-items-center p-2 bg-light rounded border-start border-4 border-primary cursor-pointer"
+                                 t-on-click="() => this.toggleExpand(category.code)">
+                                <button class="btn btn-sm btn-link text-decoration-none me-2 p-0">
+                                    <i t-att-class="isExpanded(category.code) ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"/>
+                                </button>
+                                <i class="bi bi-folder-fill text-primary me-2"/>
+                                <span class="fw-bold text-primary" t-esc="category.name"/>
+                                <span class="badge bg-primary ms-2" t-esc="'CAT-' + category.code"/>
+                                <span class="badge bg-secondary ms-auto" t-esc="(category.subcategories?.length || 0) + (category.designs?.length || 0) + ' items'"/>
+                            </div>
+                            
+                            <div t-if="isExpanded(category.code)" class="ms-4 mt-2">
+                                <t t-foreach="category.subcategories" t-as="sub" t-key="sub.code">
+                                    <div class="subcategory-item mb-2">
+                                        <div class="d-flex align-items-center p-2 bg-white rounded border-start border-3 border-info cursor-pointer"
+                                             t-on-click.stop="() => this.toggleExpand(sub.code)">
+                                            <button class="btn btn-sm btn-link text-decoration-none me-2 p-0">
+                                                <i t-att-class="isExpanded(sub.code) ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"/>
+                                            </button>
+                                            <i class="bi bi-folder text-info me-2"/>
+                                            <span class="fw-semibold text-info" t-esc="sub.name"/>
+                                            <span class="badge bg-info text-dark ms-2" t-esc="'SUB-' + sub.code"/>
+                                            <span class="badge bg-secondary ms-auto" t-esc="(sub.designs?.length || 0) + ' designs'"/>
+                                        </div>
+                                        
+                                        <div t-if="isExpanded(sub.code)" class="ms-4 mt-2">
+                                            <t t-foreach="sub.designs" t-as="design" t-key="design.code">
+                                                <div class="design-item d-flex align-items-center p-2 bg-light rounded mb-1">
+                                                    <i class="bi bi-palette text-success me-2 ms-3"/>
+                                                    <span class="text-success" t-esc="design.name"/>
+                                                    <span class="badge bg-success ms-2" t-esc="design.code"/>
+                                                </div>
+                                            </t>
+                                            <div t-if="!(sub.designs?.length)" class="text-muted ms-3 small">
+                                                No designs
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                                
+                                <t t-foreach="category.designs" t-as="design" t-key="design.code">
+                                    <div class="design-item d-flex align-items-center p-2 bg-light rounded mb-1">
+                                        <i class="bi bi-palette text-success me-2 ms-3"/>
+                                        <span class="text-success" t-esc="design.name"/>
+                                        <span class="badge bg-success ms-2" t-esc="design.code"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>
