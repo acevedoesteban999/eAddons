@@ -5,18 +5,11 @@ class MrpProduction(models.Model):
     
     _inherit = 'mrp.production'
     
-    pos_order_id = fields.Many2one('pos.order',"Origin POS",compute="_compute_pos_order")
-    pos_order_line_id = fields.Many2one('pos.order.line',"Origin POS line")
-    
-    def _compute_pos_order(self):
-        for rec in self:
-            rec.pos_order_id = rec.pos_order_line_id.order_id
-            
-            
+        
     def _get_move_dest_order_line(self,move_finished_ids):
         for move in move_finished_ids:
             while move:
                 if move.sale_line_id:
                     return move.sale_line_id
                 move = move.move_dest_ids[:1]
-    
+        return False
