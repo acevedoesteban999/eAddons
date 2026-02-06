@@ -5,5 +5,5 @@
         name="Videos"
         parent="e_design.menu_design_root"
         action="action_e_design_website_video_content"
-        sequence="10"/>
+        sequence="100"/>
 </odoo>
