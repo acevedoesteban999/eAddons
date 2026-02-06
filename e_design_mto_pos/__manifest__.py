@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignMtoPos',
-    'version': '18.0.0.0.1',
+    'version': '18.0.0.0.2',
     'summary': "Integration eDesign with eMtoPos",
     'description':"Show design icon into eMtoPos Picking Lines",
     'author': 'acevedoesteban999@gmail.com',

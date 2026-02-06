@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignMrp',
-    'version': '18.0.3.0.0',
+    'version': '18.0.3.0.1',
     'summary': """Integration MRP with eDesign""",
     'description':"""
                     It allows you to view the designs of the product 
