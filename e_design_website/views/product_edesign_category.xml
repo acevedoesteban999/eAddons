@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="e_design.view_product_design_category_form"></field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='parent_id']" position="after">
-                <field name="is_published"></field>
+                <field name="ewebsite_published"></field>
             </xpath>
         </field>
     </record>

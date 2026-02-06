@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignWebsiteTvCatalog',
-    'version': '18.0.3.0.0',
+    'version': '18.0.3.0.1',
     'summary': "Integration eDesign with Website",
     'description':"""
                     It allows you to view the design catalog from the website.
@@ -12,6 +12,7 @@
     'depends': ['e_design_website'],
     'data': [
         "views/pages/tv_catalog.xml",
+        "views/pages/design_home.xml",
         
     ],
     "assets": {

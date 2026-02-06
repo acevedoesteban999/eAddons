@@ -42,15 +42,26 @@
 
     <t t-name="e_design.Many2ManyImage.attachment_preview">
         <t t-set="editable" t-value="!props.readonly"/>
+        <t t-set="ext" t-value="getExtension(file)"/>
+        <t t-set="url" t-value="getUrl(file.id)"/>
+        <t t-set="isImage" t-value="isImageFile(file)"/>
+        
         <div class="col-auto">
-            <div t-attf-class="card card-widget h-100 #{editable ? 'o_attachment_editable' : ''} #{upload ? 'o_attachment_uploading' : ''}">
-                <t t-set="ext" t-value="getExtension(file)"/>
-                <t t-set="url" t-value="getUrl(file.id)"/>
+            <div t-attf-class="card card-widget h-100 #{editable ? 'o_attachment_editable' : ''} #{upload ? 'o_attachment_uploading' : ''} #{!isImage ? 'o_file_non_image' : ''}">
                 
                 <div class="position-relative">
-                    <a t-att-href="url" aria-label="View" data-fancybox="gallery">
+                    <a t-if="isImage" t-att-href="url" aria-label="View" data-fancybox="gallery">
                         <img class="card-img-top" t-att-src="url" t-att-alt="file.name"/>
                     </a>
+                    
+                    
+                    <div t-else="" class="file-format-placeholder bg-primary" t-att-data-extension="ext.toUpperCase()">
+                        <div class="file-format-content">
+                            <span class="file-format-text">
+                                .<t t-esc="ext.toUpperCase()"/>
+                            </span>
+                        </div>
+                    </div>
                     
                     <div t-if="editable" class="position-absolute top-0 end-0 m-2">
                         <div class="btn-group btn-group-sm">
@@ -73,12 +84,9 @@
                 </div>
                 
                 <div class="card-body p-2">
-                    
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="card-title mb-1 text-truncate" t-att-title="file.name">
-                            <t t-esc="file.name"/>
-                        </h6>
-                        <small class="text-muted text-uppercase" t-esc="ext"/>
+                        <h6 class="card-title mb-0 text-truncate" t-att-title="file.name" t-esc="file.name"/>
+                        <small class="ms-2 text-muted text-uppercase" t-esc="ext"/>
                     </div>
                 </div>
             </div>

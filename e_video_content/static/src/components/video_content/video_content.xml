@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_video_content.VideoContentField">
+        <div class="o_video_content_field w-100">
+            
+            <div t-if="state.error" class="alert alert-danger alert-dismissible fade show">
+                <i class="fa fa-exclamation-circle me-2"/> 
+                <span t-esc="state.error"/>
+                <button type="button" class="btn-close" t-on-click="clearError"/>
+            </div>
+
+            <div t-if="!isReadonly" class="d-flex align-items-center gap-2 mb-3">
+                <FileUploader 
+                    acceptedFileExtensions="'.mp4,.webm,.ogg,.mov'"
+                    showUploadingText="false"
+                    onUploaded.bind="update">
+                    <t t-set-slot="toggler">
+                        <button class="btn btn-primary btn-sm" t-att-disabled="state.loading">
+                            <i t-attf-class="fa {{ state.loading ? 'fa-spinner fa-spin' : 'fa-upload' }} me-1"/>
+                            <t t-if="hasVideo">Replace Video</t>
+                            <t t-else="">Upload Video</t>
+                        </button>
+                    </t>
+                </FileUploader>
+                
+                <button t-if="hasVideo" 
+                    class="btn btn-outline-danger btn-sm" 
+                    t-on-click="onDelete"
+                    t-att-disabled="state.loading"
+                    title="Remove video">
+                    <i class="fa fa-trash me-1"/> Remove
+                </button>
+            </div>
+            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden"></span>
+                </div>
+                <p class="text-muted mt-2 small">Initializing player...</p>
+            </div>
+            <t t-if="this.props.record.resId">
+                <div t-if="hasVideo" class="video-wrapper">
+                    <div class="video-container position-relative ratio ratio-16x9">
+                        <video 
+                            t-ref="player"
+                            class="plyr"  
+                            playsinline="true"
+                            controls="true"
+                            crossorigin="anonymous"
+                            preload="metadata">
+                            <source t-att-src="state.videoUrl" type="video/mp4"/>
+                            <p class="plyr__fallback">
+                                Your browser doesn't support HTML5 video. 
+                                <a t-att-href="state.videoUrl" download="">Download</a> instead.
+                            </p>
+                        </video>
+                    </div>
+                </div>
+
+                <div t-elif="!isReadonly and !state.loading" class="alert alert-light border text-center py-4">
+                    <i class="fa fa-video-camera fa-3x text-muted mb-3 d-block"/>
+                    <p class="text-muted mb-1">No video uploaded</p>
+                    <small class="text-muted">Supported: MP4, WebM, OGG, MOV</small>
+                </div>
+            </t>
+            <div t-else="" class="alert alert-info">
+                <i class="fa fa-info-circle me-2"/> 
+                <span>Save the record to upload video content</span>
+            </div>
+        </div>
+    </t>
+</templates>

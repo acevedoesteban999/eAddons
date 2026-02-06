@@ -4,6 +4,7 @@ from ..utils.utils import get_datas_m2m
 
 class ProductEDesign(models.Model):
     _name = 'product.edesign'
+    _description = "ProducteDesign"
     
     name = fields.Char(string="Name",required=True)
     image = fields.Image("Image")
@@ -17,7 +18,7 @@ class ProductEDesign(models.Model):
         store=True,
         readonly=False,
     )
-    
+    file_name = fields.Char('Filename')
     file_id = fields.Binary("File")
         
     def _get_base_design_action(self):

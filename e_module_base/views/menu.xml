@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem
+        id="e_module_base_root"
+        name="eModule"
+        parent="base.menu_custom"
+        sequence="10">
+        <menuitem
+            id="amenu_modules_wizard"
+            name="Addon Modules"
+            action="addon_modules_wizard_action"
+            sequence="100"/>
+    </menuitem>
+</odoo>

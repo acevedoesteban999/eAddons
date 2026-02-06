@@ -1,12 +1,13 @@
 
 from odoo import models, fields, _
-from ..models.ir_module_e_translate import _POT_DICT_KEY
+from ..models.ir_module_e_translate import _POT_DICT_KEY 
+from ..utils.utils import get_pots_from_export
 class ModelName(models.TransientModel):
     _name = 'ir.module.e_translate.autotranslate.wizard'
     _description = 'eModuleAutotranslate'
     
     languages = fields.Many2many('res.lang','res_autotrans_lang',domain="[('iso_code','!=','en')]",string="Languages",required=True)
-    
+    overwrite_existing = fields.Boolean("Overwrite Existing",default=False)
     
     def action_autotranslate(self):
         self.ensure_one()
@@ -16,12 +17,21 @@ class ModelName(models.TransientModel):
         if not e_translation_ids:
             return {'type': 'ir.actions.act_window_close'}
         
-        e_translations = e_translation_model.browse(e_translation_ids)
-        for e_trans in e_translations:
+        e_translations = e_translation_model.browse(e_translation_ids).filtered_domain([('module_state','=','installed')])
+        modules_name = e_translations.mapped('module_name')
+        
+        pots = get_pots_from_export(modules_name,self._cr)
+        
+        for e_translation,pot_file in zip(e_translations,pots):
             try:    
-                if e_trans.module_status != 'ready':
+                if e_translation.module_state != 'installed':
                     continue
-                result = e_trans.get_pot_translation_data(e_trans.id)
+                
+                e_translation._recompute_translations(True,pot_file)
+                if e_translation.state not in ['mismatch','missing']:
+                    continue
+                
+                result = e_translation.get_pot_translation_data(e_translation.id,pot_file)
                 if not result or 'datas' not in result:
                     continue
                 
@@ -43,10 +53,11 @@ class ModelName(models.TransientModel):
                     existing_data = datas.get(trans_code, {}).get('data', {})
                     
                     
+                    
                     to_translate = {
                         entry['msgid']: entry['msgid'] 
                         for entry in pot_entries.values() 
-                        if not existing_data.get(entry['msgid'])
+                        if (self.overwrite_existing or not existing_data.get(entry['msgid']))
                     }
                     
                     if to_translate:
@@ -62,7 +73,7 @@ class ModelName(models.TransientModel):
                         'data': existing_data
                     }
             
-                e_trans.save_translate_data(e_trans.id, save_payload)
+                e_translation.save_translate_data(e_translation.id, save_payload)
             except Exception as e:
                 pass
         

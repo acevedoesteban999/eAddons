@@ -7,39 +7,32 @@ from odoo.exceptions import UserError
 from ..utils.util import make_backup , get_module_backups
 from odoo.modules.module import load_manifest
 
-class EGitModuleUpdater(models.AbstractModel):
+class eIrModuleUpdate(models.AbstractModel):
     _name = 'ir.module.e_update'
+    _inherit = 'ir.module.e_base'
     _description = 'Base Module Updater'
     _rec_name = 'module_name'
 
-    module_name = fields.Char("Module Technical Name", required=True)
-    module_icon = fields.Char(compute="_compute_module_icon")
-    module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
-    local_path = fields.Char(compute="_compute_local_path")
     
-    installed_version = fields.Char("Installed Version", compute="_compute_versions",
-                                    help="Version installed on Database")
-    
-    local_version = fields.Char("Local Version", compute="_compute_versions",
-                                help="Version Cached in Odoo. Need Restart Odoo Server for changes")
-    
-    repository_version = fields.Char("Repository Version", compute="_compute_versions",
+    repository_version = fields.Char("Repository Version", compute="_compute_repository_version",
                                      help="Version on Repository(Disk, Folder , OS)")
     
-    update_state = fields.Selection([
-        ('uptodate', "Up to date"),
+    state = fields.Selection(selection_add=[
+        ('updated', "Updated"),
         ('to_update', "To Update"),
         ('to_downgrade',"To Downgrade"),
-        ('error', "Error"),
-    ], compute="_compute_versions",default=False,)
+    ],string="Update State")
     
     update_local = fields.Boolean(compute="_compute_update_local")
     restart_local = fields.Boolean(compute="_compute_restart_local")
     
-    error_msg = fields.Char("Error")
-    last_check = fields.Datetime("Last Check")
-    
-    backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids",readonly=False)
+    backup_ids = fields.Many2many(
+        'ir.module.e_update.backup',
+        'rel_backups_e_update',
+        string="Backups",
+        compute="_compute_backup_ids",
+        readonly=False
+    )
     
     all_selected = fields.Boolean(compute="_compute_selecteds")
     has_selected = fields.Boolean(compute="_compute_selecteds")
@@ -52,12 +45,7 @@ class EGitModuleUpdater(models.AbstractModel):
     # API
     # ===================================================================
 
-    @api.depends('module_name')
-    def _compute_local_path(self):
-        for rec in self:
-            rec.local_path = modules.get_module_path(rec.module_name)
-    
-    @api.depends('backup_ids.selected')
+    @api.depends('backup_ids')
     def _compute_selecteds(self):
         for rec in self:
             count_selecteds = len(rec.backup_ids.filtered_domain([('selected','=',True)]))
@@ -65,25 +53,16 @@ class EGitModuleUpdater(models.AbstractModel):
             rec.all_selected = total_selecteds == count_selecteds
             rec.has_selected = bool(count_selecteds)
         
-    @api.onchange('module_name')
-    def _compute_module_icon(self):
-        for rec in self:
-            rec.module_icon = f"/{self.module_name}/static/description/icon.png"
     
-    @api.depends('module_name','module_exist')
+    @api.depends('module_id')
     def _compute_backup_ids(self):
         for rec in self:
             rec.backup_ids = False
             if not rec.id:
                 continue
-            if rec.module_exist:
+            if rec.module_id:
                 rec.backup_ids = rec.backup_ids.get_backups_Command(self.env,rec.module_name)
                     
-                
-    @api.depends('module_name')
-    def _compute_module_exist(self):
-        for rec in self:
-            rec.module_exist = rec.module_name and  rec.env['ir.module.module'].search_count([('name','=',rec.module_name)]) != 0 or False
     
     @api.depends('local_version','installed_version')
     def _compute_update_local(self):
@@ -101,8 +80,8 @@ class EGitModuleUpdater(models.AbstractModel):
 
     @staticmethod
     def compare_versions(_v1,_v2):
-        v1 = EGitModuleUpdater.version_to_tuple(_v1)
-        v2 = EGitModuleUpdater.version_to_tuple(_v2) 
+        v1 = eIrModuleUpdate.version_to_tuple(_v1)
+        v2 = eIrModuleUpdate.version_to_tuple(_v2) 
         return bool(v1) and bool(v2) and v1 != v2
         
     @staticmethod
@@ -115,61 +94,60 @@ class EGitModuleUpdater(models.AbstractModel):
             pass
         return False
         
-    @api.depends('module_name')
-    def _compute_versions(self, update_state = True):
+    @api.depends('module_id')
+    def _compute_repository_version(self):
         for rec in self:
-            if not rec.module_exist:
-                rec.update({
-                    'local_version': _("Unknown"),
-                    'installed_version': _("Unknown"),
-                    'repository_version': _("Unknown"),
-                    'update_state': 'error' if rec.module_name else False,
-                    'error_msg': _('Module not found') if rec.module_name else False,
-                })
-                continue
-            
-            module = self.env['ir.module.module'].search([('name','=',rec.module_name)])
-            repository_version = load_manifest(rec.module_name).get('version',_("Unknown"))
-            local_version = module.installed_version
-            installed_version = module.latest_version
-            
-            rec.update({
-                'local_version': local_version or _("Unknown"),
-                'repository_version': repository_version or _("Unknown"),
-                'installed_version':installed_version or _("Unknown"),
-            })
-            
-            if update_state:
-                rec.compute_update_state()
-            
-    def compute_update_state(self):
-        self._compute_update_state(self.repository_version,self.local_version)
-        if not self.update_state or self.update_state == 'uptodate':
-            self._compute_update_state(self.local_version,self.installed_version)
-        
-    def _compute_update_state(self,up_version, down_version):
+            try:
+                rec.repository_version = False
+                if rec.module_state != 'installed':
+                    continue
+                
+                rec.repository_version = load_manifest(rec.module_name).get('version')
+            except:
+                rec.state = 'error'
+    
+    def _get_versions(self):
+        return [self.repository_version,self.local_version,self.installed_version]
+    
+    def _compute_state(self):
+        for rec in self:
+            try:
+                super(eIrModuleUpdate,rec)._compute_state()
+                rec._compute_repository_version()
+                
+                versions = rec._get_versions()
+                rec.state = rec._check_version_recursive(versions)
+                if rec.state == 'to_downgrade':
+                    rec.error_msg = _("Version is older than module's version")
+                rec.last_check = fields.Datetime.now()
+            except:
+                rec.state = 'error'
+    
+    def _check_version_recursive(self,versions):
+        if len(versions) > 1:
+            tuple_version = list(zip(versions, versions[1:]))
+            for up,down in tuple_version:
+                resp = self._check_versions(up,down)
+                if resp in ['to_update','to_downgrade']:
+                    return resp
+        return 'updated'
+    
+    def _check_versions(self,up_version, down_version):
         up_version = self.version_to_tuple(up_version)
         down_version = self.version_to_tuple(down_version)
         if up_version and down_version:
             if up_version > down_version:
-                update_state = 'to_update'
-                error_msg = False
+                return 'to_update'
             elif up_version == down_version:
-                update_state = 'uptodate'
-                error_msg = False
+                return 'updated'
             else:
-                update_state = 'to_downgrade'
-                error_msg = _("Version is older than module's version")
+                return 'to_downgrade'
+                
         else:
-            update_state = False
-            error_msg = ""
+            return False
+            
+        self.last_check = fields.Datetime.now()
         
-        self.write({
-            'update_state':update_state,
-            'error_msg':error_msg,
-            'last_check': fields.Datetime.now(),
-        })
-    
     # ===================================================================
     # ACTIONS
     # ===================================================================
@@ -183,21 +161,6 @@ class EGitModuleUpdater(models.AbstractModel):
     def action_remove_selected_backups(self):
         self.backup_ids.filtered_domain([('selected','=',True)]).action_delete_backup()
 
-    def action_check_version(self):
-        self.ensure_one()
-        self._compute_versions()
-        
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Version Checked'),
-                'type': 'info',
-                'sticky': False,
-                'next':{'type': 'ir.actions.act_window_close'}
-            }
-        }
-    
     def action_install_local_version(self):
         self.ensure_one()
         
@@ -237,7 +200,7 @@ class EGitModuleUpdater(models.AbstractModel):
         
     def action_create_backup(self):
         for rec in self:
-            if rec.module_exist:
+            if rec.module_state == 'installed':
                 make_backup(
                     rec.local_path,
                     rec.module_name,

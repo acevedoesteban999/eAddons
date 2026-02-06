@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignSale',
-    'version': '18.0.3.0.0',
+    'version': '18.0.3.0.1',
     'summary': """ Add design to sale's lines """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_sale',
     'category': 'Sales',
-    'depends': ['base','sale','e_design'],
+    'depends': ['sale','e_design'],
     "data": [
         "views/sale_order.xml"
     ],

@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eModuleUpdate',
-    'version': '18.0.0.0',
+    'version': '18.0.0.2.1',
     'summary': """ Can Update module repository """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_update',
     'category': '',
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web','e_module_base'],
     "data": [
         "security/ir.model.access.csv",
         "views/ir_module_e_update.xml",
         "views/ir_module_e_update_git_remote.xml",
         "views/ir_module_e_update_manual.xml",
         "views/ir_module_e_update_backups.xml",
+        "wizards/addon_modules_wizard.xml",
+        
         "views/menu.xml",
     ],
     "assets": {

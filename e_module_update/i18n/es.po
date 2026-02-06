@@ -1,0 +1,750 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_module_update
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-02 04:44+0000\n"
+"PO-Revision-Date: 2026-02-02 04:45\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__all_selected
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__all_selected
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__all_selected
+msgid "All Selected"
+msgstr "Todos los seleccionados"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_backup_list
+msgid "Backup"
+msgstr "Respaldo"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_backup.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_backup.py:0
+#: model:ir.actions.server,name:e_module_update.action_e_update_backups
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__backup_ids
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__backup_ids
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__backup_ids
+#: model:ir.ui.menu,name:e_module_update.e_module_update_backups_menu
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Backups"
+msgstr "Copias de seguridad"
+
+#. module: e_module_update
+#: model:ir.model,name:e_module_update.model_ir_module_e_update
+msgid "Base Module Updater"
+msgstr "Actualizador del módulo base"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__branch
+msgid "Branch"
+msgstr "Rama"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Cannot update: %s"
+msgstr "No se puede actualizar: %s"
+
+#. module: e_module_update
+#: model:ir.actions.server,name:e_module_update.action_e_update_git_remote_create_backups
+#: model:ir.actions.server,name:e_module_update.action_e_update_manual_create_backups
+msgid "Create Repository Version Backup"
+msgstr "Crear copia de seguridad de la versión del repositorio"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__create_uid
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__create_uid
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__create_date
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__create_date
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_backup_list
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Delete"
+msgstr "Borrar"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Delete Selected"
+msgstr "Eliminar seleccionado"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__display_name
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__display_name
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "Download Downgrade Version (RAW)"
+msgstr "Descargar la versión degradada (RAW)"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "Download Downgrade Version (ZIP)"
+msgstr "Descargar la versión degradada (ZIP)"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__download_local
+msgid "Download Local"
+msgstr "Descargar locales"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "Download Up Version (RAW)"
+msgstr "Descargar la versión superior (RAW)"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "Download Up Version (ZIP)"
+msgstr "Descargar la versión superior (ZIP)"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__error_msg
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__error_msg
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__error_msg
+msgid "Error"
+msgstr "Error"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Error reading ZIP: %s"
+msgstr "Error al leer el ZIP: %s"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "Failed to download %(path)s (HTTP %(status)s)"
+msgstr "No se pudo descargar %(path)s (HTTP %(status)s)"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "Failed to download ZIP: HTTP %s"
+msgstr "No se pudo descargar ZIP: HTTP %s"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__file_zip
+msgid "File ZIP"
+msgstr "Archivo ZIP"
+
+#. module: e_module_update
+#: model:ir.model,name:e_module_update.model_e_module_base_addon_modules_wizard
+msgid "Get Modules by Addon Path"
+msgstr "Obtener módulos por ruta complementaria"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__git_remote
+#: model:ir.ui.menu,name:e_module_update.e_module_update_git_remote_menu
+msgid "Git Remote"
+msgstr "Git remoto"
+
+#. module: e_module_update
+#: model:ir.model,name:e_module_update.model_ir_module_e_update_git_remote
+msgid "Git Remote Module Updater"
+msgstr "Actualizador del módulo remoto de Git"
+
+#. module: e_module_update
+#: model:ir.actions.act_window,name:e_module_update.action_ir_module_e_update_git_remote
+msgid "Git Update"
+msgstr "Actualización de Git"
+
+#. module: e_module_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_git_remote__git_remote__github
+msgid "GitHub"
+msgstr "GitHub"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "GitHub API error %s: %s"
+msgstr "Error de API de GitHub %s: %s"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__repo_url
+msgid "GitHub Repo URL"
+msgstr "URL del repositorio de GitHub"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__has_selected
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__has_selected
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__has_selected
+msgid "Has Selected"
+msgstr "ha seleccionado"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__id
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__id
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__id
+msgid "ID"
+msgstr "IDENTIFICACIÓN"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_manual_list
+msgid "Import Addon Modules"
+msgstr "Importar módulos adicionales"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Import Modules to Update Manual"
+msgstr "Importar módulos para actualizar el manual"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__installed_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__installed_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__installed_version
+msgid "Installed Version"
+msgstr "Versión instalada"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Invalid ZIP file format: %s"
+msgstr "Formato de archivo ZIP no válido: %s"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Invalid state"
+msgstr "Estado no válido"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__last_check
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__last_check
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__last_check
+msgid "Last Check"
+msgstr "último cheque"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__write_uid
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__write_uid
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por última vez por"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__write_date
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__write_date
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_addon_modules_eupdate_manual_wizard_form
+msgid "Load Modules"
+msgstr "Módulos de carga"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__local_path
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__local_path
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__local_path
+msgid "Local Path"
+msgstr "Ruta local"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__local_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__local_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__local_version
+msgid "Local Version"
+msgstr "Versión Local"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "Local module path not found. Is the module installed?"
+msgstr "Ruta del módulo local no encontrada. ¿Está instalado el módulo?"
+
+#. module: e_module_update
+#: model:ir.ui.menu,name:e_module_update.e_module_update_manual_menu
+msgid "Manual"
+msgstr "Manual"
+
+#. module: e_module_update
+#: model:ir.model,name:e_module_update.model_ir_module_e_update_manual
+msgid "Manual Module Updater"
+msgstr "Actualizador de módulo manual"
+
+#. module: e_module_update
+#: model:ir.actions.act_window,name:e_module_update.action_ir_module_e_update_manual
+msgid "Manual Update"
+msgstr "Actualización manual"
+
+#. module: e_module_update
+#: model:ir.ui.menu,name:e_module_update.e_module_update_git_menu_root
+msgid "Methods"
+msgstr "Métodos"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__module_id
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__module_name
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__module_id
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__module_id
+msgid "Module"
+msgstr "Módulo"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Module %s store successfully! Files updated: %d"
+msgstr "¡Módulo %s almacenado con éxito! Archivos actualizados: %d"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Module '%s' is not installed (state: %s)"
+msgstr "El módulo '%s' no está instalado (estado: %s)"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Module '%s' not found in repository"
+msgstr "Módulo '%s' no encontrado en el repositorio"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__module_icon
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__module_icon
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__module_icon
+msgid "Module Icon"
+msgstr "Icono del módulo"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__module_name
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__module_name
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__module_name
+msgid "Module Technical Name"
+msgstr "Nombre técnico del módulo"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Module Update"
+msgstr "Actualización del módulo"
+
+#. module: e_module_update
+#: model:ir.model.constraint,message:e_module_update.constraint_ir_module_e_update_git_remote_unique_module
+#: model:ir.model.constraint,message:e_module_update.constraint_ir_module_e_update_manual_unique_module
+#: model:ir.model.constraint,message:e_module_update.constraint_ir_module_e_update_unique_module
+msgid "Module must be unique!"
+msgstr "¡El módulo debe ser único!"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Module name mismatch: ZIP contains '%s', expected '%s'"
+msgstr ""
+"El nombre del módulo no coincide: el ZIP contiene '%s', se esperaba '%s'"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid ""
+"Module updated successfully from GitHub!\n"
+"New version: %s! Downloaded : %s files"
+msgstr ""
+"¡Módulo actualizado exitosamente desde GitHub!\n"
+"Nueva versión: %s! Descargado: %s archivos"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_addon_modules_eupdate_manual_wizard_form
+msgid "Modules to Import"
+msgstr "Módulos para importar"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "No Repository URL Provided"
+msgstr "No se proporcionó ninguna URL del repositorio"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No ZIP file provided"
+msgstr "No se proporcionó ningún archivo ZIP"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+msgid "No files found in subfolder: %s"
+msgstr "No se encontraron archivos en la subcarpeta: %s"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No files were extracted from the ZIP"
+msgstr "No se extrajeron archivos del ZIP"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_backup.py:0
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_backup.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No local path provided"
+msgstr "No se proporciona ninguna ruta local"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No local version provided"
+msgstr "No se proporciona ninguna versión local"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No manifest file found in ZIP. Expected module structure."
+msgstr ""
+"No se encontró ningún archivo de manifiesto en ZIP. Estructura del módulo "
+"esperada."
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "No manifest provided"
+msgstr "No se proporciona manifiesto"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__path
+msgid "Path"
+msgstr "Camino"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Reload Backups"
+msgstr "Recargar copias de seguridad"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__remote_version
+msgid "Remote Version"
+msgstr "Versión remota"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__repository_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__repository_version
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__repository_version
+msgid "Repository Version"
+msgstr "Versión del repositorio"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__restart_local
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__restart_local
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__restart_local
+msgid "Restart Local"
+msgstr "Reiniciar local"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Restart Server"
+msgstr "Reiniciar el servidor"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Restore"
+msgstr "Restaurar"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Select All"
+msgstr "Seleccionar todo"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__selected
+msgid "Selected"
+msgstr "Seleccionado"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__size
+msgid "Size"
+msgstr "Tamaño"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__module_state
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__module_state
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__module_state
+msgid "Status"
+msgstr "Estado"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_manual_form
+msgid "Store Downgrade Version"
+msgstr "Versión degradada de la tienda"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__store_local
+msgid "Store Local"
+msgstr "Tienda local"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_manual_form
+msgid "Store Up Version"
+msgstr "Almacenar versión"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__subfolder_path
+msgid "Subfolder Path"
+msgstr "Ruta de subcarpeta"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Success"
+msgstr "Éxito"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Success backup created for '%s' !"
+msgstr "¡Copia de seguridad exitosa creada para '%s'!"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Success backup reload for '%s' !"
+msgstr "¡Recarga de copia de seguridad exitosa para '%s'!"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Success update for '%s' !"
+msgstr "¡Actualización exitosa para '%s'!"
+
+#. module: e_module_update
+#: model_terms:ir.actions.act_window,help:e_module_update.action_ir_module_e_update_git_remote
+#: model_terms:ir.actions.act_window,help:e_module_update.action_ir_module_e_update_manual
+msgid "There is no examples click here to add new E_git_update Module."
+msgstr ""
+"No hay ejemplos, haga clic aquí para agregar un nuevo módulo E_git_update."
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid ""
+"This action only reloads the page. The server needs to restart to apply  the"
+" module changes. To do this, restart the service that started Odoo or your "
+"operating system."
+msgstr ""
+"Esta acción solo recarga la página. El servidor debe reiniciarse para "
+"aplicar los cambios del módulo. Para hacer esto, reinicie el servicio que "
+"inició Odoo o su sistema operativo."
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "This will DELETE the backup. Continue?"
+msgstr "Esto BORRARÁ la copia de seguridad. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_backup_list
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "This will DELETE the backups. Continue?"
+msgstr "Esto BORRARÁ las copias de seguridad. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_manual_form
+msgid ""
+"This will REPLACE all local files and store downgrade version. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales y almacenará la versión "
+"anterior. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid ""
+"This will REPLACE all local files and store with raw method the downgrade "
+"version. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales y almacenará con el método sin "
+"formato la versión degradada. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid ""
+"This will REPLACE all local files and store with zip method the downgrade "
+"version. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales y almacenará con el método zip "
+"la versión degradada. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "This will REPLACE all local files with raw method. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales con el método sin formato. "
+"¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_git_remote_form
+msgid "This will REPLACE all local files with zip method. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales con el método zip. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_manual_form
+msgid "This will REPLACE all local files. Continue?"
+msgstr "Esto REEMPLAZARÁ todos los archivos locales. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid ""
+"This will REPLACE all local files. Make sure you have a backup of the "
+"version you are going to replace. Continue?"
+msgstr ""
+"Esto REEMPLAZARÁ todos los archivos locales. Asegúrate de tener una copia de"
+" seguridad de la versión que vas a reemplazar. ¿Continuar?"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "This will update this module in the server. Continue?"
+msgstr "Esto actualizará este módulo en el servidor. ¿Continuar?"
+
+#. module: e_module_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update__state__to_downgrade
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_git_remote__state__to_downgrade
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_manual__state__to_downgrade
+msgid "To Downgrade"
+msgstr "Para bajar de versión"
+
+#. module: e_module_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update__state__to_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_git_remote__state__to_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_manual__state__to_update
+msgid "To Update"
+msgstr "Para actualizar"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Unselect All"
+msgstr "Deseleccionar todo"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__update_local
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__update_local
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__update_local
+msgid "Update Local"
+msgstr "Actualizar locales"
+
+#. module: e_module_update
+#: model_terms:ir.ui.view,arch_db:e_module_update.view_ir_module_e_update_form
+msgid "Update Module"
+msgstr "Módulo de actualización"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update__state
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_git_remote__state
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__state
+msgid "Update State"
+msgstr "Estado de actualización"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update_manual.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_git_remote.py:0
+#: code:addons/e_module_update/models/ir_module_e_update_manual.py:0
+msgid "Update failed: %s"
+msgstr "Error de actualización: %s"
+
+#. module: e_module_update
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update__state__updated
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_git_remote__state__updated
+#: model:ir.model.fields.selection,name:e_module_update.selection__ir_module_e_update_manual__state__updated
+msgid "Updated"
+msgstr "Actualizado"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_backup__version
+msgid "Version"
+msgstr "Versión"
+
+#. module: e_module_update
+#. odoo-python
+#: code:addons/addons/e_addons/e_module_update/models/ir_module_e_update.py:0
+#: code:addons/e_module_update/models/ir_module_e_update.py:0
+msgid "Version is older than module's version"
+msgstr "La versión es anterior a la versión del módulo."
+
+#. module: e_module_update
+#: model:ir.model.fields,help:e_module_update.field_ir_module_e_update__repository_version
+#: model:ir.model.fields,help:e_module_update.field_ir_module_e_update_git_remote__repository_version
+#: model:ir.model.fields,help:e_module_update.field_ir_module_e_update_manual__repository_version
+msgid "Version on Repository(Disk, Folder , OS)"
+msgstr "Versión en el repositorio (disco, carpeta, sistema operativo)"
+
+#. module: e_module_update
+#: model:ir.model.fields,field_description:e_module_update.field_ir_module_e_update_manual__zip_version
+msgid "ZIP Version"
+msgstr "Versión ZIP"
+
+#. module: e_module_update
+#: model:ir.model.fields,help:e_module_update.field_ir_module_e_update_git_remote__repo_url
+msgid "e.g., https://github.com/odoo/odoo"
+msgstr "por ejemplo, https://github.tsum/odo/odo"
+
+#. module: e_module_update
+#: model:ir.ui.menu,name:e_module_update.e_module_update_menu_root
+msgid "eModule Update"
+msgstr "Actualización del módulo electrónico"
+
+#. module: e_module_update
+#: model:ir.model,name:e_module_update.model_ir_module_e_update_backup
+msgid "eUpdate Backup"
+msgstr "Copia de seguridad de actualización electrónica"

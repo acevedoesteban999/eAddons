@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignWebsite',
-    'version': '18.0.3.0.0',
+    'version': '18.0.3.0.1',
     'summary': "Integration eDesign with Website",
     'description':"""
                     It allows you to view the design catalog from the website.
@@ -9,7 +9,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_website',
     'category': 'Customizations',
-    'depends': ['e_design','website'],
+    'depends': ['e_design','website','e_video_content'],
     'data': [
         "security/ir.model.access.csv",
         
@@ -19,17 +19,27 @@
         "views/pages/design_home.xml",
         "views/pages/design_products.xml",
         "views/pages/product_design_owl.xml",
+        "views/pages/video_content.xml",
         
         "views/product_template.xml",
         "views/product_edesign.xml",
         "views/product_edesign_category.xml",
+        
+        "views/video_content_views.xml",
+        
+        
+        "views/menu.xml",
     ],
     "assets": {
         "web.assets_frontend": [
             "e_design_website/static/src/components/public/**/*",
             "e_design_website/static/src/scss/*.scss",
             "e_design_website/static/src/js/*js",
+            "e_video_content/static/src/components/video_content/video_content.scss",
         ],
+        "web.assets_backend":[
+            "e_design_website/static/src/components/backend/**/*",
+        ]
     },
     'images': [
         'static/description/banner.png',

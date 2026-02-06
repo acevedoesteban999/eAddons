@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignMrp',
-    'version': '18.0.3.0.0',
+    'version': '18.0.3.0.1',
     'summary': """Integration MRP with eDesign""",
     'description':"""
                     It allows you to view the designs of the product 
@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_mrp',
     'category': 'Customizations',
-    'depends': ['mrp','e_design'],
+    'depends': ['sale_mrp','e_design','e_mrp_base'],
     "data": [
         "views/mrp_production.xml",
     ],

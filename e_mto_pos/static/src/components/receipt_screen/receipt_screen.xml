@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="e_mto_pos.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_payment_successful')]/div/div" position="after">
+            <t t-if="this.pos.config.show_mrp_delivery">
+                <div t-if="this.state.show_mrp_picking"
+                    class="row text-center">
+                    <div class="col-12 p-2 mt-3">
+                        <span class="fs-3 fw-bolder">Delivery and Manufacturing Created</span>
+                    </div>
+                    <hr/>
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <small class="fw-semibold">Receipt Number</small>
+                        </div>
+                        <div class="col-auto">
+                            <small t-esc="this.state.pos_order_tracking_number" class="h5"/>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <small class="fw-semibold">Order Number</small>
+                        </div>
+                        <div class="col-auto">
+                            <small t-esc="this.state.pos_order_pos_reference" class="h5"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

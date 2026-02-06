@@ -5,7 +5,7 @@
     
     <template id="e_design_website.DesignsDesign">
       <t t-call="e_design_website.designLayout">
-        <div class="container py-4">
+        <div class="container fancybox-item py-4">
             <t t-call="e_design_website.breadcrumbComponent"/>
             <div class="row g-4 designs-design ">
               <div class="col-12 col-md-8">
@@ -44,25 +44,8 @@
                   </a>
                 </t>
               </t>
-              
             </div>
-            
         </div>
-        
-        <script>
-          document.addEventListener('DOMContentLoaded', function() {
-            Fancybox.bind('[data-fancybox="gallery"]', {
-              Toolbar: {
-                display: [
-                  { id: "counter", position: "center" },
-                  "zoom",
-                  "fullscreen",
-                  "close",
-                ],
-              },
-            });
-          });
-        </script>
       </t>
     </template>
     
