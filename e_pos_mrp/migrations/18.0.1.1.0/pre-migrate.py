@@ -7,7 +7,8 @@ _logger = logging.getLogger(__name__)
 XML_IDS = [
     "e_pos_mrp.pos_order_form_inherit_pos_order_form",
     "e_pos_mrp.product_template_form_view",
-    "e_pos_mrp.pos_order_form_inherit_mrp_production_form"
+    "e_pos_mrp.pos_order_form_inherit_mrp_production_form",
+    "e_pos_mrp.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle",
 ]
 
 

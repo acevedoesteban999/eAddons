@@ -26,6 +26,7 @@
     'images': [
         'static/description/banner.png',
     ],
+    'post_init_hook': 'post_install_hook',
     'application': False,
     'installable': True,
     'auto_install': True,

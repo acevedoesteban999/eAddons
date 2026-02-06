@@ -1,14 +1,9 @@
-# e_mto_pos/migrations/18.0.1.0.0/post-migrate.py
 import logging
-from odoo import api, SUPERUSER_ID
-
 _logger = logging.getLogger(__name__)
 
-def migrate(cr, version):
-    env = api.Environment(cr, SUPERUSER_ID, {})
-    
-    _logger.info("Starting e_mto_pos migration")
-    
+def post_install_hook(env):
+    _logger.info("Starting e_mto_pos installation")
+    cr = env.cr
     cr.execute("""
         SELECT EXISTS(
             SELECT 1 FROM information_schema.tables 
@@ -17,7 +12,8 @@ def migrate(cr, version):
         )
     """)
     
-    if not cr.fetchone()[0]:
+    result = cr.fetchone()
+    if not result or not result[0]:
         _logger.info("No temporary table from e_pos_mrp found, nothing to migrate")
         return
     
@@ -59,4 +55,4 @@ def migrate(cr, version):
     _logger.info("Temporary table dropped, migration completed")
     
     env['product.template'].invalidate_model(['can_create_mto_pos'])
-    env['product.product'].invalidate_model(['has_create_mto_pos'])
+    env['product.product'].invalidate_model(['has_create_mto_pos'])  
