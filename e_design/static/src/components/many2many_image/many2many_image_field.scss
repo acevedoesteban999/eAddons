@@ -21,6 +21,76 @@ $img-height: 180px;
             transition: transform $transition-speed ease;
         }
 
+        .file-format-placeholder {
+            height: $img-height;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+            }
+
+            .file-format-content {
+                position: relative;
+                z-index: 1;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .file-format-text {
+                font-size: 2.5rem;
+                font-weight: 800;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                letter-spacing: 2px;
+                display: block;
+                line-height: 1;
+            }
+
+            &::after {
+                content: '\f15b'; 
+                font-family: 'FontAwesome';
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                font-size: 3rem;
+                color: rgba(255, 255, 255, 0.2);
+                z-index: 0;
+            }
+        }
+
+        &.o_file_non_image {
+            &[data-extension="PDF"] .file-format-placeholder {
+                background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            }
+            
+            &[data-extension="DOC"], 
+            &[data-extension="DOCX"] .file-format-placeholder {
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            }
+            
+            &[data-extension="XLS"], 
+            &[data-extension="XLSX"] .file-format-placeholder {
+                background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            }
+            
+            &[data-extension="ZIP"], 
+            &[data-extension="RAR"] .file-format-placeholder {
+                background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            }
+        }
+
         .card-body {
             flex-grow: 1;
             background: $card-bg;
@@ -53,8 +123,15 @@ $img-height: 180px;
     }
 
     @media (max-width: 576px) {
-        .card-widget .card-img-top {
-            height: 140px;
+        .card-widget {
+            .card-img-top,
+            .file-format-placeholder {
+                height: 140px;
+            }
+            
+            .file-format-text {
+                font-size: 2rem !important;
+            }
         }
     }
 }

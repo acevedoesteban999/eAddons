@@ -48,6 +48,7 @@ export class E_Design_Many2ManyImage extends Component {
     get uploadText() {
         return this.props.record.fields[this.props.name].string;
     }
+    
     get files() {
         return this.props.record.data[this.props.name].records.map((record) => {
             return {
@@ -62,11 +63,26 @@ export class E_Design_Many2ManyImage extends Component {
     }
 
     getExtension(file) {
-        return file.name.replace(/^.*\./, "");
+        const name = file.name || '';
+        const lastDot = name.lastIndexOf('.');
+        return lastDot !== -1 ? name.slice(lastDot + 1) : 'FILE';
     }
+
+    isImageFile(file) {
+        
+        if (file.mimetype) {
+            return file.mimetype.startsWith('image/');
+        }
+        
+        const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'svg', 'ico'];
+        const ext = this.getExtension(file).toLowerCase();
+        return imageExtensions.includes(ext);
+    }
+
     toogleFullscreen(){
         this.img.el.class.toogle('fullscreen')
     }
+    
     async onFileUploaded(files) {
         for (const file of files) {
             if (file.error) {
@@ -108,7 +124,7 @@ export const many2ManyImage = {
         { name: "mimetype", type: "char" },
     ],
     extractProps: ({ attrs, options }) => ({
-        acceptedFileExtensions: options.accepted_file_extensions,
+        acceptedFileExtensions: options.accepted_file_extensions ?? "*",
         className: attrs.class,
         numberOfFiles: options.number_of_files,
     }),
