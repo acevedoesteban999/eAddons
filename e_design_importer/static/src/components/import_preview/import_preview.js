@@ -16,97 +16,110 @@ export class ImportPreview extends Component {
         });
     }
 
-    get data() {
+    get previewData() {
         const value = this.props.record.data[this.props.name];
         return value || {
             categories: [],
-            subcategories: [],
-            designs: [],
             products: [],
-            existing: {
-                categories: [],
-                subcategories: [],
-                designs: [],
-                products: []
-            }
+            designs: []
         };
     }
 
     get stats() {
-        const data = this.data;
-        const existing = data.existing || {};
-        const existingCatCodes = new Set((existing.categories || []).map(c => c.code));
-        const existingSubCodes = new Set((existing.subcategories || []).map(s => s.code));
-        const existingDesCodes = new Set((existing.designs || []).map(d => d.code));
-        const existingProdCodes = new Set((existing.products || []).map(p => p.code));
-        
-        return {
-            categories: data.categories?.length || 0,
-            subcategories: data.subcategories?.length || 0,
-            designs: data.designs?.length || 0,
-            products: data.products?.length || 0,
-            newCategories: (data.categories || []).filter(c => !existingCatCodes.has(c.code)).length,
-            newSubcategories: (data.subcategories || []).filter(s => !existingSubCodes.has(s.code)).length,
-            newDesigns: (data.designs || []).filter(d => !existingDesCodes.has(d.code)).length,
-            newProducts: (data.products || []).filter(p => !existingProdCodes.has(p.code)).length
-        };
-    }
+        const data = this.previewData;
+        let categories = 0, subcategories = 0, products = 0, designs = 0;
+        let newCategories = 0, newSubcategories = 0, newProducts = 0, newDesigns = 0;
 
-    get categories() {
-        const data = this.data;
-        const existingCats = new Set((data.existing?.categories || []).map(c => c.code));
-        
-        return (data.categories || []).map(cat => ({
-            ...cat,
-            isNew: !existingCats.has(cat.code),
-            subcategories: this.getSubcategories(cat.code),
-            designs: this.getDesigns(cat.code)
-        }));
-    }
-
-    getSubcategories(parentCode) {
-        const data = this.data;
-        const existingSubs = new Set((data.existing?.subcategories || []).map(s => s.code));
-        
-        return (data.subcategories || [])
-            .filter(sub => sub.parent_code === parentCode)
-            .map(sub => ({
-                ...sub,
-                isNew: !existingSubs.has(sub.code),
-                designs: this.getDesigns(sub.code)
-            }));
-    }
-
-    getDesigns(categoryCode) {
-        const data = this.data;
-        const existingDes = new Set((data.existing?.designs || []).map(d => d.code));
-        
-        return (data.designs || [])
-            .filter(design => design.category_code === categoryCode)
-            .map(design => ({
-                ...design,
-                isNew: !existingDes.has(design.code)
-            }));
-    }
-
-    // Obtener todos los códigos posibles para expandir/colapsar
-    getAllCodes() {
-        const codes = new Set();
-        const categories = this.categories;
-        
-        categories.forEach(cat => {
-            codes.add(cat.code);
+        const countCategory = (cat) => {
+            categories++;
+            if (!cat.existing) newCategories++;
+            
             (cat.subcategories || []).forEach(sub => {
-                codes.add(sub.code);
+                subcategories++;
+                if (!sub.existing) newSubcategories++;
+                
+                (sub.products || []).forEach(prod => {
+                    products++;
+                    if (!prod.existing) newProducts++;
+                    
+                    (prod.designs || []).forEach(des => {
+                        designs++;
+                        if (!des.existing) newDesigns++;
+                    });
+                });
+                
+                (sub.designs || []).forEach(des => {
+                    designs++;
+                    if (!des.existing) newDesigns++;
+                });
+            });
+            
+            (cat.products || []).forEach(prod => {
+                products++;
+                if (!prod.existing) newProducts++;
+                
+                (prod.designs || []).forEach(des => {
+                    designs++;
+                    if (!des.existing) newDesigns++;
+                });
+            });
+            
+            (cat.designs || []).forEach(des => {
+                designs++;
+                if (!des.existing) newDesigns++;
+            });
+        };
+
+        (data.categories || []).forEach(countCategory);
+        
+        (data.products || []).forEach(prod => {
+            products++;
+            if (!prod.existing) newProducts++;
+            
+            (prod.designs || []).forEach(des => {
+                designs++;
+                if (!des.existing) newDesigns++;
             });
         });
         
+        (data.designs || []).forEach(des => {
+            designs++;
+            if (!des.existing) newDesigns++;
+        });
+
+        return {
+            categories,
+            subcategories,
+            products,
+            designs,
+            newCategories,
+            newSubcategories,
+            newProducts,
+            newDesigns
+        };
+    }
+
+    getAllCodes() {
+        const codes = new Set();
+        const data = this.previewData;
+
+        const collectCodes = (cat) => {
+            codes.add(cat.code);
+            (cat.subcategories || []).forEach(sub => {
+                codes.add(sub.code);
+                (sub.products || []).forEach(prod => codes.add(prod.code));
+            });
+            (cat.products || []).forEach(prod => codes.add(prod.code));
+        };
+
+        (data.categories || []).forEach(collectCodes);
+        (data.products || []).forEach(prod => codes.add(prod.code));
+
         return codes;
     }
 
     expandAll() {
         const allCodes = this.getAllCodes();
-        // Limpiar y agregar todos
         this.state.expanded.clear();
         allCodes.forEach(code => this.state.expanded.add(code));
     }
