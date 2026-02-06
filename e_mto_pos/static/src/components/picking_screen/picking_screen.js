@@ -9,6 +9,7 @@ import { SearchBar } from "@point_of_sale/app/screens/ticket_screen/search_bar/s
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { Component, onMounted, onWillStart, useState } from "@odoo/owl";
 import { parseUTCString } from "@point_of_sale/utils";
+import { Orderline } from "@point_of_sale/app/generic_components/orderline/orderline";
 
 const NBR_BY_PAGE = 30;
 
@@ -18,6 +19,7 @@ export class PickingScreen extends Component {
         CenteredIcon,
         SearchBar,
         BackButton,
+        Orderline,
     };
 
     setup() {
@@ -108,6 +110,7 @@ export class PickingScreen extends Component {
             'waiting': _t("Waiting"),
             'assigned': _t("Ready"),
             'done': _t("Delivered"),
+            'cancel': _t("Cancel"),
         
         }[state]
     }
@@ -122,6 +125,15 @@ export class PickingScreen extends Component {
     }
     async ConfirmPicking(pickingLine){
         await this._confirmPicking(pickingLine)
+    }
+
+    getPickingLineProps() {
+        return this.state.pickingLines.map(line => {
+            const { id, ...lineProps } = line;
+            return {
+                line: lineProps
+            };
+        });
     }
 
     //#region PAGE
@@ -186,6 +198,10 @@ export class PickingScreen extends Component {
             text: _t("Delivered"),
             indented: true,
         });
+        states.set("cancel", {
+            text: _t("Cancel"),
+            indented: true,
+        });
         
         return states;
     }
@@ -197,9 +213,13 @@ export class PickingScreen extends Component {
                 displayName: _t("Delivery"),
                 modelField: "name",
             },
-            POS_ORDER_NAME: {
-                displayName: _t("Pos Order"),
-                modelField: "pos_order_id.name",
+            POS_ORDER_REFERENCE: {
+                displayName: _t("Order Number"),
+                modelField: "pos_order_pos_reference",
+            },
+            POS_TRACKING_NUMBER: {
+                displayName: _t("Receipt Number"),
+                modelField: "pos_order_tracking_number",
             },
             PARTNER_NAME: {
                 displayName: _t("Partner"),
@@ -275,7 +295,7 @@ export class PickingScreen extends Component {
         this.notification.add(
             _t("Success confirmation for Delivery %s in POS order: %s")
                 .replace("%s", pickingLine.name)
-                .replace("%s", pickingLine.pos_order_id[1]),
+                .replace("%s", pickingLine.pos_order_pos_reference),
             {
                 type: "success",
                 title: _t("Success"),

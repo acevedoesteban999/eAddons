@@ -15,10 +15,10 @@ class IrModuleTranslate(models.Model):
     _inherit = "ir.module.e_base"
     _description = 'Translation Manager for Modules'
 
-    po_languages = fields.Json("PO Languages", compute="_compute_state")
+    po_languages = fields.Json("PO Languages", compute="_compute_state",store=True)
     state = fields.Selection(selection_add=[
         ('synced', "Synced"),
-        ('outdated', "Outdated"),
+        ('mismatch', "Mismatch"),
         ('missing', "Missing"),
     ], string="Translate State",store=True)
 
@@ -42,7 +42,7 @@ class IrModuleTranslate(models.Model):
                     if result:
                         common_keys, missing_in_file, extra_in_file = result
                         if missing_in_file or extra_in_file:
-                            self.state = 'outdated'
+                            self.state = 'mismatch'
                             self.error_msg = (_("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file)))
                         else:
                             self.state = 'synced'

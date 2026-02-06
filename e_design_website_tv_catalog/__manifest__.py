@@ -12,6 +12,7 @@
     'depends': ['e_design_website'],
     'data': [
         "views/pages/tv_catalog.xml",
+        "views/pages/design_home.xml",
         
     ],
     "assets": {

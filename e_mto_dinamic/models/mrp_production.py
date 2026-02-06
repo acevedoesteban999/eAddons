@@ -3,20 +3,12 @@ from odoo import models , api , Command
 class MrpProduction(models.Model):
     _inherit = "mrp.production"
     
-    def _get_move_dest_line(self,move_finished_ids):
-        for move in move_finished_ids:
-            while move:
-                if move.sale_line_id:
-                    return move.sale_line_id
-                move = move.move_dest_ids[:1]
-
-    @api.model
-    def create(self, values):
-        rec = super().create(values)
+    def create(self, vals_list):
+        rec = super().create(vals_list)
         product = rec.product_id
         if product.product_tmpl_id.dinamic_mto_ok:
             moves = []    
-            sale_order_line = self._get_move_dest_line(rec.move_dest_ids)
+            sale_order_line = self._get_move_dest_order_line(rec.move_dest_ids)
             if sale_order_line:
                 for dinamic_bill in sale_order_line.dinamic_bill_material_data:
                     moves.append(

@@ -3,15 +3,15 @@ from odoo.http import request
 import json
 
 
-_DOMAINES = {
+SEARCH_READ_DOMAINES = {
     'product.edesign':[
-        ('is_published','=',True),
+        ('ewebsite_published','=',True),
     ],
     'product.edesign.category':[
-        ('is_published','=',True),
+        ('ewebsite_published','=',True),
     ],
     'product.template':[
-        ('is_published','=',True),
+        ('ewebsite_published','=',True),
         ('design_ok','=',True),
         ('design_ids','!=',False),
     ],   
@@ -32,7 +32,7 @@ class Breadcrumb:
             'breadcrumbs': self.breadcrumbs,
         }
 
-class ProductDesign(http.Controller):
+class eDesignWebsiteControllers(http.Controller):
     
     @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
     def search_read_public(self, model, domain=None, fields=None, limit=None, context = {}, **kwargs):
@@ -40,7 +40,7 @@ class ProductDesign(http.Controller):
         if model not in allowed_models:
             return {'error': 'Model not allowed'}
         
-        _domain = _DOMAINES[model]
+        _domain = SEARCH_READ_DOMAINES[model]
         
         return http.request.env[model].sudo().search_read(
             domain = (domain + _domain) or _domain,
@@ -64,7 +64,11 @@ class ProductDesign(http.Controller):
     ], type='http', auth='public', website=True)    
     def products(self, product=False, **kw):
         
-        products = http.request.env['product.template'].search(_DOMAINES['product.template'])
+        products = http.request.env['product.template'].search([
+            ('ewebsite_published','=',True),
+            ('design_ok','=',True),
+            ('design_ids','!=',False),
+        ])
         
         breadcrumb_manager = Breadcrumb(
             http.request,
@@ -91,7 +95,7 @@ class ProductDesign(http.Controller):
     def categories(self, category=False, **kw):
     
         categories = http.request.env['product.edesign.category'].search([
-            ('is_published','=',True),
+            ('ewebsite_published','=',True),
             ('parent_id','=',False)
         ])
             
@@ -112,8 +116,6 @@ class ProductDesign(http.Controller):
                 'categories': categories,
             },
         )
-        
-    
         
     @http.route([
         "/edesigns",

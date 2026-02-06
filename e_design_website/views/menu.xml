@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem
+        id="e_design_website_video_content_menu"
+        name="Videos"
+        parent="e_design.menu_design_root"
+        action="action_e_design_website_video_content"
+        sequence="100"/>
+</odoo>

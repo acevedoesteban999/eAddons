@@ -6,7 +6,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_dinamic',
     'category': '',
-    'depends': ['base','web','product' , 'sale_stock' , 'mrp','e_mto_base'],
+    'depends': ['base','web','product', 'mrp','e_mto_base'],
     "data": [
         "security/ir.model.access.csv",
         "views/product_template.xml",

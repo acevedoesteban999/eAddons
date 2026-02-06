@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eMtoPos',
-    'version': '18.0.0.0.0',
+    'version': '18.0.0.1.1',
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_pos',
     'category': 'Customizations',
-    'depends': ['base' , 'pos_mrp','e_mto_base'],
+    'depends': ['pos_mrp','e_mto_base','e_pos_mrp_base'],
     'data': [
+        "security/ir.model.access.csv",
+        
         "views/pos_order.xml",
         "views/product_template.xml",
         "views/res_config.xml",
@@ -24,6 +26,7 @@
     'images': [
         'static/description/banner.png',
     ],
+    'post_init_hook': 'post_install_hook',
     'application': False,
     'installable': True,
     'auto_install': True,

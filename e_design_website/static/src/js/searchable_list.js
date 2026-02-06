@@ -6,7 +6,7 @@ publicWidget.registry.CategorySearch = publicWidget.Widget.extend({
     selector: '#searchable-list',
     
     async willStart() {
-        await loadJS("/e_design_website/static/src/lib/simple_search/simple_search.js");
+        await loadJS("/e_design_website/static/src/library/simple_search/simple_search.js");
     },
     
     start: function() {

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-02 04:44+0000\n"
-"PO-Revision-Date: 2026-02-02 04:44\n"
+"POT-Creation-Date: 2026-02-04 18:30+0000\n"
+"PO-Revision-Date: 2026-02-04 18:30\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -146,6 +146,11 @@ msgid "Local Version"
 msgstr "Versión Local"
 
 #. module: e_module_translate
+#: model:ir.model.fields.selection,name:e_module_translate.selection__ir_module_e_translate__state__mismatch
+msgid "Mismatch"
+msgstr "No coincide"
+
+#. module: e_module_translate
 #: model:ir.model.fields.selection,name:e_module_translate.selection__ir_module_e_translate__state__missing
 msgid "Missing"
 msgstr "Desaparecido"
@@ -199,9 +204,12 @@ msgid "No data available"
 msgstr "No hay datos disponibles"
 
 #. module: e_module_translate
-#: model:ir.model.fields.selection,name:e_module_translate.selection__ir_module_e_translate__state__outdated
-msgid "Outdated"
-msgstr "Anticuado"
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate_autotranslate_wizard__overwrite_existing
+msgid "Overwrite Existing"
+msgstr "Sobrescribir existente"
 
 #. module: e_module_translate
 #: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate__po_languages
@@ -263,6 +271,13 @@ msgstr ""
 "No hay ejemplos, haga clic aquí para agregar un nuevo Ir_module Translate."
 
 #. module: e_module_translate
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+msgid "Translate All"
+msgstr "Traducir todo"
+
+#. module: e_module_translate
 #: model:ir.model.fields,field_description:e_module_translate.field_ir_module_e_translate__state
 msgid "Translate State"
 msgstr "Traducir estado"
@@ -273,6 +288,13 @@ msgstr "Traducir estado"
 #: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
 msgid "Translating ..."
 msgstr "Traduciendo..."
+
+#. module: e_module_translate
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+#: code:addons/e_module_translate/static/src/components/pot_translation/pot_translation.xml:0
+msgid "Translating All..."
+msgstr "Traduciendo todo..."
 
 #. module: e_module_translate
 #: model:ir.model,name:e_module_translate.model_ir_module_e_translate
@@ -294,7 +316,7 @@ msgstr "Traducciones completadas"
 #. module: e_module_translate
 #: model:ir.model,name:e_module_translate.model_ir_module_e_translate_autotranslate_wizard
 msgid "eModuleAutotranslate"
-msgstr "eModuleAutotraducciones"
+msgstr "eModuleAutotranslate"
 
 #. module: e_module_translate
 #: model:ir.actions.act_window,name:e_module_translate.action_ir_module_e_translate

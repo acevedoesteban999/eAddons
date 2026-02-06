@@ -21,7 +21,7 @@
         </field>
     </record>
 
-    <record id="inherit_view_id_inherit_product_template" model="ir.ui.view">
+    <record id="e_addons_inherit_product_template" model="ir.ui.view">
         <field name="name">product.template.view.form.inherit</field>
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>

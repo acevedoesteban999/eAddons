@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_mrp_pos',
     'category': 'Customizations',
-    'depends': ['e_design_mrp','e_design_pos','e_pos_mrp'],
+    'depends': ['e_design_mrp','e_design_pos','e_pos_mrp_base'],
     "data": [ ],
     'images': [
         'static/description/banner.png',

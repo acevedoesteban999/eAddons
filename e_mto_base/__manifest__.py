@@ -6,7 +6,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_base',
     'category': '',
-    'depends': ['base','web','product' , 'sale_stock' , 'sale_mrp'],
+    'depends': ['base','web','product','sale_mrp','e_mrp_base'],
     "data": [],
     'images': [
         'static/description/banner.png',

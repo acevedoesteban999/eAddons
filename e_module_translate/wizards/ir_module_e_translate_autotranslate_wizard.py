@@ -7,7 +7,7 @@ class ModelName(models.TransientModel):
     _description = 'eModuleAutotranslate'
     
     languages = fields.Many2many('res.lang','res_autotrans_lang',domain="[('iso_code','!=','en')]",string="Languages",required=True)
-    
+    overwrite_existing = fields.Boolean("Overwrite Existing",default=False)
     
     def action_autotranslate(self):
         self.ensure_one()
@@ -28,7 +28,7 @@ class ModelName(models.TransientModel):
                     continue
                 
                 e_translation._recompute_translations(True,pot_file)
-                if e_translation.state not in ['outdated','missing']:
+                if e_translation.state not in ['mismatch','missing']:
                     continue
                 
                 result = e_translation.get_pot_translation_data(e_translation.id,pot_file)
@@ -53,10 +53,11 @@ class ModelName(models.TransientModel):
                     existing_data = datas.get(trans_code, {}).get('data', {})
                     
                     
+                    
                     to_translate = {
                         entry['msgid']: entry['msgid'] 
                         for entry in pot_entries.values() 
-                        if not existing_data.get(entry['msgid'])
+                        if (self.overwrite_existing or not existing_data.get(entry['msgid']))
                     }
                     
                     if to_translate:

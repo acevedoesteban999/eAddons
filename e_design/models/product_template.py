@@ -1,10 +1,10 @@
 from odoo import fields,models,api , Command , _
-class ProductProduct(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     design_ok = fields.Boolean(string='Design')
     
-    design_counter = fields.Integer("Designs",compute="_compute_design_counter")
+    design_counter = fields.Integer("Designs Counter",compute="_compute_design_counter")
     design_ids = fields.Many2many(
         'product.edesign',
         string="Designs for Product Template",
@@ -35,3 +35,10 @@ class ProductProduct(models.Model):
         self.browse(product_id).write({'design_ids': [Command.unlink(design_id)]})
         
         
+        
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+    
+    
+    def action_view_designs(self):
+        return self.product_tmpl_id.action_view_designs()
