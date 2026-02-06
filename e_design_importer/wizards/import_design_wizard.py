@@ -197,25 +197,8 @@ class ImportDesignWizard(models.TransientModel):
             
             image_data = FolderScanner.get_files_data(design_data.get('image'))
             file_data = FolderScanner.get_files_data(design_data.get('file'))
-            
+            file_name = FolderScanner.get_file_name(design_data.get('file'))
             attachment_ids = []
-            
-            if image_data:
-                image_att = self.env['ir.attachment'].create({
-                    'name': 'image.png',
-                    'datas': image_data,
-                    'res_model': 'product.edesign',
-                })
-                attachment_ids.append(image_att.id)
-            
-            if file_data:
-                file_name = os.path.basename(design_data.get('file', 'file'))
-                file_att = self.env['ir.attachment'].create({
-                    'name': file_name,
-                    'datas': file_data,
-                    'res_model': 'product.edesign',
-                })
-                attachment_ids.append(file_att.id)
             
             for att in design_data.get('attachments', []):
                 att_data = FolderScanner.get_files_data(att.get('path'))
@@ -232,6 +215,7 @@ class ImportDesignWizard(models.TransientModel):
                 'default_code': design_data['code'],
                 'category_id': category_id,
                 'image': image_data,
+                'file_name':file_name,
                 'file_id': file_data,
                 'attachment_ids': [(6, 0, attachment_ids)] if attachment_ids else False
             }).id

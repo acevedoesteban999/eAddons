@@ -140,3 +140,10 @@ class FolderScanner:
             return None
         with open(path, 'rb') as f:
             return base64.b64encode(f.read()).decode('utf-8')
+        
+    @staticmethod
+    def get_file_name(path):
+        if not path or not os.path.exists(path):
+            return None
+        return os.path.basename(path)
+        
