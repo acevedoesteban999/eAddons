@@ -35,13 +35,22 @@ patch(PosStore.prototype, {
         if (typeof vals.product_id == "number") {
             vals.product_id = this.data.models["product.product"].get(vals.product_id);
         }
-        if(vals.product_id.raw.has_design && vals.product_id.raw.design_ids?.length){
+        if(!vals.sale_order_line_id && vals.product_id.raw.has_design && vals.product_id.raw.design_ids?.length){
             const payload = await makeAwaitable(this.dialog, EDesignConfiguratorPopup, {
                 product: vals.product_id,
             });
             if (payload === undefined)
                 return
             vals.design_id = payload?.design_id ?? false
+        }
+        if(vals.sale_order_line_id){
+            const design = await  await this.data.call(
+                "sale.order.line",
+                "read",
+                [[vals.sale_order_line_id.id], ['design_id']]
+            );
+            if(design && design[0]?.design_id?.[0])
+                vals.design_id = this.models['product.edesign'].get(design[0].design_id[0])
         }
         return super.addLineToOrder(vals, order, opts, configure)
     },

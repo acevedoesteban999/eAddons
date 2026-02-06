@@ -9,7 +9,7 @@ patch(Orderline,{
             shape:{
                 ...Orderline.props.line.shape,
                 design_id: { 
-                    type: [Object,Boolean], 
+                    type: Object, 
                     optional: true , 
                     shape:{
                         default_code:{ type: String }
