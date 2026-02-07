@@ -1,20 +1,27 @@
-<h1 style="display: flex;gap: 15px;">
-    <img style="border-radius: 30px;height: 25px; width: auto; margin: 0; padding: 0;" src="static/description/icon.png" alt="eDesign Logo"/>
-    eDesign
-</h1>
-
-This module enables you to create and link design to products
-
-**Product Template**
-![IMAGE](static/description/assets/screenshots/1.png)
-
-**Own Module**
-![IMAGE](static/description/assets/screenshots/2.png)
-
-
-### Features
-
-- **Design Categories**: Organize designs into customizable categories for better management
-- **Basic Design Data**: Each design includes essential information (name, code)
-- **Image Catalog**: Upload multiple images for each design
-- **Format Specification**: Attach a specific file referencing the design's saved format (includes images)
+ROOT_FOLDER/
+├── Categoria Principal (CAT-CODIGO_CAT)/
+│   ├── Subcategoria (SUB-CODIGO_SUB)/
+│   │   ├── Producto (PROD-CODIGO_PROD)/
+│   │   │   └── Diseño (DES-CODIGO_DES)/
+│   │   │       ├── image.png
+│   │   │       ├── file.pdf
+│   │   │       └── attachments/
+│   │   │           ├── doc1.pdf (< 100MB)
+│   │   │           └── doc2.jpg (< 100MB)
+│   │   └── Diseño Suelto (DIS-CODIGO_DES)/
+│   │       ├── image.png
+│   │       └── file.docx
+│   ├── Producto Directo (PROD-CODIGO_PROD)/
+│   │   └── Diseño (DES-CODIGO_DES)/
+│   │       ├── image.png
+│   │       └── attachments/
+│   └── Diseño Directo (DES-CODIGO_DES)/
+│       ├── image.png
+│       └── file.pdf
+├── Producto Suelto (PROD-CODIGO_PROD)/
+│   └── Diseño (DES-CODIGO_DES)/
+│       ├── image.png
+│       └── attachments/
+└── Diseño Suelto (DES-CODIGO_DES)/
+    ├── image.png
+    └── file.pdf
