@@ -7,17 +7,19 @@
                 <div class="card-body text-center">
                     <h2 t-attf-class="text-{{color ?? 'secondary'}} mb-1" t-esc="found"/>
                     <small class="text-muted text-uppercase fw-semibold" t-esc="title ?? 'Unknown'"/>
-                    <div class="mt-3" t-if="new_count > 0">
-                        <span t-attf-class="badge bg-{{color ?? 'secondary'}} rounded-pill px-3 py-2 text-{{color_text ?? 'dark'}}">
-                            <i class="bi bi-plus-circle me-1"></i>
-                            <t t-esc="new_count"/> New
-                        </span>
-                    </div>
-                    <div class="mt-3" t-if="error > 0">
-                        <span class="badge bg-danger rounded-pill px-3 py-2 text-light">
-                            <i class="bi bi-exclamation-triangle me-1"></i>
-                            <t t-esc="error"/> Error
-                        </span>
+                    <div class="row">
+                        <div class="mt-3 col" t-if="new_count > 0">
+                            <span t-attf-class="badge bg-{{color ?? 'secondary'}} rounded-pill px-3 py-2 text-{{color_text ?? 'dark'}}">
+                                <i class="bi bi-plus-circle me-1"></i>
+                                <t t-esc="new_count"/> New
+                            </span>
+                        </div>
+                        <div class="mt-3 col" t-if="error > 0">
+                            <span class="badge bg-danger rounded-pill px-3 py-2 text-light">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                <t t-esc="error"/> Error
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

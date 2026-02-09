@@ -27,7 +27,7 @@ class ImportDesignWizard(models.TransientModel):
         scanner = FolderScanner(self.folder_path)
         data = scanner.scan()
         
-        def check_design(des):
+        def check_design(des,error=False):
             if not des:
                 return None
             existing_des = self.env['product.edesign'].search([
@@ -42,11 +42,15 @@ class ImportDesignWizard(models.TransientModel):
                 'attachments': des.get('attachments', []),
                 'id': existing_des.id
             }
+            
             counters['designs']['found'] += 1
-            counters['designs']['new'] += 1 if not existing_des else 0
+            if error:
+                counters['designs']['error'] += 1
+            else:
+                counters['designs']['new'] += 1 if not existing_des else 0
             return result
         
-        def check_product(prod):
+        def check_product(prod,error=False):
             if not prod:
                 return None
             existing_prod = self.env['product.template'].search([
@@ -61,21 +65,23 @@ class ImportDesignWizard(models.TransientModel):
                 'designs': []
             }
             counters['products']['found'] += 1
-            
+            error = error
             if not existing_prod:
-                result['error'] = True
+                error = result['error'] = True
                 result['error_msg'] = _("Product not Found: %s",prod['code'])
-                counters['products']['error'] += 1
             
-            # counters['subcategories']['new'] += 1 if not existing_prod else 0
+            if error:
+                counters['products']['error'] += 1
+            else:
+                counters['subcategories']['new'] += 1 if not existing_prod else 0
             
             for des in prod.get('designs', []):
-                checked_des = check_design(des)
+                checked_des = check_design(des,error)
                 if checked_des:
                     result['designs'].append(checked_des)
             return result
         
-        def check_subcategory(sub, parent_cat_code=None):
+        def check_subcategory(sub, parent_cat_code=None,error=False):
             if not sub:
                 return None
             existing_sub = self.env['product.edesign.category'].search([
@@ -92,24 +98,27 @@ class ImportDesignWizard(models.TransientModel):
             }
             counters['subcategories']['found'] += 1
             
+            error = error
             if existing_sub and not existing_sub.parent_id:
-                result['error'] = True
+                error = result['error'] = True
                 result['error_msg'] = _('Subcategory is not inside a valid. Dont have a category parent')
-                counters['subcategories']['error'] += 1
                 
             elif existing_sub and existing_sub.parent_id.default_code != parent_cat_code:
                 result['error'] = True
                 result['error_msg'] = _('Subcategory does not belong to this category (belongs to: %s)') % existing_sub.parent_id.name
         
-            counters['subcategories']['new'] += 1 if not existing_sub and not result.get('error') else 0
+            if error:
+                counters['subcategories']['error'] += 1
+            else:
+                counters['subcategories']['new'] += 1 if not existing_sub else 0
             
             
             for prod in sub.get('products', []):
-                checked_prod = check_product(prod)
+                checked_prod = check_product(prod,error)
                 if checked_prod:
                     result['products'].append(checked_prod)
             for des in sub.get('designs', []):
-                checked_des = check_design(des)
+                checked_des = check_design(des,error)
                 if checked_des:
                     result['designs'].append(checked_des)
             
@@ -132,23 +141,26 @@ class ImportDesignWizard(models.TransientModel):
             }
             counters['categories']['found'] += 1
             
+            error = False
             if existing_cat and existing_cat.parent_id:
-                result['error'] = True
+                error = result['error'] = True
                 result['error_msg'] = _('Category is a subcategory in the system (belongs to: %s)') % existing_cat.parent_id.name
-                counters['categories']['error'] += 1
                 
-            counters['categories']['new'] += 1 if not existing_cat and not result.get('error') else 0
+            if error:
+                counters['categories']['error'] += 1
+            else:
+                counters['categories']['new'] += 1 if not existing_cat else 0
                  
             for sub in cat.get('subcategories', []):
-                checked_sub = check_subcategory(sub, cat['code'])
+                checked_sub = check_subcategory(sub, cat['code'],error = error)
                 if checked_sub:
                     result['subcategories'].append(checked_sub)
             for prod in cat.get('products', []):
-                checked_prod = check_product(prod)
+                checked_prod = check_product(prod,error = error)
                 if checked_prod:
                     result['products'].append(checked_prod)
             for des in cat.get('designs', []):
-                checked_des = check_design(des)
+                checked_des = check_design(des,error = error)
                 if checked_des:
                     result['designs'].append(checked_des)
             
