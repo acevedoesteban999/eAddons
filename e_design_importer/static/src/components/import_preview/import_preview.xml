@@ -81,10 +81,9 @@
             <t t-set="children_class" t-value="'ms-4 mt-1'"/>
             <t t-set="children_render">
                 <t t-if="node.designs?.length">
-                    <t t-foreach="node.designs" t-as="design" t-key="design.code">
+                    <t t-foreach="node.designs" t-as="design" t-key="design_index">
                         <t t-call="e_design_import.DesignNode">
                             <t t-set="node" t-value="design"/>
-                            <!-- Propagar error para el fondo visual -->
                             <t t-set="parent_error" t-value="has_error"/>
                         </t>
                     </t>
@@ -124,7 +123,7 @@
             
             <div class="stats-row mb-4">
                 <div class="row g-4">
-                    <t t-foreach="Object.values(this.counters)" t-as="item" t-key="item.title">
+                    <t t-foreach="orderedCounters" t-as="item" t-key="item_index">
                         <t t-call="e_design_import.CardCounters">
                             <t t-set="color" t-value="item.color"/>
                             <t t-set="found" t-value="item.found"/>
@@ -156,7 +155,7 @@
                 <div class="card-body p-0">
                     <div class="category-list">
                         
-                        <t t-foreach="previewData.categories" t-as="cat" t-key="cat.code">
+                        <t t-foreach="previewData.categories" t-as="cat" t-key="cat_index">
                             <t t-call="e_design_import.Node">
                                 <t t-set="node" t-value="cat"/>
                                 <t t-set="color" t-value="'primary'"/>
@@ -167,7 +166,7 @@
                                 <t t-set="count_badge" t-value="(cat.subcategories?.length || 0) + (cat.designs?.length || 0) + (cat.products?.length || 0)"/>
                                 <t t-set="children_class" t-value="'ms-4 ps-2 border-start border-2 border-light'"/>
                                 <t t-set="children_render">
-                                    <t t-foreach="cat.subcategories" t-as="sub" t-key="sub.code">
+                                    <t t-foreach="cat.subcategories" t-as="sub" t-key="sub_index">
                                         <t t-call="e_design_import.Node">
                                             <t t-set="node" t-value="sub"/>
                                             <t t-set="color" t-value="'info'"/>
@@ -182,14 +181,14 @@
                                             <t t-set="cat_or_sub_error" t-value="cat.error or sub.error"/>
                                             <t t-set="has_error" t-value="cat_or_sub_error"/>
                                             <t t-set="children_render">
-                                                <t t-foreach="sub.products" t-as="prod" t-key="prod.code">
+                                                <t t-foreach="sub.products" t-as="prod" t-key="prod_index">
                                                     <t t-call="e_design_import.ProductNode">
                                                         <t t-set="node" t-value="prod"/>
                                                         <t t-set="parent_error" t-value="cat_or_sub_error"/>
                                                     </t>
                                                 </t>
                                                 
-                                                <t t-foreach="sub.designs" t-as="des" t-key="des.code">
+                                                <t t-foreach="sub.designs" t-as="des" t-key="des_index">
                                                     <t t-call="e_design_import.DesignNode">
                                                         <t t-set="node" t-value="des"/>
                                                         <t t-set="parent_error" t-value="cat_or_sub_error"/>
@@ -199,14 +198,14 @@
                                         </t>
                                     </t>
                                     
-                                    <t t-foreach="cat.products" t-as="prod" t-key="prod.code">
+                                    <t t-foreach="cat.products" t-as="prod" t-key="prod_index">
                                         <t t-call="e_design_import.ProductNode">
                                             <t t-set="node" t-value="prod"/>
                                             <t t-set="parent_error" t-value="cat.error"/>
                                         </t>
                                     </t>
                                     
-                                    <t t-foreach="cat.designs" t-as="des" t-key="des.code">
+                                    <t t-foreach="cat.designs" t-as="des" t-key="des_index">
                                         <t t-call="e_design_import.DesignNode">
                                             <t t-set="node" t-value="des"/>
                                             <t t-set="parent_error" t-value="cat.error"/>
@@ -221,7 +220,7 @@
                                 <h6 class="text-muted small text-uppercase fw-bold mb-2 ms-3">
                                     <i class="bi bi-box-seam me-1"></i>Standalone Products
                                 </h6>
-                                <t t-foreach="previewData.products" t-as="node" t-key="node.code">
+                                <t t-foreach="previewData.products" t-as="node" t-key="node_index">
                                     <t t-call="e_design_import.ProductNode">
                                         <t t-set="node" t-value="node"/>
                                         <t t-set="parent_error" t-value="false"/>
@@ -235,7 +234,7 @@
                                 <h6 class="text-muted small text-uppercase fw-bold mb-2 ms-3">
                                     <i class="bi bi-palette me-1"></i>Standalone Designs
                                 </h6>
-                                <t t-foreach="previewData.designs" t-as="node" t-key="node.code">
+                                <t t-foreach="previewData.designs" t-as="node" t-key="node_index">
                                     <t t-call="e_design_import.DesignNode">
                                         <t t-set="node" t-value="node"/>
                                         <t t-set="parent_error" t-value="false"/>

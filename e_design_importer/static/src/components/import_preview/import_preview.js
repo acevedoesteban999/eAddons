@@ -16,6 +16,11 @@ export class ImportPreview extends Component {
         });
     }
 
+    get orderedCounters() {
+        const order = ['categories', 'subcategories', 'products', 'designs'];
+        return order.map(key => this.counters[key]);
+    }
+
     get previewData() {
         return this.props.record.data[this.props.name].preview_data;
     }
