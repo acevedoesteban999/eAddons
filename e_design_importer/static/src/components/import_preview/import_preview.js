@@ -8,6 +8,7 @@ export class ImportPreview extends Component {
     static template = "e_design_import.ImportPreview";
     static props = {
         ...standardFieldProps,
+        disabledField: { type: String, optional: true },
     };
     
     setup() {
@@ -15,9 +16,7 @@ export class ImportPreview extends Component {
             expanded: new Set(),
             disabled : new Set(),
         });
-        this.errors = new Set()
-        this.getAllErrors()
-        this.state.disabled = this.errors
+        this.errors = this.getAllErrors()
     }
 
     get orderedCounters() {
@@ -64,7 +63,7 @@ export class ImportPreview extends Component {
         (data.products || []).forEach(errorProducts);
         (data.designs || []).forEach(errorDesigns);
 
-        this.errors = errors
+        return errors
     }
 
     getAllExpandCodes() {
@@ -110,6 +109,11 @@ export class ImportPreview extends Component {
         } else {
             this.state.disabled.add(code);
         }
+        if(this.props.disabledField) {
+            this.props.record.update({
+                [this.props.disabledField]: Array.from(this.state.disabled)
+            });
+        }
     }
 
     isExpanded(code) {
@@ -127,6 +131,11 @@ export class ImportPreview extends Component {
 
 export const importPreview = {
     component: ImportPreview,
+    supportedTypes: ["json"],
+    extractProps: ({ attrs }) => ({ 
+        disabledField: attrs.disabledfield , 
+    }),
+    
 };
 
 registry.category("fields").add("import_preview", importPreview);

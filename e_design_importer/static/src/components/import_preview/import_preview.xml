@@ -29,7 +29,7 @@
     <t t-name="e_design_import.Node">
         <t t-set="nodeError" t-value="isError(node.code)"/>
         <t t-set="nodeDisabled" t-value="isDisabled(node.code)"/>
-        <div class="my-1" t-att-class="{nodeError:'has-error-descendants',nodeDisabled:'has-disabled-descendants'}">
+        <div class="my-1" t-att-class="{'has-error-descendants':nodeError,'has-disabled-descendants':nodeDisabled or nodeError}">
             <div t-attf-class="item-header d-flex align-items-center p-{{padding ?? 3}} mb-2 
                                shadow-sm border-{{color ?? 'secondary'}} {{clickable ? 'cursor-pointer' : ''}}
                                {{nodeError ? 'bg-danger-subtle' : 'bg-' + color + '-subtle'}}"
@@ -40,13 +40,14 @@
                         <i class="fa fa-exclamation-triangle"></i>
                     </span>
                 </t>
-                <!-- <div class="form-check me-3">
+                <div class="form-check me-3" t-on-click.stop="">
                     <input type="checkbox" 
                         class="form-check-input" 
-                        t-att-checked="!nodeError and !nodeDisabled"
+                        t-att-class="{'origin-disabled':nodeDisabled}"
+                        t-att-checked="!nodeDisabled"
                         t-att-disabled="nodeError"
                         t-on-change="()=>this.toggleDisabled(node.code)"/>
-                </div> -->
+                </div>
                 
 
                 <div class="ms-3 flex-grow-1">

@@ -13,7 +13,8 @@ class ImportDesignWizard(models.TransientModel):
     _description = 'Import Design Wizard'
     
     folder_path = fields.Char(string='Desktop Folder Path', required=True, default="E:\\Esteban\\Programacion\\Python\\Odoo\\Odoo18\\designs")
-    preview_data = fields.Json(string='Preview Data', default=dict)
+    preview_data = fields.Json(string='Preview Data', default={})
+    disabled_data = fields.Json(string='Deisabled Data', default=[])
     state = fields.Selection([
         ('select', 'Select Folder'),
         ('preview', 'Preview'),
@@ -240,11 +241,14 @@ class ImportDesignWizard(models.TransientModel):
         self.ensure_one()
         
         preview_data = self.preview_data.get('preview_data')
-        
+        disabled = self.disabled_data or []
         created_designs = 0
         
+        def errorOrDisabled(node):
+            return node.get('error') or node.get('code') in disabled
+        
         def process_category(cat_data):
-            if cat_data.get('error'):
+            if errorOrDisabled(cat_data):
                 return
             cat_id = cat_data.get('id',False)
                     
@@ -266,7 +270,7 @@ class ImportDesignWizard(models.TransientModel):
             
         
         def create_design(design_data, category_id = False):
-            if design_data.get('error'):
+            if errorOrDisabled(design_data):
                 return
             nonlocal created_designs
             design_id = design_data.get('id',False)
@@ -301,7 +305,7 @@ class ImportDesignWizard(models.TransientModel):
             created_designs += 1
         
         def process_subcategory(sub_data, category_id = False):
-            if sub_data.get('error'):
+            if errorOrDisabled(sub_data):
                 return
         
             sub_id = sub_data.get('id',False)
@@ -320,7 +324,7 @@ class ImportDesignWizard(models.TransientModel):
             
         
         def process_product(prod_data , category_id = False):
-            if prod_data.get('error'):
+            if errorOrDisabled(prod_data):
                 return
             
             product_id = prod_data.get('id',False)

@@ -92,6 +92,17 @@
             border-left-color: #dc3545;
         }
     }
+    .has-disabled-descendants {
+        input[type="checkbox"]:not(.origin-disabled) {
+            pointer-events: none;
+            opacity: 0.5;         
+            cursor: not-allowed;
+            
+            &:checked {
+                accent-color: #6c757d;
+            }
+        }
+    }
     .category-list {
         max-height: 600px;
         overflow-y: auto;

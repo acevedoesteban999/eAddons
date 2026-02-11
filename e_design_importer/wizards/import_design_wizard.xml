@@ -13,7 +13,8 @@
                     </group>
                     
                     <div invisible="state != 'preview'">
-                        <field name="preview_data" widget="import_preview" nolabel="1"/>
+                        <field name="disabled_data" invisible="1"></field>
+                        <field name="preview_data" widget="import_preview" disabledfield='disabled_data' nolabel="1"/>
                     </div>
                     
                 </sheet>
