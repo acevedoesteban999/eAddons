@@ -8,6 +8,12 @@ from odoo.exceptions import UserError
 from ..utils.folder_scanner import FolderScanner
 from ..utils.zip_scanner import ZipScanner
 
+# try:
+#     from odoo.addons.e_rar_to_zip.utils import convert_rar_to_zip
+# except:
+#     def convert_rar_to_zip(binaryRar):
+#         return binaryRar
+
 class ImportDesignWizard(models.TransientModel):
     _name = 'import.design.wizard'
     _description = 'Import Design Wizard'
@@ -24,6 +30,11 @@ class ImportDesignWizard(models.TransientModel):
         ('select', 'Select Folder'),
         ('preview', 'Preview'),
     ], default='select')
+    
+    # @api.onchange('zip_file')
+    # def _onchenge_zip_file(self):
+    #     if self.zip_file:
+    #         self.zip_file = convert_rar_to_zip(self.zip_file)
     
     def action_scan(self):
         self.ensure_one()
