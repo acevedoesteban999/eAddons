@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:47+0000\n"
-"PO-Revision-Date: 2026-01-30 06:47\n"
+"POT-Creation-Date: 2026-02-12 02:57+0000\n"
+"PO-Revision-Date: 2026-02-12 02:57\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -199,6 +199,11 @@ msgid "Product Variant"
 msgstr "Variante de producto"
 
 #. module: e_design_pos
+#: model:ir.model,name:e_design_pos.model_product_edesign
+msgid "ProducteDesign"
+msgstr "ProductoDiseño"
+
+#. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_user_id
 msgid "Responsible User"
 msgstr "Usuario responsable"
@@ -240,8 +245,3 @@ msgstr "Mensajes del sitio web"
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__website_message_ids
 msgid "Website communication history"
 msgstr "Historial de comunicación del sitio web"
-
-#. module: e_design_pos
-#: model:ir.model,name:e_design_pos.model_product_edesign
-msgid "product.edesign"
-msgstr "producto.edesign"

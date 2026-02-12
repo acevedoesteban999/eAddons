@@ -8,98 +8,65 @@ export class ImportPreview extends Component {
     static template = "e_design_import.ImportPreview";
     static props = {
         ...standardFieldProps,
+        disabledField: { type: String, optional: true },
     };
     
     setup() {
         this.state = useState({
             expanded: new Set(),
+            disabled : new Set(),
         });
+        this.errors = this.getAllErrors()
+    }
+
+    get orderedCounters() {
+        const order = ['categories', 'subcategories', 'products', 'designs'];
+        return order.map(key => this.counters[key]);
     }
 
     get previewData() {
-        const value = this.props.record.data[this.props.name];
-        return value || {
-            categories: [],
-            products: [],
-            designs: []
-        };
+        return this.props.record.data[this.props.name].preview_data;
     }
 
-    get stats() {
+    get counters() {
+        return this.props.record.data[this.props.name].counters;
+    }
+
+    getAllErrors(){
+        let errors = new Set()
         const data = this.previewData;
-        let categories = 0, subcategories = 0, products = 0, designs = 0;
-        let newCategories = 0, newSubcategories = 0, newProducts = 0, newDesigns = 0;
 
-        const countCategory = (cat) => {
-            categories++;
-            if (!cat.id) newCategories++;
-            
+        const nodeError = (node)=>{
+            if (node.error)
+                errors.add(node.code)
+        }
+
+        const errorDesigns = (des)=>{
+            nodeError(des)
+        }
+        const errorProducts = (prod)=>{
+            nodeError(prod);
+            (prod.designs || []).forEach(errorDesigns);
+        }
+        const errorCategories = (cat) => {
+            nodeError(cat);
             (cat.subcategories || []).forEach(sub => {
-                subcategories++;
-                if (!sub.id) newSubcategories++;
-                
-                (sub.products || []).forEach(prod => {
-                    products++;
-                    if (!prod.id) newProducts++;
-                    
-                    (prod.designs || []).forEach(des => {
-                        designs++;
-                        if (!des.id) newDesigns++;
-                    });
-                });
-                
-                (sub.designs || []).forEach(des => {
-                    designs++;
-                    if (!des.id) newDesigns++;
-                });
+                nodeError(sub);
+                (sub.products || []).forEach(errorProducts);
+                (sub.designs || []).forEach(errorDesigns);
             });
-            
-            (cat.products || []).forEach(prod => {
-                products++;
-                if (!prod.id) newProducts++;
-                
-                (prod.designs || []).forEach(des => {
-                    designs++;
-                    if (!des.id) newDesigns++;
-                });
-            });
-            
-            (cat.designs || []).forEach(des => {
-                designs++;
-                if (!des.id) newDesigns++;
-            });
-        };
+            (cat.products || []).forEach(errorProducts);
+            (cat.designs || []).forEach(errorDesigns);
+        }
 
-        (data.categories || []).forEach(countCategory);
-        
-        (data.products || []).forEach(prod => {
-            products++;
-            if (!prod.id) newProducts++;
-            
-            (prod.designs || []).forEach(des => {
-                designs++;
-                if (!des.id) newDesigns++;
-            });
-        });
-        
-        (data.designs || []).forEach(des => {
-            designs++;
-            if (!des.id) newDesigns++;
-        });
+        (data.categories || []).forEach(errorCategories);
+        (data.products || []).forEach(errorProducts);
+        (data.designs || []).forEach(errorDesigns);
 
-        return {
-            categories,
-            subcategories,
-            products,
-            designs,
-            newCategories,
-            newSubcategories,
-            newProducts,
-            newDesigns
-        };
+        return errors
     }
 
-    getAllCodes() {
+    getAllExpandCodes() {
         const codes = new Set();
         const data = this.previewData;
 
@@ -119,7 +86,7 @@ export class ImportPreview extends Component {
     }
 
     expandAll() {
-        const allCodes = this.getAllCodes();
+        const allCodes = this.getAllExpandCodes();
         this.state.expanded.clear();
         allCodes.forEach(code => this.state.expanded.add(code));
     }
@@ -136,13 +103,39 @@ export class ImportPreview extends Component {
         }
     }
 
+    toggleDisabled(code) {
+        if (this.state.disabled.has(code)) {
+            this.state.disabled.delete(code);
+        } else {
+            this.state.disabled.add(code);
+        }
+        if(this.props.disabledField) {
+            this.props.record.update({
+                [this.props.disabledField]: Array.from(this.state.disabled)
+            });
+        }
+    }
+
     isExpanded(code) {
         return this.state.expanded.has(code);
+    }
+
+    isDisabled(code) {
+        return this.state.disabled.has(code);
+    }
+
+    isError(code) {
+        return this.errors.has(code);
     }
 }
 
 export const importPreview = {
     component: ImportPreview,
+    supportedTypes: ["json"],
+    extractProps: ({ attrs }) => ({ 
+        disabledField: attrs.disabledfield , 
+    }),
+    
 };
 
 registry.category("fields").add("import_preview", importPreview);
