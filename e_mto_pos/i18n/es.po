@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-04 18:22+0000\n"
-"PO-Revision-Date: 2026-02-04 18:23\n"
+"POT-Creation-Date: 2026-02-12 02:57+0000\n"
+"PO-Revision-Date: 2026-02-12 02:58\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -18,35 +18,46 @@ msgstr ""
 "X-Generator: e_module_translate\n"
 
 #. module: e_mto_pos
+#: model:ir.model.fields,help:e_mto_pos.field_pos_order__picking_pos_mrp_state
+msgid ""
+" * Draft: The transfer is not confirmed yet. Reservation doesn't apply.\n"
+" * Waiting another operation: This transfer is waiting for another operation before being ready.\n"
+" * Waiting: The transfer is waiting for the availability of some products.\n"
+"(a) The shipping policy is \"As soon as possible\": no product could be reserved.\n"
+"(b) The shipping policy is \"When all products are ready\": not all the products could be reserved.\n"
+" * Ready: The transfer is ready to be processed.\n"
+"(a) The shipping policy is \"As soon as possible\": at least one product has been reserved.\n"
+"(b) The shipping policy is \"When all products are ready\": all product have been reserved.\n"
+" * Done: The transfer has been processed.\n"
+" * Cancelled: The transfer has been cancelled."
+msgstr ""
+"* Borrador: La transferencia aún no está confirmada. La reserva no aplica.\n"
+" * Esperando otra operación: Esta transferencia está esperando otra operación antes de estar lista.\n"
+" * En espera: La transferencia está a la espera de la disponibilidad de algunos productos.\n"
+"(a) La política de envío es \"Lo antes posible\": no se podrá reservar ningún producto.\n"
+"(b) La política de envío es \"Cuando todos los productos estén listos\": no se podrán reservar todos los productos.\n"
+" * Listo: La transferencia está lista para ser procesada.\n"
+"(a) La política de envío es \"Lo antes posible\": se ha reservado al menos un producto.\n"
+"(b) La política de envío es \"Cuando todos los productos estén listos\": todos los productos han sido reservados.\n"
+" * Listo: La transferencia ha sido procesada.\n"
+" * Cancelada: La transferencia ha sido cancelada."
+
+#. module: e_mto_pos
 #: model_terms:ir.ui.view,arch_db:e_mto_pos.pos_order_form_inherit_mrp_production_form
 msgid "<span class=\"o_stat_text\">POS Order</span>"
 msgstr "<span class=\"o_stat_text\"> Orden POS </span>"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-msgid "All"
-msgstr "Todo"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Are you sure that the customer wants to recive the picking?"
 msgstr "¿Está seguro de que el cliente quiere recibir el picking?"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Back"
-msgstr "Atrás"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -104,17 +115,24 @@ msgstr "Ajustes de configuración"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
 msgid "Confirm Delivery"
 msgstr "Confirmar entrega"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Confirm Delivery ?"
 msgstr "¿Confirmar entrega?"
+
+#. module: e_mto_pos
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+msgid "Confirmed"
+msgstr "Confirmado"
 
 #. module: e_mto_pos
 #: model:ir.model.fields,field_description:e_mto_pos.field_pos_order__mrp_production_count
@@ -123,59 +141,17 @@ msgstr "Recuento de MO generado"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-msgid "Create Date"
-msgstr "Crear fecha"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Customer"
-msgstr "Cliente"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Customer:"
-msgstr "Cliente:"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Date"
-msgstr "Fecha"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-msgid "Delivered"
-msgstr "Entregado"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-msgid "Delivery"
-msgstr "Entrega"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/control_buttons/control_buttons.xml:0
-#: code:addons/e_mto_pos/static/src/components/control_buttons/control_buttons.xml:0
-msgid "Delivery Orders"
-msgstr "Órdenes de entrega"
-
-#. module: e_mto_pos
-#. odoo-javascript
 #: code:addons/addons/e_addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
 #: code:addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
 msgid "Delivery and Manufacturing Created"
 msgstr "Entrega y fabricación creadas."
+
+#. module: e_mto_pos
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+msgid "Done"
+msgstr "Hecho"
 
 #. module: e_mto_pos
 #: model_terms:ir.ui.view,arch_db:e_mto_pos.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle
@@ -187,19 +163,9 @@ msgstr ""
 "información de la venta confirmada."
 
 #. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
 #: model:ir.model.fields,field_description:e_mto_pos.field_stock_picking__pos_order_general_note
 msgid "General Note"
 msgstr "Nota general"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Go Back"
-msgstr "Volver"
 
 #. module: e_mto_pos
 #: model:ir.model.fields,field_description:e_mto_pos.field_product_product__has_create_mto_pos
@@ -218,10 +184,8 @@ msgstr ""
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/order_line/orderline.xml:0
 #: code:addons/addons/e_addons/e_mto_pos/static/src/components/product_card/product_card.xml:0
 #: code:addons/addons/e_addons/e_mto_pos/static/src/components/product_info_banner/product_info_banner.xml:0
-#: code:addons/e_mto_pos/static/src/components/order_line/orderline.xml:0
 #: code:addons/e_mto_pos/static/src/components/product_card/product_card.xml:0
 #: code:addons/e_mto_pos/static/src/components/product_info_banner/product_info_banner.xml:0
 msgid "Manufacture Manufacture by Demand"
@@ -273,13 +237,6 @@ msgid "Mrp Pos Ok"
 msgstr "MRP Pos Ok"
 
 #. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Next Delivery List"
-msgstr "Próxima lista de entrega"
-
-#. module: e_mto_pos
 #. odoo-python
 #: code:addons/addons/e_addons/e_mto_pos/models/pos_order.py:0
 #: code:addons/e_mto_pos/models/pos_order.py:0
@@ -288,32 +245,11 @@ msgstr "No lista de materiales para %s"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
 #: code:addons/addons/e_addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
 #: code:addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
 #: model:ir.model.fields,field_description:e_mto_pos.field_stock_picking__pos_order_tracking_number
 msgid "Order Number"
 msgstr "Número de orden"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Order Number:"
-msgstr "Número de orden:"
-
-#. module: e_mto_pos
-#: model:ir.model.fields,field_description:e_mto_pos.field_mrp_production__pos_order_id
-msgid "Origin POS"
-msgstr "Punto de venta de origen"
-
-#. module: e_mto_pos
-#: model:ir.model.fields,field_description:e_mto_pos.field_mrp_production__pos_order_line_id
-msgid "Origin POS line"
-msgstr "Línea POS de origen"
 
 #. module: e_mto_pos
 #. odoo-python
@@ -324,10 +260,36 @@ msgstr "Orden de punto de venta"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-msgid "Partner"
-msgstr "Pareja"
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
+#: code:addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
+msgid "Picking"
+msgstr "Cosecha"
+
+#. module: e_mto_pos
+#: model:ir.model.fields,field_description:e_mto_pos.field_pos_order__picking_pos_mrp
+msgid "Picking Pos Mrp"
+msgstr "Eligiendo Pos Mrp"
+
+#. module: e_mto_pos
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+msgid "Picking State"
+msgstr "Estado de selección"
+
+#. module: e_mto_pos
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+msgid "Picking State:"
+msgstr "Estado de selección:"
+
+#. module: e_mto_pos
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.xml:0
+msgid "Picking:"
+msgstr "Cosecha:"
 
 #. module: e_mto_pos
 #: model:ir.model,name:e_mto_pos.model_pos_config
@@ -343,13 +305,6 @@ msgstr "Líneas de orden de punto de venta"
 #: model:ir.model,name:e_mto_pos.model_pos_order
 msgid "Point of Sale Orders"
 msgstr "Órdenes de Punto de Venta"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Previous Delivery List"
-msgstr "Lista de entrega anterior"
 
 #. module: e_mto_pos
 #: model:ir.model,name:e_mto_pos.model_product_template
@@ -369,43 +324,18 @@ msgstr "El producto debe realizar el pedido mrp en pos. Requiere ruta MTO"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Ready"
 msgstr "Listo"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
 #: code:addons/addons/e_addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
 #: code:addons/e_mto_pos/static/src/components/receipt_screen/receipt_screen.xml:0
 #: model:ir.model.fields,field_description:e_mto_pos.field_stock_picking__pos_order_pos_reference
 msgid "Receipt Number"
 msgstr "Número de recibo"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Receipt Number:"
-msgstr "Número de recibo:"
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Search Pikings..."
-msgstr "Buscar Pikings..."
-
-#. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Select a Delivery"
-msgstr "Seleccione una entrega"
 
 #. module: e_mto_pos
 #: model:ir.model.fields,field_description:e_mto_pos.field_pos_config__show_mrp_delivery
@@ -414,23 +344,21 @@ msgid "Show in POS Delivery Info"
 msgstr "Mostrar en POS Información de entrega"
 
 #. module: e_mto_pos
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.xml:0
-msgid "State"
+#: model:ir.model.fields,field_description:e_mto_pos.field_pos_order__picking_pos_mrp_state
+msgid "Status"
 msgstr "Estado"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Success"
 msgstr "Éxito"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Success confirmation for Delivery %s in POS order: %s"
 msgstr "Confirmación de éxito de la Entrega %s en pedido POS: %s"
 
@@ -448,7 +376,7 @@ msgstr "Transferir"
 
 #. module: e_mto_pos
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_mto_pos/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
+#: code:addons/e_mto_pos/static/src/components/e_pos_order_screen/e_pos_order_screen.js:0
 msgid "Waiting"
 msgstr "Espera"

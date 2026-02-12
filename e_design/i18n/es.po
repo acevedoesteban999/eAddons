@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:46+0000\n"
-"PO-Revision-Date: 2026-01-30 06:46\n"
+"POT-Creation-Date: 2026-02-12 02:55+0000\n"
+"PO-Revision-Date: 2026-02-12 02:57\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -135,10 +135,20 @@ msgid "Design"
 msgstr "Diseño"
 
 #. module: e_design
+#: model:ir.model,name:e_design.model_e_design_product_design_attach_widget
+msgid "Design Attach Widget"
+msgstr "Widget Adjuntar diseño"
+
+#. module: e_design
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_view_form
 #: model_terms:ir.ui.view,arch_db:e_design.view_product_design_category_form
 msgid "Design Name..."
 msgstr "Nombre del diseño..."
+
+#. module: e_design
+#: model:ir.model,name:e_design.model_e_design_product_design_unlink_widget
+msgid "Design Unlink Widget"
+msgstr "Diseño de widget de desvinculación"
 
 #. module: e_design
 #. odoo-javascript
@@ -149,17 +159,21 @@ msgstr "Vista previa del diseño"
 
 #. module: e_design
 #: model:ir.actions.act_window,name:e_design.product_design_action
-#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__design_counter
 #: model:ir.model.fields,field_description:e_design.field_product_edesign_category__design_ids
-#: model:ir.model.fields,field_description:e_design.field_product_product__design_counter
-#: model:ir.model.fields,field_description:e_design.field_product_template__design_counter
 #: model:ir.ui.menu,name:e_design.design_menu
 #: model:ir.ui.menu,name:e_design.menu_design_root
+#: model_terms:ir.ui.view,arch_db:e_design.e_addons_inherit_product_template
 #: model_terms:ir.ui.view,arch_db:e_design.e_design_inherit_product_template
 #: model_terms:ir.ui.view,arch_db:e_design.e_design_product_template_view_search
-#: model_terms:ir.ui.view,arch_db:e_design.inherit_view_id_inherit_product_template
 msgid "Designs"
 msgstr "Diseños"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__design_counter
+#: model:ir.model.fields,field_description:e_design.field_product_product__design_counter
+#: model:ir.model.fields,field_description:e_design.field_product_template__design_counter
+msgid "Designs Counter"
+msgstr "Mostrador de diseños"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__product_design_ids
@@ -197,6 +211,11 @@ msgid "File"
 msgstr "Archivo"
 
 #. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__file_name
+msgid "Filename"
+msgstr "Nombre del archivo"
+
+#. module: e_design
 #: model:ir.module.category,description:e_design.module_category_e_design
 msgid "Helps you to manage eDesigns."
 msgstr "Le ayuda a gestionar diseños."
@@ -223,6 +242,7 @@ msgstr "Imágenes"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_product_edesign__default_code
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__default_code
 msgid "Internal Reference"
 msgstr "Referencia interna"
 
@@ -290,9 +310,19 @@ msgid "Product Design Category"
 msgstr "Categoría de diseño de producto"
 
 #. module: e_design
+#: model:ir.model,name:e_design.model_product_product
+msgid "Product Variant"
+msgstr "Variante de producto"
+
+#. module: e_design
 #: model:ir.model,name:e_design.model_product_edesign_category
 msgid "ProductEDesignCategory"
 msgstr "ProductoEDiseñoCategoría"
+
+#. module: e_design
+#: model:ir.model,name:e_design.model_product_edesign
+msgid "ProducteDesign"
+msgstr "ProductoDiseño"
 
 #. module: e_design
 #: model:ir.actions.act_window,name:e_design.e_design_product_template_action
@@ -391,23 +421,8 @@ msgid "eDesign"
 msgstr "eDesign"
 
 #. module: e_design
-#: model:ir.model,name:e_design.model_e_design_product_design_attach_widget
-msgid "e_design.product_design_attach_widget"
-msgstr "e_design.product_design_attach_widget"
-
-#. module: e_design
-#: model:ir.model,name:e_design.model_e_design_product_design_unlink_widget
-msgid "e_design.product_design_unlink_widget"
-msgstr "e_design.product_design_unlink_widget"
-
-#. module: e_design
 #. odoo-javascript
 #: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 #: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "files."
 msgstr "archivos."
-
-#. module: e_design
-#: model:ir.model,name:e_design.model_product_edesign
-msgid "product.edesign"
-msgstr "producto.edesign"

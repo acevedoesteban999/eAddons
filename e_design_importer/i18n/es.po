@@ -1,0 +1,332 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_design_importer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-12 02:53+0000\n"
+"PO-Revision-Date: 2026-02-12 02:53\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
+
+#. module: e_design_importer
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Back"
+msgstr "Atrás"
+
+#. module: e_design_importer
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Categories"
+msgstr "Categorías"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Category is a subcategory in the system (belongs to: %s)"
+msgstr "La categoría es una subcategoría en el sistema (pertenece a: %s)"
+
+#. module: e_design_importer
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: e_design_importer
+#: model:ir.actions.report,name:e_design_importer.action_export_codes_xlsx
+msgid "Codes"
+msgstr "Códigos"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Collapse All"
+msgstr "Contraer todo"
+
+#. module: e_design_importer
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Confirm Import"
+msgstr "Confirmar importación"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__disabled_data
+msgid "Deisabled Data"
+msgstr "Datos desactivados"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "Design's Category"
+msgstr "Categoría de diseño"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "Designs"
+msgstr "Diseños"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__folder_path
+msgid "Desktop Folder Path"
+msgstr "Ruta de la carpeta del escritorio"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Error"
+msgstr "Error"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Expand All"
+msgstr "Expandir todo"
+
+#. module: e_design_importer
+#: model:ir.ui.menu,name:e_design_importer.menu_edesign_export_doedes
+msgid "Export Codes"
+msgstr "Códigos de exportación"
+
+#. module: e_design_importer
+#: model:ir.model,name:e_design_importer.model_report_e_design_importer_export_codes_xlsx
+msgid "Export Codes Excel Report"
+msgstr "Informe Excel de códigos de exportación"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "File"
+msgstr "Archivo"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Folder does not exist: %s"
+msgstr "La carpeta no existe: %s"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__id
+msgid "ID"
+msgstr "IDENTIFICACIÓN"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Image"
+msgstr "Imagen"
+
+#. module: e_design_importer
+#: model:ir.model,name:e_design_importer.model_import_design_wizard
+msgid "Import Design Wizard"
+msgstr "Asistente para importar diseño"
+
+#. module: e_design_importer
+#: model:ir.actions.act_window,name:e_design_importer.action_import_design_wizard
+#: model:ir.ui.menu,name:e_design_importer.menu_edesign_import
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Import Designs"
+msgstr "Importar diseños"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__import_type
+msgid "Import Type"
+msgstr "Tipo de importación"
+
+#. module: e_design_importer
+#: model:ir.ui.menu,name:e_design_importer.menu_edesign_import_root
+msgid "Importer"
+msgstr "Importador"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por última vez por"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Please upload a ZIP file"
+msgstr "Por favor sube un archivo ZIP"
+
+#. module: e_design_importer
+#: model:ir.model.fields.selection,name:e_design_importer.selection__import_design_wizard__state__preview
+msgid "Preview"
+msgstr "Avance"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__preview_data
+msgid "Preview Data"
+msgstr "Vista previa de datos"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Product not Found: %s"
+msgstr "Producto no encontrado: %s"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: e_design_importer
+#: model_terms:ir.ui.view,arch_db:e_design_importer.view_import_design_wizard_form
+msgid "Scan Folder"
+msgstr "Escanear carpeta"
+
+#. module: e_design_importer
+#: model:ir.model.fields.selection,name:e_design_importer.selection__import_design_wizard__state__select
+msgid "Select Folder"
+msgstr "Seleccionar carpeta"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Standalone Designs"
+msgstr "Diseños independientes"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Standalone Products"
+msgstr "Productos independientes"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__state
+msgid "State"
+msgstr "Estado"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "Structure Preview"
+msgstr "Vista previa de la estructura"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Sub-Categories"
+msgstr "Subcategorías"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Subcategory does not belong to this category (belongs to: %s)"
+msgstr "La subcategoría no pertenece a esta categoría (pertenece a: %s)"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/wizards/import_design_wizard.py:0
+#: code:addons/e_design_importer/wizards/import_design_wizard.py:0
+msgid "Subcategory is not inside a valid. Dont have a category parent"
+msgstr ""
+"La subcategoría no está dentro de una válida. No tener una categoría "
+"principal"
+
+#. module: e_design_importer
+#: model:ir.model.fields,field_description:e_design_importer.field_import_design_wizard__zip_file
+msgid "Zip File"
+msgstr "Archivo zip"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "default_code"
+msgstr "código_predeterminado"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "display name"
+msgstr "nombre para mostrar"
+
+#. module: e_design_importer
+#: model:ir.model.fields.selection,name:e_design_importer.selection__import_design_wizard__import_type__folder
+msgid "folder"
+msgstr "carpeta"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "items"
+msgstr "elementos"
+
+#. module: e_design_importer
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_importer/reports/export_codes_report.py:0
+#: code:addons/e_design_importer/reports/export_codes_report.py:0
+msgid "name"
+msgstr "nombre"
+
+#. module: e_design_importer
+#: model:ir.model.fields.selection,name:e_design_importer.selection__import_design_wizard__import_type__zip
+msgid "zip"
+msgstr "cremallera"
+
+#. module: e_design_importer
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+#: code:addons/e_design_importer/static/src/components/import_preview/import_preview.xml:0
+msgid "{{node.attachments.length}} Attachments"
+msgstr "{{node.attachments.length}} Adjuntos"

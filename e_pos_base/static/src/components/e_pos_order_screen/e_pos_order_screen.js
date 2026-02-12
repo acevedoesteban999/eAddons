@@ -206,7 +206,7 @@ export class ePosOrderScreen extends Component {
                 modelField: "tracking_number",
             },
             PARTNER_NAME: {
-                displayName: _t("Partner"),
+                displayName: _t("Customer"),
                 modelField: "partner_id.name",
             },
             

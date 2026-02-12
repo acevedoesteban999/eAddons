@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-05 05:54+0000\n"
-"PO-Revision-Date: 2026-02-05 05:54+0000\n"
+"POT-Creation-Date: 2026-02-12 02:57+0000\n"
+"PO-Revision-Date: 2026-02-12 02:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,13 +23,6 @@ msgstr ""
 #. module: e_video_content
 #: model:ir.model.fields,field_description:e_video_content.field_video_content__create_date
 msgid "Created on"
-msgstr ""
-
-#. module: e_video_content
-#. odoo-python
-#: code:addons/addons/e_addons/e_video_content/__init__.py:0
-#: code:addons/e_video_content/__init__.py:0
-msgid "Designs"
 msgstr ""
 
 #. module: e_video_content
